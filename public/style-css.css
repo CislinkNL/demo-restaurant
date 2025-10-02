@@ -1,46 +1,49 @@
-/* 🐉 Blue Dragon Restaurant Theme Colors - Official Website Inspired */
+/* � Boss Restaurant Theme Colors - Official Website Inspired */
 :root {
-  /* 基于官网 CSS 的真实 Blue Dragon 主题色彩 */
-  --blue-dragon-primary: #000119;     /* 官网主色 - 深邃夜蓝 */
-  --blue-dragon-secondary: #1a237e;   /* 皇家蓝 */
-  --blue-dragon-accent: #0089f7;      /* 官网链接蓝 */
-  --blue-dragon-gold: #ffd700;        /* 金色点缀 */
-  --blue-dragon-gold-light: #fff8dc;  /* 浅金色 */
-  --blue-dragon-gold-dark: #b8860b;   /* 深金色 */
+  /* 基于Boss官网的真实深色主题色彩 */
+  --boss-primary: #922833;               /* 深酒红色 - 更符合餐厅品牌 */
+  --boss-secondary: #6D1D26;             /* 更深的酒红色 */
+  --boss-accent: #B8313E;                /* 亮酒红色点缀 */
+  --boss-gold: #C8A882;                  /* 温暖金色 */
+  --boss-gold-light: #D4B896;            /* 浅金色 */
+  --boss-gold-dark: #A0825F;             /* 深金色 */
   
-  /* 背景与表面色 */
-  --blue-dragon-bg: #000119;          /* 官网背景色 */  
-  --blue-dragon-surface: rgba(255,255,255,0.95); /* 卡片背景 */
-  --blue-dragon-overlay: rgba(0,1,25,0.9); /* 蒙层 */
+  /* 深色背景与表面色 */
+  --boss-bg: #1A0E11;                    /* 深酒红黑背景 */  
+  --boss-surface: #2C1418;               /* 深色卡片背景 */
+  --boss-surface-light: #3F1B20;         /* 稍亮的表面 */
+  --boss-overlay: rgba(26,14,17,0.95);   /* 深色蒙层 */
+  --boss-dark: #0D0507;                  /* 最深色表面 */
   
-  /* 文字色彩 */
-  --blue-dragon-text-primary: #2a2b39; /* 主文字 */
-  --blue-dragon-text-secondary: #73748c; /* 次要文字 */
-  --blue-dragon-text-light: #ffffff;   /* 浅色文字 */
-  --blue-dragon-text-muted: rgba(255,255,255,0.7); /* 柔和文字 */
+  /* 文字色彩 - 深色主题适配 */
+  --boss-text-primary: #F5F2F0;          /* 主文字 - 温暖浅色 */
+  --boss-text-secondary: #D1C8C0;        /* 次要文字 */
+  --boss-text-muted: rgba(245,242,240,0.7); /* 柔和文字 */
+  --boss-text-accent: #FFE6E9;           /* 强调文字 */
   
   /* 边框与分割线 */
-  --blue-dragon-border: rgba(255,215,0,0.2);
-  --blue-dragon-border-light: rgba(0,137,247,0.1);
+  --boss-border: rgba(184,49,62,0.3);
+  --boss-border-light: rgba(184,49,62,0.15);
+  --boss-border-dark: rgba(184,49,62,0.5);
 }
 
-/* Blue Dragon 专属主题 - 基于官网风格 */
-body.theme-blue-dragon {
-  /* 官网风格的主题变量覆盖 */
-  --accent: var(--blue-dragon-accent);
-  --accent-rgb: 0, 137, 247;
-  --accent-grad: linear-gradient(135deg, var(--blue-dragon-primary) 0%, var(--blue-dragon-accent) 100%);
-  --color-bg: var(--blue-dragon-bg);
-  --color-text: var(--blue-dragon-text-light);
-  --color-border: var(--blue-dragon-border-light);
+/* Boss 专属深色主题 - 专业餐厅风格 */
+body.theme-boss {
+  /* 深色主题变量覆盖 */
+  --accent: var(--boss-accent);
+  --accent-rgb: 184, 49, 62;
+  --accent-grad: linear-gradient(135deg, var(--boss-primary) 0%, var(--boss-accent) 100%);
+  --color-bg: var(--boss-bg);
+  --color-text: var(--boss-text-primary);
+  --color-border: var(--boss-border-light);
   
-  /* 页面背景 - 深邃蓝色大理石纹理效果 */
-  background: var(--blue-dragon-bg);
+  /* 页面背景 - 深色酒红色调 */
+  background: var(--boss-bg);
   background-image: 
-    radial-gradient(circle at 20% 30%, rgba(0,137,247,0.1) 0%, transparent 50%),
-    radial-gradient(circle at 80% 70%, rgba(255,215,0,0.05) 0%, transparent 50%),
-    radial-gradient(circle at 40% 80%, rgba(0,137,247,0.08) 0%, transparent 50%);
-  color: var(--blue-dragon-text-light);
+    radial-gradient(circle at 20% 30%, rgba(184,49,62,0.08) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(200,168,130,0.03) 0%, transparent 50%),
+    radial-gradient(circle at 40% 80%, rgba(146,40,51,0.05) 0%, transparent 50%);
+  color: var(--boss-text-primary);
 }
 
 /* 容器和卡片样式 */
@@ -88,7 +91,25 @@ body.theme-blue-dragon {
   background: linear-gradient(135deg, var(--blue-dragon-secondary), var(--blue-dragon-accent));
 }
 
-/* 导航和菜单 */
+/* 导航和菜单 - 深色Boss主题 */
+.theme-boss .navbar,
+.theme-boss .menu-categories {
+  background: rgba(28,10,15,0.95);
+  backdrop-filter: blur(15px);
+  border-bottom: 2px solid var(--boss-border);
+}
+
+.theme-boss .navbar-brand,
+.theme-boss .nav-link {
+  color: var(--boss-text-primary) !important;
+}
+
+.theme-boss .nav-link:hover,
+.theme-boss .nav-link.active {
+  color: var(--boss-gold) !important;
+  text-shadow: 0 0 10px rgba(212,175,55,0.5);
+}
+
 .theme-blue-dragon .navbar,
 .theme-blue-dragon .menu-categories {
   background: rgba(0,1,25,0.95);
@@ -151,6 +172,39 @@ body.theme-blue-dragon {
   display: flex;
   align-items: center;
   gap: 10px;
+}
+
+/* Boss 主题 FAB 按钮 - 深色专业风格 */
+.theme-boss .fab-action {
+  background: linear-gradient(145deg, 
+    var(--boss-surface, #2A1219) 0%, 
+    var(--boss-surface-light, #3D1A23) 100%);
+  color: var(--boss-text-primary);
+  border: 2px solid var(--boss-border);
+  box-shadow: 
+    0 8px 24px rgba(0, 0, 0, 0.4), 
+    0 2px 8px rgba(166, 30, 60, 0.15);
+}
+
+.theme-boss .fab-action:hover {
+  background: var(--boss-surface-light);
+  transform: scale(1.05);
+  border-color: var(--boss-accent);
+}
+
+.theme-boss .fab-action.danger {
+  background: linear-gradient(145deg, 
+    var(--boss-primary, #8B1538) 0%, 
+    var(--boss-secondary, #6B1028) 100%);
+  color: #fff;
+}
+
+.theme-boss .fab-action.fab-send {
+  background: linear-gradient(180deg, var(--boss-gold-light), var(--boss-gold-dark));
+  color: var(--boss-dark);
+  box-shadow: 
+    0 10px 28px rgba(212, 175, 55, 0.35), 
+    0 2px 8px rgba(0, 0, 0, 0.18);
 }
 
 .fab-action {
@@ -1310,6 +1364,26 @@ th.subtotal {
     width: 95vw;
   }
 
+  /* Boss 主题 details-table 移动端样式 */
+  .theme-boss .receipt-details .details-table {
+    background: var(--boss-surface, #2A1219);
+    border: 1px solid var(--boss-border-light, rgba(200,168,130,0.2));
+    border-radius: 8px;
+    padding: 12px;
+    color: var(--boss-gold, #C8A882) !important;
+    box-shadow: 0 2px 8px rgba(146, 40, 51, 0.15);
+  }
+
+  .theme-boss .receipt-details .details-table td {
+    border-bottom: 1px solid var(--boss-border-light, rgba(200,168,130,0.1));
+    padding: 6px 8px;
+  }
+
+  .theme-boss .receipt-details .details-table tr:hover {
+    background: var(--boss-dark, #0F0506);
+  }
+}
+
 .modify-quantity {
   white-space: nowrap;
 }
@@ -1347,9 +1421,6 @@ th.subtotal {
     font-size: 1rem;
     color: darkgoldenrod;
   }
-}
-
-
 
 
 .receipt-summary {
@@ -1384,6 +1455,26 @@ table.summary-table {
   width: 98vw;
 }
 
+/* Boss 主题 receipt-details 样式 */
+.theme-boss #receipt-details {
+  background: var(--boss-surface, #2A1219);
+  border: 1px solid var(--boss-border-light, rgba(200,168,130,0.2));
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 4px 12px rgba(146, 40, 51, 0.2);
+  color: var(--boss-text-primary, #F5F5F5);
+}
+
+.theme-boss #receipt-details tr {
+  border-bottom: 1px solid var(--boss-border-light, rgba(200,168,130,0.1));
+  transition: all 0.2s ease;
+}
+
+.theme-boss #receipt-details tr:hover {
+  background: var(--boss-dark, #0F0506);
+  transform: translateX(2px);
+}
+
 tbody.summary-table td:nth-child(1) {
   width: 98vw;
   color: white;
@@ -1398,12 +1489,45 @@ tbody.summary-table td:nth-child(3) {
   width: 98vw;
 }
 
+/* Boss 主题 summary-table 样式 */
+.theme-boss tbody.summary-table td {
+  color: var(--boss-text-primary, #F5F5F5) !important;
+  border-bottom: 1px solid var(--boss-border-light, rgba(200,168,130,0.1));
+  padding: 8px 12px;
+}
+
+.theme-boss tbody.summary-table td:nth-child(1) {
+  color: var(--boss-gold, #C8A882) !important;
+  font-weight: 600;
+}
+
+.theme-boss tbody.summary-table tr:last-child td {
+  border-bottom: 2px solid var(--boss-accent, #B8313E);
+  background: linear-gradient(90deg, 
+    var(--boss-dark, #0F0506) 0%, 
+    var(--boss-surface, #2A1219) 100%);
+  font-weight: 700;
+  color: var(--boss-text-light, #FFFFFF) !important;
+}
+
 
 
 #barcode {
   font-family: 'Libre Barcode 128', cursive;
   font-size: 70px;
   margin-top: 10px;
+}
+
+/* Boss 主题条形码样式 */
+.theme-boss #barcode {
+  color: var(--boss-gold, #C8A882);
+  background: var(--boss-dark, #0F0506);
+  padding: 12px 20px;
+  border-radius: 8px;
+  border: 1px solid var(--boss-border-light, rgba(200,168,130,0.3));
+  text-align: center;
+  margin: 20px auto;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .toolbar {
@@ -2110,6 +2234,12 @@ a.btn.btn-lvl1 i {
   /* Ensure it's above other content, adjust as necessary */
 }
 
+/* Boss 主题 Overlay 样式 */
+.theme-boss .overlay {
+  background: var(--boss-overlay, rgba(26,14,17,0.95));
+  backdrop-filter: blur(4px);
+}
+
 /* ========== 现代化 MessageBar Dynamic 样式 ========== */
 .message-bar-dynamic {
   position: fixed !important;
@@ -2150,6 +2280,25 @@ a.btn.btn-lvl1 i {
   animation: messageBarSlideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
+/* Boss 主题 MessageBar Dynamic 样式 */
+.theme-boss .message-bar-dynamic {
+  /* Boss 豪华餐厅背景 */
+  background: linear-gradient(145deg, 
+    var(--boss-surface, #2A1219) 0%, 
+    var(--boss-dark, #0F0506) 100%) !important;
+  backdrop-filter: blur(16px) !important;
+  border: 1px solid var(--boss-border-light, rgba(200,168,130,0.3)) !important;
+  
+  /* Boss 主题阴影 - 温暖金色光泽 */
+  box-shadow: 
+    0 25px 50px rgba(146, 40, 51, 0.4),
+    0 10px 30px rgba(109, 29, 38, 0.3),
+    inset 0 1px 0 var(--boss-gold-light, rgba(212,184,150,0.1)) !important;
+    
+  /* Boss 餐厅文字色 */
+  color: var(--boss-text-primary, #F5F5F5) !important;
+}
+
 /* 关闭按钮现代化 */
 .message-bar-dynamic .close-message-bar {
   position: absolute !important;
@@ -2171,10 +2320,25 @@ a.btn.btn-lvl1 i {
   backdrop-filter: blur(10px) !important;
 }
 
+/* Boss 主题关闭按钮 */
+.theme-boss .message-bar-dynamic .close-message-bar {
+  background: var(--boss-surface, rgba(42, 18, 25, 0.6)) !important;
+  color: var(--boss-text-primary, #F5F5F5) !important;
+  border: 1px solid var(--boss-border-light, rgba(200,168,130,0.3)) !important;
+}
+
 .message-bar-dynamic .close-message-bar:hover {
   background: rgba(239, 68, 68, 0.8) !important;
   transform: scale(1.1) !important;
   box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3) !important;
+}
+
+/* Boss 主题关闭按钮悬停 */
+.theme-boss .message-bar-dynamic .close-message-bar:hover {
+  background: var(--boss-secondary, rgba(109, 29, 38, 0.8)) !important;
+  transform: scale(1.1) !important;
+  box-shadow: 0 4px 12px rgba(109, 29, 38, 0.3) !important;
+  border-color: var(--boss-accent, #B8313E) !important;
 }
 
 /* 菜品图片现代化 */
@@ -2188,8 +2352,26 @@ a.btn.btn-lvl1 i {
   transition: transform 0.3s ease !important;
 }
 
-.message-bar-dynamic .item-image:hover {
-  transform: scale(1.05) !important;
+/* Boss 主题菜品图片 - 更大更优雅 */
+.theme-boss .message-bar-dynamic .item-image {
+  width: 180px !important;
+  height: 180px !important;
+  border-radius: 16px !important;
+  border: 1px solid var(--boss-gold, rgba(200,168,130,0.4)) !important;
+  box-shadow: 
+    0 12px 24px rgba(146, 40, 51, 0.3),
+    0 4px 8px rgba(109, 29, 38, 0.2),
+    inset 0 1px 0 var(--boss-gold-light, rgba(212,184,150,0.1)) !important;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+}
+
+.theme-boss .message-bar-dynamic .item-image:hover {
+  transform: scale(1.05) rotate(1deg) !important;
+  border-color: var(--boss-gold-light, #D4B896) !important;
+  box-shadow: 
+    0 16px 32px rgba(146, 40, 51, 0.4),
+    0 6px 12px rgba(184, 49, 62, 0.3),
+    inset 0 1px 0 var(--boss-gold-light, rgba(212,184,150,0.2)) !important;
 }
 
 /* 菜品描述现代化 */
@@ -2198,8 +2380,17 @@ a.btn.btn-lvl1 i {
   font-weight: 600 !important;
   text-align: center !important;
   color: #e2e8f0 !important;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5) !important;
-  margin: 0 !important;
+  margin: 8px 0 !important;
+  line-height: 1.4 !important;
+}
+
+/* Boss 主题菜品描述 */
+.theme-boss .message-bar-dynamic .item-description {
+  color: var(--boss-gold, #C8A882) !important;
+  font-weight: 700 !important;
+  font-size: 19px !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
+  margin: 8px 0 !important;
   line-height: 1.4 !important;
 }
 
@@ -2218,6 +2409,12 @@ a.btn.btn-lvl1 i {
   letter-spacing: 0.5px !important;
 }
 
+/* Boss 主题选项容器标题 */
+.theme-boss .message-bar-dynamic #options-container h4 {
+  color: var(--boss-gold, #C8A882) !important;
+  font-weight: 700 !important;
+}
+
 /* 选择框现代化 */
 .message-bar-dynamic .option-select {
   width: 100% !important;
@@ -2234,6 +2431,13 @@ a.btn.btn-lvl1 i {
   backdrop-filter: blur(10px) !important;
 }
 
+/* Boss 主题选择框 */
+.theme-boss .message-bar-dynamic .option-select {
+  background: var(--boss-dark, rgba(15, 5, 6, 0.8)) !important;
+  border: 1px solid var(--boss-border-light, rgba(200,168,130,0.3)) !important;
+  color: var(--boss-text-primary, #F5F5F5) !important;
+}
+
 .message-bar-dynamic .option-select:focus {
   outline: none !important;
   border-color: var(--blue-dragon-gold, #fbbf24) !important;
@@ -2244,6 +2448,17 @@ a.btn.btn-lvl1 i {
   border-color: rgba(148, 163, 184, 0.6) !important;
 }
 
+/* Boss 主题选择框状态 */
+.theme-boss .message-bar-dynamic .option-select:focus {
+  border-color: var(--boss-gold, #C8A882) !important;
+  box-shadow: 0 0 0 3px rgba(200, 168, 130, 0.2) !important;
+}
+
+.theme-boss .message-bar-dynamic .option-select:hover {
+  border-color: var(--boss-gold-light, #D4B896) !important;
+  background: var(--boss-surface, rgba(42, 18, 25, 0.9)) !important;
+}
+
 /* 过敏信息现代化 */
 .message-bar-dynamic .allergy-info {
   font-size: 12px !important;
@@ -2252,6 +2467,11 @@ a.btn.btn-lvl1 i {
   font-style: italic !important;
   line-height: 1.4 !important;
   margin: 0 !important;
+}
+
+/* Boss 主题过敏信息 */
+.theme-boss .message-bar-dynamic .allergy-info {
+  color: var(--boss-text-secondary, #A0A0A0) !important;
 }
 
 /* 总价显示现代化 */
@@ -2267,6 +2487,14 @@ a.btn.btn-lvl1 i {
   margin: 0 !important;
 }
 
+/* Boss 主题总价显示 */
+.theme-boss .message-bar-dynamic .total-price {
+  color: var(--boss-gold, #C8A882) !important;
+  background: rgba(200, 168, 130, 0.1) !important;
+  border: 1px solid rgba(200, 168, 130, 0.3) !important;
+  text-shadow: 0 1px 3px rgba(146, 40, 51, 0.5) !important;
+}
+
 /* 数量控制现代化 */
 .message-bar-dynamic .quantity-controls {
   display: flex !important;
@@ -2276,6 +2504,12 @@ a.btn.btn-lvl1 i {
   padding: 8px 16px !important;
   border-radius: 12px !important;
   border: 1px solid rgba(71, 85, 105, 0.3) !important;
+}
+
+/* Boss 主题数量控制 */
+.theme-boss .message-bar-dynamic .quantity-controls {
+  background: var(--boss-dark, rgba(15, 5, 6, 0.6)) !important;
+  border: 1px solid var(--boss-border-light, rgba(200,168,130,0.3)) !important;
 }
 
 .message-bar-dynamic .quantity-adjust {
@@ -2294,10 +2528,18 @@ a.btn.btn-lvl1 i {
   justify-content: center !important;
 }
 
-.message-bar-dynamic .quantity-adjust:hover {
-  background: var(--blue-dragon-gold, #fbbf24) !important;
-  color: #1e293b !important;
+/* Boss 主题数量调整按钮 */
+.theme-boss .message-bar-dynamic .quantity-adjust {
+  background: var(--boss-surface, rgba(42, 18, 25, 0.6)) !important;
+  color: var(--boss-text-primary, #F5F5F5) !important;
+  border: 1px solid var(--boss-border-light, rgba(200,168,130,0.3)) !important;
+}
+
+.theme-boss .message-bar-dynamic .quantity-adjust:hover {
+  background: var(--boss-gold, #C8A882) !important;
+  color: var(--boss-dark, #0F0506) !important;
   transform: scale(1.1) !important;
+  border-color: var(--boss-gold-light, #D4B896) !important;
 }
 
 .message-bar-dynamic .quantity-adjust:active {
@@ -2310,6 +2552,12 @@ a.btn.btn-lvl1 i {
   color: #e2e8f0 !important;
   min-width: 24px !important;
   text-align: center !important;
+}
+
+/* Boss 主题数量显示 */
+.theme-boss .message-bar-dynamic .item-quantity {
+  color: var(--boss-gold, #C8A882) !important;
+  font-weight: 700 !important;
 }
 
 /* 添加按钮现代化 */
@@ -2329,6 +2577,30 @@ a.btn.btn-lvl1 i {
   text-transform: uppercase !important;
   letter-spacing: 0.5px !important;
   box-shadow: 0 4px 15px rgba(251, 191, 36, 0.3) !important;
+}
+
+/* Boss 主题添加按钮 */
+.theme-boss .message-bar-dynamic .add-to-order {
+  background: linear-gradient(135deg, 
+    var(--boss-accent, #B8313E), 
+    var(--boss-primary, #922833)) !important;
+  color: var(--boss-text-light, #FFFFFF) !important;
+  border: 1px solid var(--boss-gold, rgba(200,168,130,0.3)) !important;
+  box-shadow: 0 4px 15px rgba(184, 49, 62, 0.3) !important;
+}
+
+.theme-boss .message-bar-dynamic .add-to-order:hover {
+  background: linear-gradient(135deg, 
+    var(--boss-primary, #922833), 
+    var(--boss-secondary, #6D1D26)) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 25px rgba(184, 49, 62, 0.4) !important;
+  border-color: var(--boss-gold-light, #D4B896) !important;
+}
+
+.theme-boss .message-bar-dynamic .add-to-order:active {
+  transform: translateY(0) !important;
+  box-shadow: 0 4px 15px rgba(184, 49, 62, 0.3) !important;
 }
 
 .message-bar-dynamic .add-to-order:hover {
@@ -2498,6 +2770,43 @@ a.btn.btn-lvl1 i {
 }
 
 /* Styling for the 'Add to Order' button */
+/* Boss 主题 - Add-to-Order按钮 - 深色版本 */
+.theme-boss .add-to-order {
+  background: linear-gradient(145deg, 
+    var(--boss-primary, #8B1538) 0%, 
+    var(--boss-secondary, #6B1028) 100%) !important;
+  color: white !important;
+  border: 2px solid rgba(166, 30, 60, 0.2) !important;
+  border-radius: 8px !important;
+  box-shadow: 
+    0 6px 20px rgba(0, 0, 0, 0.4),
+    0 3px 8px rgba(166, 30, 60, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+  font-weight: 600 !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
+}
+
+.theme-boss .add-to-order:hover {
+  background: linear-gradient(145deg, 
+    var(--boss-accent, #A61E3C) 0%, 
+    var(--boss-primary, #8B1538) 100%) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 
+    0 8px 25px rgba(0, 0, 0, 0.5),
+    0 4px 12px rgba(166, 30, 60, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+  border-color: rgba(166, 30, 60, 0.4) !important;
+}
+
+.theme-boss .add-to-order:active {
+  transform: translateY(0) !important;
+  box-shadow: 
+    0 3px 12px rgba(204, 51, 102, 0.25),
+    0 2px 6px rgba(0, 0, 0, 0.15),
+    inset 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+}
+
 .add-to-order {
   background-color: darkgoldenrod;
   /* Deep Sky Blue */
@@ -2594,6 +2903,45 @@ a.btn.btn-lvl1 i {
 
 
 
+/* Boss 主题 - 现代化立体Toggle按钮 - 深色版本 */
+.theme-boss #toggle-order-list,
+.theme-boss #toggle-footer-btn {
+  background: linear-gradient(145deg, 
+    var(--boss-primary, #8B1538) 0%, 
+    var(--boss-secondary, #6B1028) 100%) !important;
+  color: #fff !important;
+  border: 2px solid rgba(166, 30, 60, 0.3) !important;
+  border-radius: 50% !important;
+  box-shadow: 
+    0 8px 20px rgba(0, 0, 0, 0.5),
+    0 4px 10px rgba(166, 30, 60, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+  backdrop-filter: blur(10px) !important;
+}
+
+.theme-boss #toggle-order-list:hover,
+.theme-boss #toggle-footer-btn:hover {
+  background: linear-gradient(145deg, 
+    var(--boss-accent, #A61E3C) 0%, 
+    var(--boss-primary, #8B1538) 100%) !important;
+  transform: translateY(-2px) scale(1.05) !important;
+  box-shadow: 
+    0 12px 30px rgba(0, 0, 0, 0.6),
+    0 6px 15px rgba(166, 30, 60, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+  border-color: rgba(166, 30, 60, 0.5) !important;
+}
+
+.theme-boss #toggle-order-list:active,
+.theme-boss #toggle-footer-btn:active {
+  transform: translateY(0) scale(0.98) !important;
+  box-shadow: 
+    0 4px 15px rgba(204, 51, 102, 0.3),
+    0 2px 8px rgba(0, 0, 0, 0.2),
+    inset 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+}
+
 /* Apply same styles to both buttons */
 #toggle-order-list,
 #toggle-footer-btn {
@@ -2617,6 +2965,18 @@ a.btn.btn-lvl1 i {
   align-items: center;
   justify-content: center;
   padding: 0;
+}
+
+/* Boss 主题 - SVG图标样式 */
+.theme-boss #toggle-order-list svg,
+.theme-boss #toggle-footer-btn svg {
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2)) !important;
+  transition: transform 0.2s ease !important;
+}
+
+.theme-boss #toggle-order-list:hover svg,
+.theme-boss #toggle-footer-btn:hover svg {
+  transform: scale(1.1) !important;
 }
 
 /* Hover effect for both buttons */
@@ -2838,6 +3198,20 @@ a.btn.btn-lvl1 i {
   animation: toastSlideIn .25s ease;
 }
 
+/* Boss 主题 Toast confirm 样式 */
+.theme-boss .toast-confirm {
+  background: linear-gradient(145deg, var(--boss-surface, #2A1219), var(--boss-dark, #0F0506));
+  color: var(--boss-text-primary, #F5F5F5);
+  border: 1px solid var(--boss-border-light, rgba(200,168,130,0.3));
+  box-shadow: 0 8px 24px rgba(146, 40, 51, 0.3);
+  backdrop-filter: blur(8px);
+}
+
+.theme-boss .toast-confirm-message {
+  color: var(--boss-text-primary, #F5F5F5);
+  font-weight: 500;
+}
+
 .toast-confirm.hide {
   opacity: 0;
   transform: translate(-50%, 10px);
@@ -2880,6 +3254,17 @@ a.btn.btn-lvl1 i {
 
 .toast-confirm-buttons button.toast-confirm-cancel:hover {
   background: #666;
+}
+
+/* Boss 主题 Toast 按钮样式 */
+.theme-boss .toast-confirm-buttons button.toast-confirm-cancel {
+  background: var(--boss-surface);
+  border: 1px solid var(--boss-border-light);
+}
+
+.theme-boss .toast-confirm-buttons button.toast-confirm-cancel:hover {
+  background: var(--boss-secondary);
+  border-color: var(--boss-accent);
 }
 
 @keyframes toastSlideIn {
@@ -3280,6 +3665,30 @@ a.btn.btn-lvl1 i {
   color: deepskyblue;
   text-align: center;
   justify-content: center;
+}
+
+/* Boss 主题 Dialog 样式 */
+.theme-boss .ui-dialog {
+  background: var(--boss-surface, #2A1219);
+  border: 1px solid var(--boss-border-light, rgba(200,168,130,0.3));
+  color: var(--boss-text-primary, #F5F5F5);
+  box-shadow: 0 8px 24px rgba(146, 40, 51, 0.3);
+}
+
+.theme-boss #dialog {
+  background: var(--boss-surface, #2A1219);
+  border: 1px solid var(--boss-border-light, rgba(200,168,130,0.3));
+  color: var(--boss-text-primary, #F5F5F5);
+}
+
+.theme-boss #messageDialog {
+  color: var(--boss-gold, #C8A882);
+}
+
+.theme-boss .ui-dialog-titlebar {
+  background: linear-gradient(135deg, var(--boss-accent, #B8313E), var(--boss-primary, #922833));
+  color: var(--boss-text-light, #FFFFFF);
+  border-bottom: 1px solid var(--boss-border-light, rgba(200,168,130,0.3));
 }
 
 #messageDialog-en {
@@ -3787,6 +4196,12 @@ select {
   display: none !important;
 }
 
+/* Boss 主题 Google 翻译组件样式 */
+.theme-boss .VIpgJd-ZVi9od-ORHb-OEVmcd {
+  border-bottom: 1px solid var(--boss-accent);
+  box-shadow: 0 0 12px 2px rgba(146, 40, 51, 0.3);
+}
+
 .goog-te-gadget {
   font-family: arial;
   font-size: 11px;
@@ -3841,6 +4256,21 @@ select {
   z-index: 999;
 }
 
+/* Boss 主题 translate-popup 样式 */
+.theme-boss #translate-popup {
+  background: rgba(15, 5, 6, 0.8);
+  backdrop-filter: blur(4px);
+}
+
+.theme-boss #translate-popup div {
+  background: var(--boss-surface, #2A1219);
+  color: var(--boss-text-primary, #F5F5F5);
+  border: 1px solid var(--boss-border-light, rgba(200,168,130,0.3));
+  box-shadow: 0 8px 24px rgba(146, 40, 51, 0.4);
+  border-radius: 12px;
+  padding: 24px;
+}
+
 #translate-popup button {
   padding: 8px 12px;
   margin: 5px;
@@ -3858,7 +4288,114 @@ select {
   background-color: #f44336;
 }
 
+/* Boss 主题 translate-popup 按钮样式 */
+.theme-boss #translate-popup button {
+  padding: 10px 16px;
+  margin: 8px;
+  border: 1px solid var(--boss-border-light, rgba(200,168,130,0.3));
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.theme-boss #translate-yes {
+  background: linear-gradient(135deg, var(--boss-accent, #B8313E), var(--boss-primary, #922833));
+  color: var(--boss-text-light, #FFFFFF);
+  border-color: var(--boss-accent, #B8313E);
+}
+
+.theme-boss #translate-yes:hover {
+  background: linear-gradient(135deg, var(--boss-primary, #922833), var(--boss-secondary, #6D1D26));
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(146, 40, 51, 0.3);
+}
+
+.theme-boss #translate-no {
+  background: var(--boss-surface, #2A1219);
+  color: var(--boss-text-primary, #F5F5F5);
+  border-color: var(--boss-border-light, rgba(200,168,130,0.3));
+}
+
+.theme-boss #translate-no:hover {
+  background: var(--boss-dark, #0F0506);
+  border-color: var(--boss-gold, #C8A882);
+  transform: translateY(-1px);
+}
+
 /* Google Translate Element (hidden initially) */
+
+/* Boss 主题 Notification 样式 */
+.theme-boss #notificationContainer {
+  top: 70px;
+}
+
+.theme-boss .notification {
+  background: var(--boss-surface, #2A1219);
+  color: var(--boss-text-primary, #F5F5F5);
+  border: 1px solid var(--boss-border-light, rgba(200,168,130,0.3));
+  border-radius: 10px;
+  padding: 14px 20px;
+  font-size: 16px;
+  font-weight: 500;
+  box-shadow: 0 4px 12px rgba(146, 40, 51, 0.2);
+  backdrop-filter: blur(8px);
+  border-left: 4px solid var(--boss-gold, #C8A882);
+}
+
+.theme-boss .notification.addFoodInfo {
+  background: linear-gradient(135deg, var(--boss-accent, #B8313E), var(--boss-primary, #922833));
+  border-left: 4px solid var(--boss-gold, #C8A882);
+  color: var(--boss-text-light, #FFFFFF);
+  box-shadow: 0 4px 12px rgba(184, 49, 62, 0.3);
+}
+
+.theme-boss .notification.removeFoodInfo {
+  background: var(--boss-dark, #0F0506);
+  border-left: 4px solid var(--boss-secondary, #6D1D26);
+  color: var(--boss-text-primary, #F5F5F5);
+  box-shadow: 0 4px 12px rgba(109, 29, 38, 0.3);
+}
+
+.theme-boss .notification.info {
+  background: linear-gradient(135deg, var(--boss-surface, #2A1219), var(--boss-dark, #0F0506));
+  border-left: 4px solid var(--boss-gold, #C8A882);
+  color: var(--boss-text-primary, #F5F5F5);
+  box-shadow: 0 4px 12px rgba(200, 168, 130, 0.2);
+}
+
+.theme-boss .notification.success {
+  background: linear-gradient(135deg, var(--boss-accent, #B8313E), var(--boss-primary, #922833));
+  border-left: 4px solid var(--boss-gold-light, #D4B896);
+  color: var(--boss-text-light, #FFFFFF);
+  box-shadow: 0 4px 12px rgba(184, 49, 62, 0.3);
+}
+
+.theme-boss .notification.error {
+  background: var(--boss-secondary, #6D1D26);
+  border-left: 4px solid var(--boss-accent, #B8313E);
+  color: var(--boss-text-light, #FFFFFF);
+  box-shadow: 0 4px 12px rgba(109, 29, 38, 0.4);
+}
+
+/* Boss 主题 Notification 动画 */
+.theme-boss .notification {
+  animation: bossNotificationSlideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes bossNotificationSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.9);
+  }
+  50% {
+    opacity: 0.8;
+    transform: translateY(-5px) scale(1.02);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
 
 
 #google_translate_element {
@@ -4269,6 +4806,16 @@ textarea {
   color: #6c757d;
 }
 
+/* Boss 主题提示文字 */
+.theme-boss .my-order-item .toggle-ownership::after {
+  color: var(--boss-accent, #B8313E) !important;
+  font-weight: 600;
+}
+
+.theme-boss .others-order-item .toggle-ownership::after {
+  color: var(--boss-text-secondary, #A0A0A0) !important;
+}
+
 /* 🔧 其他设备标识样式 */
 .no-modify {
   font-size: 12px !important;
@@ -4276,6 +4823,15 @@ textarea {
   font-style: italic !important;
   text-align: center !important;
   opacity: 0.7 !important;
+}
+
+/* Boss 主题其他设备标识 */
+.theme-boss .no-modify {
+  color: var(--boss-text-secondary, #A0A0A0) !important;
+  background: var(--boss-dark, #0F0506);
+  padding: 4px 8px;
+  border-radius: 4px;
+  border: 1px solid var(--boss-border-light, rgba(200,168,130,0.1));
 }
 
 /* 🎯 receiptDetails 分组标题样式 */
@@ -4288,6 +4844,26 @@ textarea {
 .my-group-header {
   background: linear-gradient(90deg, #e3f2fd 0%, #bbdefb 100%) !important;
   border-top: 2px solid #007bff !important;
+}
+
+/* Boss 主题 receiptDetails 样式 */
+.theme-boss .group-header {
+  background: linear-gradient(90deg, 
+    var(--boss-surface, #2A1219) 0%, 
+    var(--boss-dark, #0F0506) 100%) !important;
+  border-top: 2px solid var(--boss-border-light, rgba(200,168,130,0.3)) !important;
+  border-bottom: 1px solid var(--boss-border-light, rgba(200,168,130,0.2)) !important;
+  color: var(--boss-text-primary, #F5F5F5) !important;
+}
+
+.theme-boss .my-group-header {
+  background: linear-gradient(90deg, 
+    var(--boss-accent, #B8313E) 15%, 
+    var(--boss-primary, #922833) 85%) !important;
+  border-top: 2px solid var(--boss-accent, #B8313E) !important;
+  border-bottom: 1px solid var(--boss-secondary, #6D1D26) !important;
+  color: var(--boss-text-light, #FFFFFF) !important;
+  font-weight: 600 !important;
 }
 
 .others-group-header {
@@ -4497,6 +5073,24 @@ textarea {
 }
 
 /* 图片容器 - 深色主题 1:1比例 */
+/* Boss 主题图片容器样式 - 深色设计 */
+.theme-boss .menu-item .image-container,
+.theme-boss .menu-item .menu-img-container {
+  background: linear-gradient(145deg, 
+    var(--boss-dark, #0F0506) 0.9, 
+    var(--boss-surface, #2A1219) 0.95) !important;
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.6) !important;
+  border: 1px solid var(--boss-border-dark, rgba(166,30,60,0.5)) !important;
+}
+
+.theme-boss .menu-img:not([src]),
+.theme-boss .menu-img[src=""],
+.theme-boss .menu-img[src*="undefined"] {
+  background: linear-gradient(145deg, 
+    var(--boss-dark, #0F0506) 0.95, 
+    var(--boss-surface, #2A1219) 0.9) !important;
+}
+
 .menu-item .image-container,
 .menu-item .menu-img-container {
   width: 100% !important;
@@ -4515,6 +5109,17 @@ textarea {
   border: 1px solid rgba(71, 85, 105, 0.3) !important;
   position: relative !important;
   aspect-ratio: none !important;
+}
+
+/* Boss 主题菜单图片样式 */
+.theme-boss .menu-img {
+  background: linear-gradient(145deg, 
+    var(--boss-surface, #2A1219) 0%, 
+    var(--boss-dark, #0F0506) 100%) !important;
+}
+
+.theme-boss .menu-item:hover .menu-img {
+  filter: brightness(1.05) saturate(1.05) contrast(1.02) !important;
 }
 
 /* 菜单图片样式 */
@@ -4625,6 +5230,51 @@ textarea {
   border-radius: 12px !important;
   z-index: 2 !important;
   text-transform: uppercase !important;
+}
+
+/* Boss 主题特定样式 - 深色专业设计 */
+.theme-boss .menu-item {
+  background: linear-gradient(145deg, 
+    var(--boss-surface, #2A1219) 0%, 
+    var(--boss-surface-light, #3D1A23) 100%) !important;
+  border-color: var(--boss-border, rgba(166,30,60,0.3)) !important;
+  box-shadow: 
+    0 6px 25px rgba(0, 0, 0, 0.4),
+    0 3px 12px rgba(166, 30, 60, 0.15) !important;
+  border-radius: 12px !important;
+}
+
+.theme-boss .menu-item:hover {
+  border-color: var(--boss-accent, #A61E3C) !important;
+  background: linear-gradient(145deg, 
+    var(--boss-surface-light, #3D1A23) 0%, 
+    #4A1F2A 100%) !important;
+  box-shadow: 
+    0 12px 40px rgba(0, 0, 0, 0.6),
+    0 6px 20px rgba(166, 30, 60, 0.25),
+    inset 0 1px 0 rgba(166, 30, 60, 0.2) !important;
+  transform: translateY(-3px) !important;
+}
+
+/* Boss 主题 - 文字颜色优化 */
+.theme-boss .menu-item .item-name,
+.theme-boss .menu-item figcaption {
+  color: var(--boss-text-primary, #F5F5F5) !important;
+  font-weight: 600 !important;
+}
+
+.theme-boss .menu-item .item-description {
+  color: var(--boss-text-secondary, #D1D1D1) !important;
+  font-size: 14px !important;
+  line-height: 1.4 !important;
+}
+
+.theme-boss .menu-item .item-price,
+.theme-boss .menu-item .menu-price {
+  color: var(--boss-gold, #D4AF37) !important;
+  font-weight: 700 !important;
+  font-size: 16px !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
 }
 
 /* Blue Dragon 主题特定样式 */
