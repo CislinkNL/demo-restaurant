@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>配置管理器调试</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 1rem;
+            background: #f5f5f5;
+        }
+        
+        .debug-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .status-section {
+            margin-bottom: 2rem;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid #007bff;
+            background: #f8f9fa;
+        }
+        
+        .status-section h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        
+        .config-display {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            white-space: pre-wrap;
+        }
+        
+        .error {
+            border-left-color: #dc3545;
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .success {
+            border-left-color: #28a745;
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .warning {
+            border-left-color: #ffc107;
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .test-button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-right: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .test-button:hover {
+            background: #0056b3;
+        }
+        
+        .test-button:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+        }
+        
+        .path-test {
+            margin: 0.5rem 0;
+            padding: 0.5rem;
+            background: #f8f9fa;
+            border-radius: 4px;
+            border: 1px solid #dee2e6;
+        }
+        
+        .path-success {
+            border-color: #28a745;
+            background: #d4edda;
+        }
+        
+        .path-error {
+            border-color: #dc3545;
+            background: #f8d7da;
+        }
+    </style>
+</head>
+<body>
+    <div class="debug-container">
+        <h2>🔧 配置管理器调试工具</h2>
+        <p>此工具帮助诊断配置文件加载问题。</p>
+        
+        <div id="currentPath" class="status-section">
+            <h3>当前页面路径</h3>
+            <div id="pathInfo"></div>
+        </div>
+        
+        <div id="pathTests" class="status-section">
+            <h3>配置文件路径测试</h3>
+            <button class="test-button" onclick="testPaths()">测试所有路径</button>
+            <div id="pathResults"></div>
+        </div>
+        
+        <div id="configStatus" class="status-section">
+            <h3>配置管理器状态</h3>
+            <button class="test-button" onclick="testConfigManager()">测试配置管理器</button>
+            <div id="configResults"></div>
+        </div>
+        
+        <div id="configContent" class="status-section">
+            <h3>配置文件内容</h3>
+            <button class="test-button" onclick="showConfig()">显示当前配置</button>
+            <div id="configDisplay"></div>
+        </div>
+        
+        <div id="apiTests" class="status-section">
+            <h3>API 端点测试</h3>
+            <button class="test-button" onclick="testApiEndpoints()">测试 API 访问</button>
+            <div id="apiResults"></div>
+        </div>
+    </div>
+
+    <script src="modules/config-manager.js"></script>
+    <script>
+        // 显示当前页面信息
+        document.getElementById('pathInfo').innerHTML = `
+            <strong>当前 URL:</strong> ${window.location.href}<br>
+            <strong>协议:</strong> ${window.location.protocol}<br>
+            <strong>主机:</strong> ${window.location.host}<br>
+            <strong>路径:</strong> ${window.location.pathname}<br>
+            <strong>基础路径:</strong> ${window.location.origin}
+        `;
+        
+        async function testPaths() {
+            const pathResults = document.getElementById('pathResults');
+            pathResults.innerHTML = '<p>🔍 正在测试配置文件路径...</p>';
+            
+            const paths = [
+                './beheer-config.json',
+                'beheer-config.json',
+                '../beheer/beheer-config.json',
+                '/beheer/beheer-config.json',
+                './public/beheer/beheer-config.json',
+                '../public/beheer/beheer-config.json'
+            ];
+            
+            let results = '';
+            
+            for (const path of paths) {
+                try {
+                    const response = await fetch(path);
+                    const className = response.ok ? 'path-success' : 'path-error';
+                    const status = response.ok ? '✅ 可访问' : `❌ ${response.status} ${response.statusText}`;
+                    
+                    results += `
+                        <div class="path-test ${className}">
+                            <strong>${path}</strong>: ${status}
+                        </div>
+                    `;
+                    
+                    if (response.ok) {
+                        try {
+                            const config = await response.json();
+                            results += `
+                                <div style="margin-left: 1rem; font-size: 0.9rem; color: #666;">
+                                    配置键: ${Object.keys(config).join(', ')}
+                                </div>
+                            `;
+                        } catch (e) {
+                            results += `
+                                <div style="margin-left: 1rem; font-size: 0.9rem; color: #dc3545;">
+                                    JSON 解析错误: ${e.message}
+                                </div>
+                            `;
+                        }
+                    }
+                } catch (error) {
+                    results += `
+                        <div class="path-test path-error">
+                            <strong>${path}</strong>: ❌ 网络错误 - ${error.message}
+                        </div>
+                    `;
+                }
+            }
+            
+            pathResults.innerHTML = results;
+        }
+        
+        async function testConfigManager() {
+            const configResults = document.getElementById('configResults');
+            configResults.innerHTML = '<p>🔍 正在测试配置管理器...</p>';
+            
+            try {
+                // 创建新的配置管理器实例
+                const configManager = new BeheerConfigManager();
+                
+                // 测试加载
+                const config = await configManager.load();
+                
+                const className = configManager.isLoaded ? 'success' : 'warning';
+                
+                configResults.innerHTML = `
+                    <div class="status-section ${className}">
+                        <h4>配置管理器状态:</h4>
+                        <ul>
+                            <li><strong>加载状态:</strong> ${configManager.isLoaded ? '✅ 已加载' : '⚠️ 未加载'}</li>
+                            <li><strong>配置键数量:</strong> ${Object.keys(config).length}</li>
+                            <li><strong>主要配置项:</strong> ${Object.keys(config).join(', ')}</li>
+                        </ul>
+                        
+                        <h4>测试配置访问:</h4>
+                        <ul>
+                            <li><strong>应用名称:</strong> ${configManager.get('app.name', 'N/A')}</li>
+                            <li><strong>API 基础 URL:</strong> ${configManager.get('api.baseUrl', 'N/A')}</li>
+                            <li><strong>Cloudflare Policy ID:</strong> ${configManager.getCloudflareConfig().policyId || 'N/A'}</li>
+                        </ul>
+                    </div>
+                `;
+                
+                // 将配置管理器保存到全局作用域以供其他测试使用
+                window.debugConfigManager = configManager;
+                
+            } catch (error) {
+                configResults.innerHTML = `
+                    <div class="status-section error">
+                        <h4>❌ 配置管理器测试失败:</h4>
+                        <p><strong>错误:</strong> ${error.message}</p>
+                        <p><strong>堆栈:</strong></p>
+                        <div class="config-display">${error.stack}</div>
+                    </div>
+                `;
+            }
+        }
+        
+        async function showConfig() {
+            const configDisplay = document.getElementById('configDisplay');
+            
+            try {
+                // 使用已测试的配置管理器或创建新的
+                const configManager = window.debugConfigManager || new BeheerConfigManager();
+                
+                if (!configManager.isLoaded) {
+                    await configManager.load();
+                }
+                
+                const config = configManager.config;
+                
+                configDisplay.innerHTML = `
+                    <div class="config-display">${JSON.stringify(config, null, 2)}</div>
+                `;
+                
+            } catch (error) {
+                configDisplay.innerHTML = `
+                    <div class="status-section error">
+                        <h4>❌ 无法显示配置:</h4>
+                        <p>${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+        
+        async function testApiEndpoints() {
+            const apiResults = document.getElementById('apiResults');
+            apiResults.innerHTML = '<p>🔍 正在测试 API 端点...</p>';
+            
+            try {
+                const configManager = window.debugConfigManager || new BeheerConfigManager();
+                
+                if (!configManager.isLoaded) {
+                    await configManager.load();
+                }
+                
+                const baseUrl = configManager.getApiUrl('');
+                const cloudflareUpdateUrl = configManager.getApiUrl('cloudflareUpdatePolicy');
+                const cloudflareGetUrl = configManager.getApiUrl('cloudflareGetPolicy');
+                
+                let results = `
+                    <div class="status-section success">
+                        <h4>🔗 API 端点配置:</h4>
+                        <ul>
+                            <li><strong>基础 URL:</strong> ${baseUrl}</li>
+                            <li><strong>Cloudflare 更新:</strong> ${cloudflareUpdateUrl}</li>
+                            <li><strong>Cloudflare 获取:</strong> ${cloudflareGetUrl}</li>
+                        </ul>
+                    </div>
+                `;
+                
+                // 测试基础 URL 可访问性（只测试根路径，避免实际 API 调用）
+                try {
+                    const testUrl = new URL(baseUrl).origin;
+                    const response = await fetch(testUrl, { method: 'HEAD', mode: 'no-cors' });
+                    results += `
+                        <div class="status-section success">
+                            <h4>🌐 网络连接测试:</h4>
+                            <p>基础服务器 (${testUrl}) 连接正常</p>
+                        </div>
+                    `;
+                } catch (error) {
+                    results += `
+                        <div class="status-section warning">
+                            <h4>⚠️ 网络连接测试:</h4>
+                            <p>无法测试服务器连接: ${error.message}</p>
+                            <p>这在开发环境中是正常的。</p>
+                        </div>
+                    `;
+                }
+                
+                apiResults.innerHTML = results;
+                
+            } catch (error) {
+                apiResults.innerHTML = `
+                    <div class="status-section error">
+                        <h4>❌ API 端点测试失败:</h4>
+                        <p>${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+        
+        // 页面加载时自动运行基本测试
+        window.addEventListener('load', () => {
+            testPaths();
+        });
+    </script>
+</body>
+</html>

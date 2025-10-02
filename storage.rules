@@ -1,0 +1,40 @@
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+    // 多餐厅图片上传规则 - 按餐厅ID分组
+    match /restaurants/{restaurantId}/images/{imageId} {
+      // 允许读取所有餐厅的图片（公开访问菜单图片）
+      allow read: if true;
+      
+      // 允许上传图片文件
+      allow write: if request.resource != null
+                   && request.resource.size < 5 * 1024 * 1024 // 最大 5MB
+                   && request.resource.contentType.matches('image/.*') // 只允许图片
+                   && (request.resource.contentType == 'image/jpeg' 
+                       || request.resource.contentType == 'image/png'
+                       || request.resource.contentType == 'image/webp'
+                       || request.resource.contentType == 'image/gif');
+    }
+    
+    // 兼容旧版本的单一餐厅路径（保持向后兼容）
+    match /restaurant-images/{imageId} {
+      // 允许读取所有图片（公开访问菜单图片）
+      allow read: if true;
+      
+      // 允许上传图片文件
+      allow write: if request.resource != null
+                   && request.resource.size < 5 * 1024 * 1024 // 最大 5MB
+                   && request.resource.contentType.matches('image/.*') // 只允许图片
+                   && (request.resource.contentType == 'image/jpeg' 
+                       || request.resource.contentType == 'image/png'
+                       || request.resource.contentType == 'image/webp'
+                       || request.resource.contentType == 'image/gif');
+    }
+    
+    // 其他文件默认禁止访问
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

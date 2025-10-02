@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>高亮动画测试</title>
+    <link rel="stylesheet" href="public/style-css.css">
+    <style>
+        body {
+            background: #000119;
+            color: white;
+            padding: 20px;
+        }
+        .test-button {
+            background: #0089f7;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .test-item {
+            background: rgba(30, 41, 59, 0.8);
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 8px;
+            min-height: 100px;
+        }
+    </style>
+</head>
+<body class="theme-blue-dragon">
+    <h1>高亮动画测试页面</h1>
+    
+    <button class="test-button" onclick="testHighlight('item1')">测试项目1高亮</button>
+    <button class="test-button" onclick="testHighlight('item2')">测试项目2高亮</button>
+    <button class="test-button" onclick="testHighlight('item3')">测试项目3高亮</button>
+    
+    <div id="item1" class="test-item">
+        <h3>测试项目 1</h3>
+        <p>这是第一个测试项目，点击上面的按钮应该会看到高亮动画。</p>
+    </div>
+    
+    <div id="item2" class="test-item">
+        <h3>测试项目 2</h3>
+        <p>这是第二个测试项目，点击上面的按钮应该会看到高亮动画。</p>
+    </div>
+    
+    <div id="item3" class="test-item">
+        <h3>测试项目 3</h3>
+        <p>这是第三个测试项目，点击上面的按钮应该会看到高亮动画。</p>
+    </div>
+
+    <script>
+        function testHighlight(elementId) {
+            const element = document.getElementById(elementId);
+            if (element) {
+                // 移除之前的高亮类（如果存在）
+                element.classList.remove('highlight-target');
+                
+                // 强制重新渲染
+                element.offsetHeight;
+                
+                // 添加高亮类触发动画
+                element.classList.add('highlight-target');
+                
+                // 1.5秒后自动移除类
+                setTimeout(() => {
+                    element.classList.remove('highlight-target');
+                }, 1500);
+                
+                // 滚动到元素
+                element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+    </script>
+</body>
+</html>

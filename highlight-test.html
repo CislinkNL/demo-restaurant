@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>分类按钮高亮测试</title>
+    <link rel="stylesheet" href="public/style-css.css">
+    <style>
+        body {
+            background: #000119;
+            color: white;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #333;
+            border-radius: 8px;
+        }
+        .test-button {
+            background: #0089f7;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .test-menu-item {
+            background: rgba(30, 41, 59, 0.8);
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 8px;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+        }
+        .category-buttons {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        .btn-foodlvl2, .btn-drinkslvl2 {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            text-decoration: none;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body class="theme-blue-dragon">
+    <h1>🔥 分类按钮高亮动画测试</h1>
+    
+    <div class="test-section">
+        <h2>1. 手动高亮测试</h2>
+        <button class="test-button" onclick="testHighlight('item1')">测试项目1高亮</button>
+        <button class="test-button" onclick="testHighlight('item2')">测试项目2高亮</button>
+        <button class="test-button" onclick="testHighlight('item3')">测试项目3高亮</button>
+        
+        <div id="item1" class="test-menu-item menu-item" data-group="voorgerechten">
+            <h3>测试菜单项目 1 - 前菜类</h3>
+        </div>
+        
+        <div id="item2" class="test-menu-item menu-item" data-group="hoofdgerechten">
+            <h3>测试菜单项目 2 - 主菜类</h3>
+        </div>
+        
+        <div id="item3" class="test-menu-item menu-item" data-group="desserts">
+            <h3>测试菜单项目 3 - 甜品类</h3>
+        </div>
+    </div>
+    
+    <div class="test-section">
+        <h2>2. 分类按钮测试</h2>
+        <p>这些按钮模拟真实的分类按钮</p>
+        <div class="category-buttons">
+            <a href="#voorgerechten" class="btn-foodlvl2">前菜 Voorgerechten</a>
+            <a href="#hoofdgerechten" class="btn-foodlvl2">主菜 Hoofdgerechten</a>
+            <a href="#desserts" class="btn-drinkslvl2">甜品 Desserts</a>
+        </div>
+        
+        <div id="voorgerechten" class="test-menu-item menu-item" data-group="voorgerechten">
+            <h3>🥗 前菜区域 - Voorgerechten Section</h3>
+        </div>
+        
+        <div id="hoofdgerechten" class="test-menu-item menu-item" data-group="hoofdgerechten">
+            <h3>🍖 主菜区域 - Hoofdgerechten Section</h3>
+        </div>
+        
+        <div id="desserts" class="test-menu-item menu-item" data-group="desserts">
+            <h3>🍰 甜品区域 - Desserts Section</h3>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>3. 调试信息</h2>
+        <button class="test-button" onclick="showDebugInfo()">显示调试信息</button>
+        <div id="debug-output" style="background: #222; padding: 10px; margin-top: 10px; font-family: monospace; white-space: pre-wrap;"></div>
+    </div>
+
+    <script>
+        // 高亮测试函数
+        function testHighlight(elementId) {
+            console.log('🔥 测试高亮:', elementId);
+            const element = document.getElementById(elementId);
+            if (element) {
+                animateHighlight(element);
+                element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+        // 复制主页面的高亮函数
+        function animateHighlight(element) {
+            console.log('🎯 animateHighlight called for:', element);
+            // 移除之前的高亮类（如果存在）
+            element.classList.remove('highlight-target');
+            
+            // 强制重新渲染
+            element.offsetHeight;
+            
+            // 添加高亮类触发动画
+            element.classList.add('highlight-target');
+            console.log('✅ Added highlight-target class');
+            
+            // 1.5秒后自动移除类
+            setTimeout(() => {
+                element.classList.remove('highlight-target');
+                console.log('🔄 Removed highlight-target class');
+            }, 1500);
+        }
+
+        // 调试信息
+        function showDebugInfo() {
+            const debug = document.getElementById('debug-output');
+            const info = {
+                '高亮CSS类存在': !!getComputedStyle(document.body).getPropertyValue('--blue-dragon-accent'),
+                '分类按钮数量': document.querySelectorAll('.btn-foodlvl2, .btn-drinkslvl2').length,
+                '菜单项数量': document.querySelectorAll('.menu-item').length,
+                '高亮样式': {
+                    'highlight-target类': !!Array.from(document.styleSheets).some(sheet => {
+                        try {
+                            return Array.from(sheet.cssRules).some(rule => 
+                                rule.selectorText && rule.selectorText.includes('highlight-target')
+                            );
+                        } catch(e) { return false; }
+                    })
+                }
+            };
+            debug.textContent = JSON.stringify(info, null, 2);
+        }
+
+        // 模拟主页面的事件监听器
+        document.addEventListener('click', function (e) {
+            console.log('🖱️ Click detected on:', e.target);
+            const target = e.target.closest('.btn-foodlvl2, .btn-drinkslvl2, .btn-lvl3, #service-btn, #btn-service-main');
+            if (!target) {
+                console.log('❌ No target found');
+                return;
+            }
+
+            console.log('✅ Target found:', target);
+            e.preventDefault();
+            const targetId = target.getAttribute('href')?.replace('#', '');
+            console.log('🎯 Target ID:', targetId);
+            
+            let targetElement = document.getElementById(targetId);
+            console.log('📍 Target element:', targetElement);
+            
+            // 如果找不到精确的目标元素，尝试查找对应分组的第一个菜单项
+            if (!targetElement && targetId) {
+                console.log('🔍 Searching for fallback element...');
+                const menuItems = document.querySelectorAll('.menu-item[data-group]');
+                console.log('📋 Available menu items:', menuItems.length);
+                
+                for (const item of menuItems) {
+                    const itemGroup = item.getAttribute('data-group');
+                    console.log('🏷️ Checking group:', itemGroup, 'against target:', targetId);
+                    
+                    if (itemGroup && (itemGroup.toLowerCase().includes(targetId.toLowerCase()) || 
+                        targetId.toLowerCase().includes(itemGroup.toLowerCase()))) {
+                        targetElement = item;
+                        console.log('✅ Found fallback element:', targetElement);
+                        break;
+                    }
+                }
+                
+                if (!targetElement) {
+                    const buttonText = target.textContent.toLowerCase().trim();
+                    console.log('🔍 Searching by button text:', buttonText);
+                    for (const item of menuItems) {
+                        const itemGroup = item.getAttribute('data-group');
+                        if (itemGroup && itemGroup.toLowerCase().includes(buttonText)) {
+                            targetElement = item;
+                            console.log('✅ Found element by button text:', targetElement);
+                            break;
+                        }
+                    }
+                }
+            }
+            
+            if (targetElement) {
+                console.log('🎊 Highlighting target element:', targetElement);
+                targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                animateHighlight(targetElement);
+            } else {
+                console.warn(`❌ 未找到目标元素: ${targetId}`);
+            }
+        });
+
+        // 页面加载后显示调试信息
+        window.addEventListener('load', () => {
+            console.log('🚀 Test page loaded');
+            showDebugInfo();
+        });
+    </script>
+</body>
+</html>

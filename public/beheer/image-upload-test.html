@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图片上传测试</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 1rem;
+            background: #f5f5f5;
+        }
+        
+        .upload-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .upload-area {
+            border: 2px dashed #ddd;
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            background: #fafafa;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .upload-area:hover {
+            border-color: #007bff;
+            background: #f0f8ff;
+        }
+        
+        .upload-area.uploading {
+            border-color: #28a745;
+            background: #f0fff0;
+            cursor: not-allowed;
+        }
+        
+        .upload-area input[type="file"] {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+        
+        .upload-area.uploading input[type="file"] {
+            cursor: not-allowed;
+        }
+        
+        .upload-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .upload-text {
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+        
+        .upload-hint {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .error-message {
+            color: #d32f2f;
+            background: #ffebee;
+            padding: 1rem;
+            border-radius: 4px;
+            border: 1px solid #ffcdd2;
+            margin-top: 1rem;
+        }
+        
+        .success-message {
+            color: #2e7d32;
+            background: #e8f5e8;
+            padding: 1rem;
+            border-radius: 4px;
+            border: 1px solid #c8e6c9;
+            margin-top: 1rem;
+        }
+        
+        .result-container {
+            margin-top: 2rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+        }
+        
+        .result-image {
+            max-width: 100%;
+            max-height: 300px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+        
+        .result-info {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .url-input {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+        
+        .copy-button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 0.5rem;
+        }
+        
+        .copy-button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="upload-container">
+        <h2>🖼️ 餐厅图片上传测试</h2>
+        <div id="environmentInfo" style="padding: 1rem; margin-bottom: 1rem; border-radius: 8px; font-size: 0.9rem;"></div>
+        <p>测试图片上传功能，上传的图片将保存到服务器并返回URL。</p>
+        
+        <div class="upload-area" id="uploadArea">
+            <input type="file" id="fileInput" accept="image/png,image/webp,image/jpg,image/jpeg">
+            <div class="upload-icon" id="uploadIcon">📤</div>
+            <div class="upload-text" id="uploadText">点击或拖拽上传图片</div>
+            <div class="upload-hint">支持 PNG、WEBP、JPG、JPEG 格式，最大 5MB</div>
+        </div>
+        
+        <div id="errorMessage" style="display: none;"></div>
+        <div id="successMessage" style="display: none;"></div>
+        
+        <div id="resultContainer" class="result-container" style="display: none;">
+            <h3>上传结果：</h3>
+            <div id="resultInfo"></div>
+            <img id="resultImage" class="result-image" style="display: none;">
+            <input type="text" id="urlInput" class="url-input" readonly>
+            <button class="copy-button" onclick="copyUrl()">复制 URL</button>
+        </div>
+    </div>
+    
+    <script>
+        const fileInput = document.getElementById('fileInput');
+        const uploadArea = document.getElementById('uploadArea');
+        const uploadIcon = document.getElementById('uploadIcon');
+        const uploadText = document.getElementById('uploadText');
+        const errorMessage = document.getElementById('errorMessage');
+        const successMessage = document.getElementById('successMessage');
+        const resultContainer = document.getElementById('resultContainer');
+        const resultInfo = document.getElementById('resultInfo');
+        const resultImage = document.getElementById('resultImage');
+        const urlInput = document.getElementById('urlInput');
+        
+        // 防止默认拖拽行为
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            uploadArea.addEventListener(eventName, preventDefaults, false);
+            document.body.addEventListener(eventName, preventDefaults, false);
+        });
+        
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+        
+        // 拖拽视觉反馈
+        ['dragenter', 'dragover'].forEach(eventName => {
+            uploadArea.addEventListener(eventName, highlight, false);
+        });
+        
+        ['dragleave', 'drop'].forEach(eventName => {
+            uploadArea.addEventListener(eventName, unhighlight, false);
+        });
+        
+        function highlight(e) {
+            uploadArea.style.borderColor = '#007bff';
+            uploadArea.style.background = '#f0f8ff';
+        }
+        
+        function unhighlight(e) {
+            uploadArea.style.borderColor = '#ddd';
+            uploadArea.style.background = '#fafafa';
+        }
+        
+        // 处理拖拽文件上传
+        uploadArea.addEventListener('drop', handleDrop, false);
+        
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            if (files.length > 0) {
+                handleFile(files[0]);
+            }
+        }
+        
+        // 处理点击文件上传
+        fileInput.addEventListener('change', function(e) {
+            if (e.target.files.length > 0) {
+                handleFile(e.target.files[0]);
+            }
+        });
+        
+        function handleFile(file) {
+            // 重置消息
+            hideMessages();
+            
+            // 验证文件类型
+            const allowedTypes = ['image/png', 'image/webp', 'image/jpg', 'image/jpeg'];
+            if (!allowedTypes.includes(file.type)) {
+                showError('请选择 PNG、WEBP、JPG 或 JPEG 格式的图片');
+                return;
+            }
+            
+            // 验证文件大小 (5MB)
+            if (file.size > 5 * 1024 * 1024) {
+                showError('图片文件大小不能超过 5MB');
+                return;
+            }
+            
+            // 开始上传
+            uploadFile(file);
+        }
+        
+        async function uploadFile(file) {
+            // 显示上传状态
+            uploadArea.classList.add('uploading');
+            uploadIcon.textContent = '⏳';
+            uploadText.textContent = '上传中...';
+            fileInput.disabled = true;
+            
+            try {
+                // 检测是否为开发环境或Firebase Hosting（没有PHP支持）
+                const isDevEnvironment = window.location.protocol === 'file:' || 
+                                        window.location.hostname === '127.0.0.1' ||
+                                        window.location.hostname === 'localhost' ||
+                                        window.location.hostname.includes('.web.app') ||
+                                        window.location.hostname.includes('.firebaseapp.com');
+                
+                if (isDevEnvironment) {
+                    // 模拟上传
+                    await simulateUpload(file);
+                } else {
+                    // 真实上传
+                    await realUpload(file);
+                }
+            } catch (error) {
+                console.error('上传错误:', error);
+                showError('上传过程中发生错误，请重试');
+            } finally {
+                // 重置上传状态
+                uploadArea.classList.remove('uploading');
+                uploadIcon.textContent = '📤';
+                uploadText.textContent = '点击或拖拽上传图片';
+                fileInput.disabled = false;
+                fileInput.value = '';
+            }
+        }
+        
+        async function realUpload(file) {
+            const formData = new FormData();
+            formData.append('image', file);
+            
+            const response = await fetch('upload-handler.php', {
+                method: 'POST',
+                body: formData
+            });
+            
+            const result = await response.json();
+            
+            if (result.success) {
+                showSuccess('图片上传成功！');
+                showResult(result);
+            } else {
+                showError(result.error || '图片上传失败');
+            }
+        }
+        
+        async function simulateUpload(file) {
+            // 模拟上传延迟
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
+            // 创建本地文件 URL 用于预览
+            const localUrl = URL.createObjectURL(file);
+            
+            // 获取图片尺寸
+            const img = new Image();
+            await new Promise((resolve, reject) => {
+                img.onload = resolve;
+                img.onerror = reject;
+                img.src = localUrl;
+            });
+            
+            // 模拟服务器响应
+            const timestamp = Date.now();
+            const extension = file.name.split('.').pop();
+            const simulatedFilename = `dev_${timestamp}.${extension}`;
+            
+            const isFirebase = window.location.hostname.includes('.web.app') || 
+                              window.location.hostname.includes('.firebaseapp.com');
+            
+            const environmentMsg = isFirebase ? 
+                'Firebase Hosting 环境（不支持 PHP）' : 
+                '本地开发环境';
+            
+            const simulatedResult = {
+                success: true,
+                url: `https://cislink.nl/asianboulervard/foto/${simulatedFilename}`,
+                filename: simulatedFilename,
+                original_name: file.name,
+                size: `${(file.size / (1024 * 1024)).toFixed(2)}MB`,
+                dimensions: `${img.width}x${img.height}`,
+                type: file.type
+            };
+            
+            showSuccess(`图片上传模拟成功！（${environmentMsg}）`);
+            showResult(simulatedResult);
+        }
+        
+        function showError(message) {
+            errorMessage.textContent = message;
+            errorMessage.className = 'error-message';
+            errorMessage.style.display = 'block';
+            successMessage.style.display = 'none';
+            resultContainer.style.display = 'none';
+        }
+        
+        function showSuccess(message) {
+            successMessage.textContent = message;
+            successMessage.className = 'success-message';
+            successMessage.style.display = 'block';
+            errorMessage.style.display = 'none';
+        }
+        
+        function hideMessages() {
+            errorMessage.style.display = 'none';
+            successMessage.style.display = 'none';
+        }
+        
+        function showResult(result) {
+            resultInfo.innerHTML = `
+                <strong>文件名：</strong> ${result.filename}<br>
+                <strong>原始名称：</strong> ${result.original_name}<br>
+                <strong>尺寸：</strong> ${result.dimensions}<br>
+                <strong>大小：</strong> ${result.size}<br>
+                <strong>类型：</strong> ${result.type}
+            `;
+            
+            resultImage.src = result.url;
+            resultImage.style.display = 'block';
+            resultImage.onload = () => {
+                console.log('图片加载成功');
+            };
+            resultImage.onerror = () => {
+                console.error('图片加载失败');
+                resultImage.style.display = 'none';
+            };
+            
+            urlInput.value = result.url;
+            resultContainer.style.display = 'block';
+        }
+        
+        function copyUrl() {
+            urlInput.select();
+            document.execCommand('copy');
+            
+            const originalText = event.target.textContent;
+            event.target.textContent = '已复制！';
+            event.target.style.background = '#28a745';
+            
+            setTimeout(() => {
+                event.target.textContent = originalText;
+                event.target.style.background = '#007bff';
+            }, 2000);
+        }
+    </script>
+</body>
+</html>

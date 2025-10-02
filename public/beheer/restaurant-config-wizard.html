@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>餐厅配置向导 - Restaurant Configuration Wizard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Microsoft YaHei', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .wizard-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            padding: 40px;
+            max-width: 800px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .wizard-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .wizard-header h1 {
+            color: #333;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .wizard-header p {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e1e8ed;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: #fafafa;
+        }
+
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            border-color: #667eea;
+            outline: none;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .help-text {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 5px;
+            font-style: italic;
+        }
+
+        .section-title {
+            font-size: 1.4em;
+            font-weight: 600;
+            color: #333;
+            margin: 30px 0 15px 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e1e8ed;
+            display: flex;
+            align-items: center;
+        }
+
+        .section-title::before {
+            content: "🏪";
+            margin-right: 10px;
+            font-size: 1.2em;
+        }
+
+        .section-title.website::before { content: "🌐"; }
+        .section-title.currency::before { content: "💰"; }
+        .section-title.business::before { content: "⚙️"; }
+        .section-title.security::before { content: "🔐"; }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 40px;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-secondary {
+            background: #f8f9fa;
+            color: #666;
+            border: 2px solid #e1e8ed;
+        }
+
+        .btn-secondary:hover {
+            background: #e9ecef;
+            border-color: #dee2e6;
+        }
+
+        .preview-section {
+            background: #f8f9fa;
+            border: 2px solid #e1e8ed;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 30px;
+        }
+
+        .preview-title {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .preview-title::before {
+            content: "👁️";
+            margin-right: 10px;
+        }
+
+        .config-preview {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            overflow-x: auto;
+        }
+
+        .success-message, .error-message {
+            padding: 15px;
+            border-radius: 12px;
+            margin-top: 20px;
+            font-weight: 600;
+        }
+
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            border: 2px solid #c3e6cb;
+        }
+
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            border: 2px solid #f5c6cb;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .wizard-container {
+                padding: 20px;
+            }
+            
+            .button-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="wizard-container">
+        <div class="wizard-header">
+            <h1>🏪 餐厅配置向导</h1>
+            <p>Restaurant Configuration Wizard</p>
+            <p style="margin-top: 10px; font-size: 0.95em;">快速配置新餐厅的管理系统参数</p>
+        </div>
+
+        <form id="configForm">
+            <div class="section-title">基本信息</div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="restaurantId">餐厅ID *</label>
+                    <input type="text" id="restaurantId" name="restaurantId" placeholder="例如: NewRestaurant" required>
+                    <div class="help-text">用于数据库路径和内部标识，建议使用英文无空格</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="displayName">餐厅显示名称 *</label>
+                    <input type="text" id="displayName" name="displayName" placeholder="例如: 新餐厅名称" required>
+                    <div class="help-text">在管理界面中显示的餐厅名称</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="systemTitle">管理系统标题</label>
+                <input type="text" id="systemTitle" name="systemTitle" placeholder="例如: 新餐厅 餐厅管理系统">
+                <div class="help-text">管理界面标题栏显示的文字</div>
+            </div>
+
+            <div class="section-title website">网站配置</div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="baseUrl">网站基础URL *</label>
+                    <input type="url" id="baseUrl" name="baseUrl" placeholder="例如: https://newrestaurant.web.app" required>
+                    <div class="help-text">客户访问的网站地址</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="domain">域名</label>
+                    <input type="text" id="domain" name="domain" placeholder="例如: newrestaurant.web.app">
+                    <div class="help-text">不包含协议的纯域名</div>
+                </div>
+            </div>
+
+            <div class="section-title currency">货币设置</div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="currency">货币符号 *</label>
+                    <input type="text" id="currency" name="currency" placeholder="例如: € 或 $ 或 ¥" value="€" required>
+                    <div class="help-text">在价格显示中使用的货币符号</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="currencyPosition">货币位置</label>
+                    <select id="currencyPosition" name="currencyPosition">
+                        <option value="before">符号在前 (€10.00)</option>
+                        <option value="after">符号在后 (10.00€)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="section-title business">业务设置</div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="defaultMaxTime">默认用餐时长 (分钟)</label>
+                    <input type="number" id="defaultMaxTime" name="defaultMaxTime" placeholder="120" value="120" min="30" max="300">
+                    <div class="help-text">客户的默认用餐时间限制</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="defaultRoundTime">计时轮次 (分钟)</label>
+                    <input type="number" id="defaultRoundTime" name="defaultRoundTime" placeholder="15" value="15" min="5" max="60">
+                    <div class="help-text">计时系统的轮次间隔</div>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="defaultFoodLimit">食物限制数量</label>
+                    <input type="number" id="defaultFoodLimit" name="defaultFoodLimit" placeholder="4" value="4" min="1" max="20">
+                    <div class="help-text">客户可选择的食物项目数量限制</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="defaultDessertLimit">甜点限制数量</label>
+                    <input type="number" id="defaultDessertLimit" name="defaultDessertLimit" placeholder="2" value="2" min="1" max="10">
+                    <div class="help-text">客户可选择的甜点项目数量限制</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="tablePrefix">桌台前缀</label>
+                <input type="text" id="tablePrefix" name="tablePrefix" placeholder="例如: Tafel 或 Table" value="Tafel">
+                <div class="help-text">数据库中桌台键名的前缀 (如 "Tafel-1")</div>
+            </div>
+
+            <div class="section-title security">安全设置</div>
+            
+            <div class="form-group">
+                <label for="defaultAdminPassword">默认管理员密码</label>
+                <input type="text" id="defaultAdminPassword" name="defaultAdminPassword" placeholder="例如: 1234" value="7788">
+                <div class="help-text">管理界面的默认登录密码</div>
+            </div>
+            
+            <div class="form-group">
+                <label for="whatsappRecipients">WhatsApp 接收号码</label>
+                <textarea id="whatsappRecipients" name="whatsappRecipients" rows="3" placeholder="每行一个号码，例如:&#10;31619971032&#10;31683560665"></textarea>
+                <div class="help-text">接收通知的WhatsApp号码，每行一个</div>
+            </div>
+
+            <div class="button-group">
+                <button type="button" class="btn btn-secondary" onclick="generatePreview()">
+                    👁️ 预览配置
+                </button>
+                <button type="button" class="btn btn-primary" onclick="generateConfig()">
+                    💾 生成配置文件
+                </button>
+            </div>
+        </form>
+
+        <div id="previewSection" class="preview-section" style="display: none;">
+            <div class="preview-title">配置文件预览</div>
+            <div class="config-preview" id="configPreview"></div>
+            
+            <div class="button-group" style="margin-top: 20px;">
+                <button type="button" class="btn btn-secondary" onclick="copyConfig()">
+                    📋 复制配置
+                </button>
+                <button type="button" class="btn btn-primary" onclick="downloadConfig()">
+                    💾 下载配置文件
+                </button>
+            </div>
+        </div>
+
+        <div id="messageArea"></div>
+    </div>
+
+    <script>
+        // 自动填充域名
+        document.getElementById('baseUrl').addEventListener('input', function(e) {
+            const url = e.target.value;
+            const domainField = document.getElementById('domain');
+            if (url && !domainField.value) {
+                try {
+                    const urlObj = new URL(url);
+                    domainField.value = urlObj.hostname;
+                } catch (e) {
+                    // 忽略无效URL错误
+                }
+            }
+        });
+
+        // 自动生成系统标题
+        document.getElementById('displayName').addEventListener('input', function(e) {
+            const displayName = e.target.value;
+            const systemTitleField = document.getElementById('systemTitle');
+            if (displayName && !systemTitleField.value) {
+                systemTitleField.value = `${displayName} 餐厅管理系统`;
+            }
+        });
+
+        function getFormData() {
+            const form = document.getElementById('configForm');
+            const formData = new FormData(form);
+            const data = {};
+            
+            for (let [key, value] of formData.entries()) {
+                data[key] = value.trim();
+            }
+            
+            // 处理WhatsApp号码
+            if (data.whatsappRecipients) {
+                data.whatsappRecipients = data.whatsappRecipients
+                    .split('\n')
+                    .map(num => num.trim())
+                    .filter(num => num.length > 0);
+            } else {
+                data.whatsappRecipients = [];
+            }
+            
+            // 设置默认值
+            if (!data.systemTitle) data.systemTitle = `${data.displayName} 餐厅管理系统`;
+            if (!data.domain && data.baseUrl) {
+                try {
+                    data.domain = new URL(data.baseUrl).hostname;
+                } catch (e) {}
+            }
+            
+            return data;
+        }
+
+        function validateForm(data) {
+            const errors = [];
+            
+            if (!data.restaurantId) errors.push('餐厅ID是必填的');
+            if (!data.displayName) errors.push('餐厅显示名称是必填的');
+            if (!data.baseUrl) errors.push('网站基础URL是必填的');
+            if (!data.currency) errors.push('货币符号是必填的');
+            
+            // 检查餐厅ID格式
+            if (data.restaurantId && !/^[a-zA-Z][a-zA-Z0-9_-]*$/.test(data.restaurantId)) {
+                errors.push('餐厅ID应以字母开头，只能包含字母、数字、下划线和连字符');
+            }
+            
+            // 检查URL格式
+            if (data.baseUrl) {
+                try {
+                    new URL(data.baseUrl);
+                } catch (e) {
+                    errors.push('网站基础URL格式不正确');
+                }
+            }
+            
+            return errors;
+        }
+
+        function generateConfigObject(data) {
+            return {
+                restaurantId: data.restaurantId,
+                restaurantPath: data.restaurantId,
+                displayName: data.displayName,
+                systemTitle: data.systemTitle,
+                baseUrl: data.baseUrl,
+                domain: data.domain,
+                currency: data.currency,
+                currencyPosition: data.currencyPosition || 'before',
+                defaultMaxTime: parseInt(data.defaultMaxTime) || 120,
+                defaultFoodLimit: parseInt(data.defaultFoodLimit) || 4,
+                defaultDessertLimit: parseInt(data.defaultDessertLimit) || 2,
+                defaultRoundTime: parseInt(data.defaultRoundTime) || 15,
+                defaultAdminPassword: data.defaultAdminPassword || '7788',
+                defaultWhatsappEnabled: data.whatsappRecipients.length > 0,
+                defaultTimeLimitEnabled: true,
+                defaultWhatsappRecipients: data.whatsappRecipients,
+                tablePrefix: data.tablePrefix || 'Tafel',
+                firebaseConfig: {}
+            };
+        }
+
+        function generateConfigFileContent(configObj) {
+            return `// 新餐厅配置 - ${configObj.displayName}
+// 自动生成时间: ${new Date().toLocaleString()}
+
+// 将此配置添加到 restaurant-config.js 的 RESTAURANT_CONFIGS 对象中
+'${configObj.restaurantId}': {
+    // 基础信息 - Basic Information
+    restaurantId: '${configObj.restaurantId}',
+    restaurantPath: '${configObj.restaurantPath}', // Firebase数据库路径
+    displayName: '${configObj.displayName}',
+    systemTitle: '${configObj.systemTitle}',
+    
+    // 网站配置 - Website Configuration
+    baseUrl: '${configObj.baseUrl}',
+    domain: '${configObj.domain}',
+    
+    // 货币设置 - Currency Settings
+    currency: '${configObj.currency}',
+    currencyPosition: '${configObj.currencyPosition}', // 'before' or 'after'
+    
+    // 默认业务设置 - Default Business Settings
+    defaultMaxTime: ${configObj.defaultMaxTime}, // 分钟 - minutes
+    defaultFoodLimit: ${configObj.defaultFoodLimit},
+    defaultDessertLimit: ${configObj.defaultDessertLimit},
+    defaultRoundTime: ${configObj.defaultRoundTime}, // 计时轮次分钟数 - minutes for timing rounds
+    defaultAdminPassword: '${configObj.defaultAdminPassword}', // 默认管理员密码
+    defaultWhatsappEnabled: ${configObj.defaultWhatsappEnabled}, // WhatsApp消息功能
+    defaultTimeLimitEnabled: true, // 时间限制功能
+    defaultWhatsappRecipients: [${configObj.defaultWhatsappRecipients.map(num => `'${num}'`).join(', ')}], // WhatsApp接收者
+    
+    // 桌台配置 - Table Configuration  
+    tablePrefix: '${configObj.tablePrefix}', // 数据库键前缀 (如 "Tafel-1")
+    
+    // Firebase配置 - Firebase Configuration
+    firebaseConfig: {
+        // 如果需要不同餐厅使用不同Firebase项目，在这里配置
+        // 否则使用全局Firebase配置
+    }
+},
+
+// 部署说明:
+// 1. 将上述配置复制到 restaurant-config.js 的 RESTAURANT_CONFIGS 对象中
+// 2. 修改 CURRENT_RESTAURANT 为 '${configObj.restaurantId}'
+// 3. 确保Firebase数据库中有对应的 '${configObj.restaurantPath}' 路径
+// 4. 部署到服务器并测试功能`;
+        }
+
+        function showMessage(message, type = 'success') {
+            const messageArea = document.getElementById('messageArea');
+            messageArea.innerHTML = `<div class="${type}-message">${message}</div>`;
+            setTimeout(() => {
+                messageArea.innerHTML = '';
+            }, 5000);
+        }
+
+        function generatePreview() {
+            const data = getFormData();
+            const errors = validateForm(data);
+            
+            if (errors.length > 0) {
+                showMessage('请修复以下错误:<br>' + errors.map(err => `• ${err}`).join('<br>'), 'error');
+                return;
+            }
+            
+            const configObj = generateConfigObject(data);
+            const configContent = generateConfigFileContent(configObj);
+            
+            document.getElementById('configPreview').textContent = configContent;
+            document.getElementById('previewSection').style.display = 'block';
+            
+            document.getElementById('previewSection').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function generateConfig() {
+            const data = getFormData();
+            const errors = validateForm(data);
+            
+            if (errors.length > 0) {
+                showMessage('请修复以下错误:<br>' + errors.map(err => `• ${err}`).join('<br>'), 'error');
+                return;
+            }
+            
+            generatePreview();
+            showMessage(`✅ 配置文件已生成! 餐厅ID: ${data.restaurantId}`);
+        }
+
+        function copyConfig() {
+            const configContent = document.getElementById('configPreview').textContent;
+            
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(configContent).then(() => {
+                    showMessage('✅ 配置已复制到剪贴板!');
+                }).catch(err => {
+                    fallbackCopy(configContent);
+                });
+            } else {
+                fallbackCopy(configContent);
+            }
+        }
+
+        function fallbackCopy(text) {
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            textArea.style.position = 'fixed';
+            textArea.style.opacity = '0';
+            document.body.appendChild(textArea);
+            textArea.select();
+            
+            try {
+                document.execCommand('copy');
+                showMessage('✅ 配置已复制到剪贴板!');
+            } catch (err) {
+                showMessage('❌ 复制失败，请手动复制配置内容', 'error');
+            }
+            
+            document.body.removeChild(textArea);
+        }
+
+        function downloadConfig() {
+            const data = getFormData();
+            const configObj = generateConfigObject(data);
+            const configContent = generateConfigFileContent(configObj);
+            
+            const blob = new Blob([configContent], { type: 'text/javascript' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${data.restaurantId}-config.js`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            showMessage(`✅ 配置文件已下载: ${data.restaurantId}-config.js`);
+        }
+    </script>
+</body>
+</html>

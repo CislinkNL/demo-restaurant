@@ -1,0 +1,55 @@
+{
+  "app": {
+    "name": "Boss Restaurant Management",
+    "version": "2.0.0",
+    "environment": "production"
+  },
+  "api": {
+    "baseUrl": "https://europe-west1-cislink-351208.cloudfunctions.net/app",
+    "endpoints": {
+      "cloudflareUpdatePolicy": "/api/cloudflare/update-policy",
+      "cloudflareGetPolicy": "/api/cloudflare/get-policy"
+    },
+    "timeout": 30000
+  },
+  "cloudflare": {
+    "policyId": "0da0dcf7-5131-4a62-b715-0ba4b6fc1c5d",
+    "defaultAccountId": "611b75fe657af4f68068d2572d196c17",
+    "region": "europe-west1"
+  },
+  "firebase": {
+    "databasePath": "BossRestaurant",
+    "configPath": "config",
+    "menuPath": "menu"
+  },
+  "restaurant": {
+    "defaultName": "Boss Restaurant",
+    "defaultLogo": "https://cislink.nl/bluedragon/menufoto/blue-dragon-amsterdam-logo.webp",
+    "currency": "EUR",
+    "locale": "nl-NL",
+    "timezone": "Europe/Amsterdam"
+  },
+  "features": {
+    "cloudflareIntegration": true,
+    "whatsappNotifications": true,
+    "menuScheduling": true,
+    "orderManagement": true,
+    "multiLanguage": true
+  },
+  "ui": {
+    "theme": "default",
+    "showAdvancedOptions": false,
+    "autoSave": true,
+    "confirmActions": true
+  },
+  "security": {
+    "requireConfirmation": ["delete", "reset", "export"],
+    "sessionTimeout": 3600000,
+    "maxRetries": 3
+  },
+  "notifications": {
+    "showSuccess": true,
+    "showErrors": true,
+    "autoHide": 5000
+  }
+}

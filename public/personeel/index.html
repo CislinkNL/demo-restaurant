@@ -1,0 +1,1281 @@
+<!DOCTYPE html>
+<html lang="nl" target="_top">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+  <!-- 样式与字体 -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <!-- 只使用CDN版本的FontAwesome，避免本地字体文件404错误 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Libre+Barcode+128&family=Roboto&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+
+  <!-- JS 第三方库 -->
+  <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-database-compat.js"></script>
+  <!-- 员工版本不需要Google翻译功能 -->
+
+  <!-- Firebase 初始化 -->
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyCRmQTQ2eYkavNh4C0pkggIaGbWz4iWE3Q",
+      authDomain: "cislink.firebaseapp.com",
+      databaseURL: "https://cislink-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "cislink",
+      storageBucket: "cislink.firebasestorage.app",
+      messagingSenderId: "295505146634",
+      appId: "1:295505146634:web:4cfa3c9e00344060f7c0f3",
+      measurementId: "G-CQ705CDDCV"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
+  </script>
+
+
+  <!-- 本地样式表引用 -->
+  <link rel="stylesheet" href="style-css.css">
+  <link rel="stylesheet" href="notification-css.css">
+
+  <title>Asian Boulevard - 员工点餐系统</title>
+</head>
+
+
+<body class="theme-blue-dragon">
+
+  <header>
+    <!-- 简洁的员工桌号选择器 - 居中设计 -->
+    <div class="header-container">
+      <!-- 左上角桌号显示 -->
+      <div id="current-table-number" class="current-table-number">1</div>
+      
+      <div id="staff-table-selector" class="staff-table-selector">
+        <div class="table-selector-content" id="table-selector-content">
+          <label class="table-select-label">Tafel:</label>
+          <div id="current-table-display" class="current-table-display">
+            <span id="current-table-text">Kies een tafel</span>
+            <i class="fas fa-chevron-down table-selector-arrow"></i>
+          </div>
+          <!-- 隐藏的下拉框，仅用于数据同步 -->
+          <select id="table-select" class="table-select-dropdown" style="display: none;">
+            <option value="">Kies een tafel</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- 桌号列表弹窗 -->
+    <div id="table-list-modal" class="table-list-modal" style="display: none;">
+      <div class="modal-overlay" id="table-modal-overlay"></div>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Kies een tafel</h3>
+          <button class="modal-close" id="table-modal-close">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="table-grid" id="table-grid">
+            <!-- 桌号将通过JavaScript动态加载 -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="restName" class="notranslate" style="display: none;"></div>
+    <div id="timer" class="notranslate" style="display: none;"></div>
+
+    <div id="limiet_eten" class="notranslate" style="display: none;"></div>
+    <div id="refreshURL" class="notranslate" style="display: none;"></div>
+    <div id="webhook" class="notranslate" style="display: none;"></div>
+    <div id="limiet_dessert" class="notranslate" style="display: none;"></div>
+    <div id="aantal_pers" class="notranslate" style="display: none;"></div>
+    <div id="lastInvoiceNum" class="notranslate" style="display: none;"></div>
+    <div id="maxTijd" class="notranslate" style="display: none;"></div>
+    <div id="eerste_ronde_tijd" class="notranslate" style="display: none;"></div>
+    <div id="pythonAuth" class="notranslate" style="display: none;"></div>
+    <div id="restNaam" class="notranslate" style="display: none;"></div>
+    <div id="tafelNummer" class="notranslate" style="display: none;"></div>
+    <div id="savedPin" class="notranslate" style="display: none;"></div>
+    <div id="webhookHealthUrl" class="notranslate" style="display: none;"></div>
+    <div id="tafelStatus" class="notranslate" style="display: none;"></div>
+    <div id="packageType" class="notranslate" style="display: none;">normal</div>
+  </header>
+
+
+  <main class="main-container flex-row">
+
+
+    <!-- //progress bar  -->
+    <div class="full-screen-overlay" id="overlay">
+      <div class="spinner"></div>
+    </div>
+    <div id="overlay-2" class="prevent-scroll"></div>
+
+    <section class="menu-payment grid">
+      <!-- Your menu and payment section content goes here -->
+      <div class="menu flex-row" id="menu">
+
+      </div>
+
+    </section>
+
+
+    <section class="order flex-column" id="mainBody">
+      <!-- Your order section content goes here -->
+      <article class="receipt flex-column" width="95vw">
+        <div class="company-info flex-column">
+          <!-- Restaurant logo -->
+          <img id="logo-img-receipt" src="" width="30%" height="auto">
+
+          <!-- Tafelnummer en factuurnummer -->
+          <p id="tafel-nummer">Tafel - </p>
+          <p id="invoice-number"></p>
+        </div>
+
+        <div class="receipt-details">
+          <table class="details-table">
+            <thead>
+              <tr>
+                <td class="dotted-border" colspan="5"></td>
+              </tr>
+              <tr>
+                <td class="empty-border" colspan="5"></td>
+              </tr>
+              <tr>
+                <th class="sku">SKU</th> <!-- New column for SKU -->
+                <th class="description">Product</th>
+                <th class="quantity">Aantal</th>
+                <th class="price">Prijs</th>
+                <!-- <th class="subtotal">Sub</th> -->
+                <th class="delete">Bewerk</th>
+              </tr>
+              <tr>
+                <td class="dotted-border" colspan="5"></td>
+              </tr>
+              <tr>
+                <td class="empty-border" colspan="5"></td>
+              </tr>
+            </thead>
+            <tbody id="receipt-details">
+
+            </tbody>
+          </table>
+        </div>
+        <div class="receipt-summary" style="display: none;">
+          <table class="summary-table">
+            <tbody class="summary-table" id="total-summary">
+              <tr>
+                <td class="dotted-border" colspan="5"></td>
+              </tr>
+              <tr>
+                <td class="empty-border" colspan="5"></td>
+              </tr>
+              <tr>
+                <td class="notranslate">Totaal excl.：</td>
+                <td id="subtotal-summary">€0.00</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="notranslate">Btw：</td>
+                <td id="tax-summary">€0.00</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="notranslate">Totaal incl.：</td>
+                <td class="to-pay" id="grandtotal-summary">€0.00</td>
+                <td></td>
+              </tr>
+            </tbody>
+            <tbody class="summary-table" id="payment-summary">
+              <tr>
+                <td>Invoer bedrag:</td>
+                <td id="amount-paid">€0.00</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td id="tip-change-title">Wisselgeld:</td>
+                <td id="tip-change-value"></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>Betaalmethode:</td>
+                <td id="payment-type"></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="dotted-border" colspan="5"></td>
+              </tr>
+              <tr>
+                <td class="empty-border" colspan="5"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+
+
+
+      <div class="orderBtn" id="orderBtns">
+        <button id="order-history" class="order-action-btn">
+          <i class="fas fa-archive"></i>
+          <span class="notranslate">Historie</span>
+        </button>
+        <button id="show-bevestig-btn" class="order-action-btn">
+          <i class="fas fa-archive"></i>
+          <span class="notranslate">Laaste order</span>
+        </button>
+        <button id="order-verzend" class="order-action-btn">
+          <i class="fas fa-paper-plane"></i>
+          <span class="notranslate">Verzend</span>
+        </button>
+        <button id="order-clear" class="order-action-btn" style="background:#661414;color:#fff;">
+          <i class="fas fa-trash-alt"></i>
+          <span class="notranslate">Leegmaken</span>
+        </button>
+      </div>
+
+
+
+
+      <!-- Dropdown menu for filtering -->
+
+      </div>
+
+
+
+
+
+
+
+
+      <div class="orderDataWindow  flex-column" id="orderHistoryFrame">
+        <!-- This div represents the order data window with the ID "orderHistoryFrame" -->
+        <p class="order-data-show" id="lastOrderPage"></p>
+        <!-- This paragraph element with the ID "lastOrderPage" displays the order data -->
+        <div class="close-paypad">
+          <!-- This div contains the close button for the order data window -->
+          <button class="btn" id="close-btn"><i class="fas fa-times" id="confirm-close"></i>afsluiten</button>
+          <!-- This button with the ID "confirm-close" serves as the close button for the order data window -->
+        </div>
+      </div>
+
+
+      <div class="payment grid" id="payment-overlay">
+        <!-- This div represents the payment overlay with the ID "payment-overlay" -->
+      </div>
+
+
+      <!-- this is the error message when ppl try to click on the order'verzend'button, while nothing was added -->
+      <!-- HTML for the message box -->
+      <div id="message-box"
+        style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: rgba(0, 0, 0, 0.8); color: white; padding: 10px; border-radius: 5px;">
+      </div>
+
+    </section>
+
+
+
+
+
+    <!-- Add this code inside the <body> section of your HTML file -->
+    <div id="message-container"></div>
+    <div id="message-container-notAdd"></div>
+
+
+    <!-- bevestiging, nadat heeft gedrukt op de knoop -->
+
+
+    <div class="receipt-footer flex-row" id="categorie">
+      <div class="submenu" id="foodSubMenu" style="display: none;"></div>
+      <div class="submenu" id="drinksSubMenu" style="display: none;"></div>
+
+      <!-- 一级按钮容器 -->
+      <a class="btn btn-outline-primary btn-lg active btn-menu btn-lvl1" href="#" role="button" aria-pressed="true"
+        data-target="foodSubMenu" id="btn-food-main">
+        Eten
+      </a>
+      <a class="btn btn-outline-primary btn-lg active btn-menu btn-lvl1" href="#" role="button" aria-pressed="true"
+        data-target="drinksSubMenu" id="btn-drink-main">
+        Dranken
+      </a>
+      <!-- 新增：Menu's 一级按钮（动态锁定到 exceptions 中的套餐） -->
+      <a class="btn btn-outline-primary btn-lg active btn-menu btn-lvl1" href="#" role="button" aria-pressed="true"
+        id="btn-service-main" data-target="serviceSubMenu" data-config-key="serviceCat">
+        Menu's
+      </a>
+      <div class="submenu" id="serviceSubMenu" style="display:none;"></div>
+    </div>
+
+    <!-- Level 1 Services Button -->
+    <!-- <a class="btn btn-outline-primary btn-lg active btn-menu btn-lvl1" id="service-btn" href="#<?=Cat18id?>"
+        role="button" aria-pressed="true">
+        <?=Knop_service?>
+      </a> -->
+    </div>
+
+
+
+
+
+
+
+
+    <div class="paypad flex-row" id="paypad">
+      <!-- This div represents the paypad section -->
+      <!-- This button with the ID "close-sale" serves as the confirmation button for the paypad section -->
+      <table class="button-table">
+        <tr>
+          <td>
+            <button class="paypad-btn span3-col btn btn-success" id="close-sale"
+              data-id="close-sale">Bevestigen</button>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <button class="paypad-btn span3-col btn btn-danger" id="verzend-close">Annuleren</button>
+          </td>
+
+        </tr>
+      </table>
+
+    </div>
+    <div id="paypad-overlay"></div>
+
+    <span id="searchIcon">&#128269;</span> <!-- Placeholder for magnifying lens icon -->
+    <div id="searchContainer" class="hidden">
+      <input type="text" id="searchBar" placeholder="Zoeken...">
+      <span id="closeSearch">&#10006;</span> <!-- Placeholder for close icon -->
+      <div id="searchResults" class="search-results"></div>
+    </div>
+
+
+
+
+    <!-- Button for order list -->
+    <button id="toggle-order-list" class="custom-btn">
+      <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-cart-check-fill"
+        viewBox="0 0 16 16">
+        <path
+          d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0m7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0m-1.646-7.646-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L8 8.293l2.646-2.647a.5.5 0 0 1 .708.708" />
+      </svg>
+    </button>
+
+    <!-- Button for toggling footer -->
+    <button id="toggle-footer-btn" class="custom-btn floating-button">
+      <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-square-half"
+        viewBox="0 0 16 16">
+        <path
+          d="M8 15V1h6a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1zm6 1a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2z" />
+      </svg>
+    </button>
+
+
+  </main>
+
+  <!-- ///////////////////////////////////////////////////////////////////////////////// -->
+
+  <div class="container" id="historyContainer">
+
+    <!-- ///////////////////the overlay to cover the screen when dorpdown option is selected////////////////////// -->
+    <div id="overlay-history">
+      <div class="loader"></div>
+    </div>
+
+    <!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+    <button class="btn" id="close-btn1"><i class="fas fa-times" id="history-close"></i></button>
+
+    <div class="history-details" id="history-panel">
+      <table class="history-table">
+        <div id="h3-heading">
+          <h5>Bestelgeschiedenis # - <span id="ronde"></span></h5>
+        </div>
+        <div id="time">
+          <p>Besteltijd: <span id="timestamp"></span> </P>
+        </div>
+        <thead>
+          <tr>
+            <th class="description">Naam</th>
+            <th class="quantity">Aantal</th>
+            <th class="price">Prijs</th>
+          </tr>
+        </thead>
+        <tbody id="history-details">
+          <!-- Table rows will be dynamically populated here -->
+        </tbody>
+      </table>
+    </div>
+    <div class="dropdown-container" id="orderHistories">
+      <label for="filter-dropdown">Bezig met laden van bestelgeschiedenis...</label>
+
+      <select id="filter-dropdown">
+        <!-- Options will be dynamically populated -->
+      </select>
+    </div>
+  </div>
+
+  <!-- 员工版本不需要翻译功能 -->
+  <!-- 员工版本不需要Google翻译元素 -->
+  <script src="sku-error-guard.js"></script>
+  <script src="firebase-loader.js"></script>
+  <script src="class-order-js.js"></script>
+  <script src="script-js.js"></script>
+  <script src="javascript.js"></script>
+  <script src="food-info-js.js"></script>
+  <!-- 员工版本不需要翻译功能 -->
+  <script src="verificatie-realtimeListener-js.js"></script>
+  <script src="sendingOrder.js"></script>
+  <script src="whatsapp-module.js"></script>
+
+  <script>
+    // Staff Table Selector Logic
+    document.addEventListener('DOMContentLoaded', function () {
+      const tableSelect = document.getElementById('table-select');
+      const selectedTableDisplay = document.getElementById('selected-table-display');
+      const currentTableText = document.getElementById('current-table-text');
+      const tableSelectorContent = document.getElementById('table-selector-content');
+      const tableListModal = document.getElementById('table-list-modal');
+      const tableModalOverlay = document.getElementById('table-modal-overlay');
+      const tableModalClose = document.getElementById('table-modal-close');
+      const tableGrid = document.getElementById('table-grid');
+
+      // Debug: 检查所有元素是否正确获取
+      console.log('🔍 检查DOM元素:');
+      console.log('- tableSelect:', tableSelect);
+      console.log('- selectedTableDisplay:', selectedTableDisplay);
+      console.log('- currentTableText:', currentTableText);
+      console.log('- tableSelectorContent:', tableSelectorContent);
+      console.log('- tableListModal:', tableListModal);
+      console.log('- tableModalOverlay:', tableModalOverlay);
+      console.log('- tableModalClose:', tableModalClose);
+      console.log('- tableGrid:', tableGrid);
+
+      // Debug: 创建全局测试函数
+      window.testTableModal = function() {
+        console.log('🧪 测试桌号选择弹窗...');
+        showTableModal();
+      };
+
+      window.debugTableSelector = function() {
+        console.log('🔍 调试桌号选择器状态:');
+        console.log('tableSelectorContent:', tableSelectorContent);
+        console.log('tableListModal:', tableListModal);
+        console.log('元素可见性:');
+        if (tableSelectorContent) {
+          const style = window.getComputedStyle(tableSelectorContent);
+          console.log('- display:', style.display);
+          console.log('- visibility:', style.visibility);
+          console.log('- opacity:', style.opacity);
+          console.log('- pointer-events:', style.pointerEvents);
+        }
+      };
+
+      // Initialize default table number immediately
+      const tafelNummerElement = document.getElementById('tafelNummer');
+      if (tafelNummerElement && !tafelNummerElement.textContent.trim()) {
+        tafelNummerElement.textContent = "1";
+      }
+
+      const tafelNummerDisplay = document.getElementById('tafel-nummer');
+      if (tafelNummerDisplay && !tafelNummerDisplay.textContent.trim()) {
+        tafelNummerDisplay.textContent = "Tafel - 1";
+      }
+
+      // Initialize current table display
+      if (currentTableText) {
+        currentTableText.textContent = "Tafel 1";
+      }
+      
+      // 初始化左上角桌号显示
+      const currentTableNumberElement = document.getElementById('current-table-number');
+      if (currentTableNumberElement) {
+        currentTableNumberElement.textContent = "1";
+      }
+
+      // Table data storage for modal
+      let tablesData = {};
+
+      // Show table list modal
+      function showTableModal() {
+        console.log('📋 显示桌号列表弹窗');
+        console.log('tableListModal 元素:', tableListModal);
+        console.log('当前 display 样式:', tableListModal ? tableListModal.style.display : 'element not found');
+        
+        if (!tableListModal) {
+          console.error('❌ 找不到桌号列表弹窗元素！');
+          return;
+        }
+        
+        loadTablesIntoModal();
+        tableListModal.style.display = 'block';
+        document.body.style.overflow = 'hidden'; // 防止背景滚动
+        
+        console.log('✅ 弹窗显示完成，新的 display 样式:', tableListModal.style.display);
+      }
+
+      // Hide table list modal
+      function hideTableModal() {
+        console.log('📋 隐藏桌号列表弹窗');
+        tableListModal.style.display = 'none';
+        document.body.style.overflow = ''; // 恢复滚动
+      }
+
+      // Load tables into modal grid
+      async function loadTablesIntoModal() {
+        try {
+          console.log('📋 加载桌号到弹窗网格...');
+          
+          if (!window.AppConfig?.configReady) {
+            console.warn('⚠️ AppConfig not ready, using fallback data');
+            loadFallbackTablesIntoModal();
+            return;
+          }
+
+          const database = firebase.database();
+          const restaurantPath = AppConfig.restName;
+          
+          const snapshot = await database.ref(`${restaurantPath}/tafel`).once('value');
+          const firebaseTablesData = snapshot.val();
+          
+          if (firebaseTablesData) {
+            tablesData = firebaseTablesData;
+            await renderTableGrid(firebaseTablesData);
+          } else {
+            loadFallbackTablesIntoModal();
+          }
+        } catch (error) {
+          console.error('❌ 加载弹窗桌号失败:', error);
+          loadFallbackTablesIntoModal();
+        }
+      }
+
+      // Render table grid in modal
+      async function renderTableGrid(firebaseTablesData) {
+        tableGrid.innerHTML = ''; // 清空现有内容
+        
+        const tableIds = Object.keys(firebaseTablesData);
+        console.log('📋 渲染桌号网格:', tableIds.length, 'tables');
+        
+        // 排序桌号
+        tableIds.sort((a, b) => {
+          const aMatch = a.match(/\d+/);
+          const bMatch = b.match(/\d+/);
+          if (aMatch && bMatch) {
+            return parseInt(aMatch[0]) - parseInt(bMatch[0]);
+          }
+          return a.localeCompare(b);
+        });
+
+        for (const tableId of tableIds) {
+          const displayId = tableId.replace('Tafel-', '');
+          const tableData = firebaseTablesData[tableId];
+          
+          // Create table item
+          const tableItem = document.createElement('div');
+          tableItem.className = 'table-item';
+          tableItem.dataset.tableId = displayId;
+          
+          // Check if this table is currently selected
+          const currentSelection = tableSelect.value;
+          if (currentSelection === displayId) {
+            tableItem.classList.add('selected');
+          }
+          
+          // Check for history
+          let hasHistory = false;
+          let historyCount = 0;
+          try {
+            const historyData = tableData?.orders?.history;
+            if (historyData && Object.keys(historyData).length > 0) {
+              hasHistory = true;
+              historyCount = Object.keys(historyData).length;
+              tableItem.classList.add('has-history');
+            }
+          } catch (error) {
+            console.warn(`⚠️ Error checking history for table ${displayId}:`, error);
+          }
+          
+          // Create table content
+          tableItem.innerHTML = `
+            <div class="table-number">Tafel ${displayId}</div>
+            <div class="table-status">${tableData?.Status || 'open'}</div>
+            ${hasHistory ? `<div class="history-badge">${historyCount}</div>` : ''}
+          `;
+          
+          // Add click handler
+          tableItem.addEventListener('click', () => {
+            console.log('📋 选择桌号:', displayId);
+            selectTableFromModal(displayId);
+          });
+          
+          tableGrid.appendChild(tableItem);
+        }
+        
+        console.log('✅ 桌号网格渲染完成');
+      }
+
+      // Fallback tables for modal
+      function loadFallbackTablesIntoModal() {
+        console.log('📋 使用备用桌号方案加载到弹窗');
+        tableGrid.innerHTML = '';
+        
+        for (let i = 1; i <= 30; i++) {
+          const tableItem = document.createElement('div');
+          tableItem.className = 'table-item';
+          tableItem.dataset.tableId = i.toString();
+          
+          // Check if selected
+          const currentSelection = tableSelect.value;
+          if (currentSelection === i.toString()) {
+            tableItem.classList.add('selected');
+          }
+          
+          tableItem.innerHTML = `
+            <div class="table-number">Tafel ${i}</div>
+            <div class="table-status">open</div>
+          `;
+          
+          tableItem.addEventListener('click', () => {
+            selectTableFromModal(i.toString());
+          });
+          
+          tableGrid.appendChild(tableItem);
+        }
+      }
+
+      // Select table from modal
+      async function selectTableFromModal(tableId) {
+        console.log('📋 从弹窗选择桌号:', tableId);
+        
+        // Update hidden dropdown for data consistency
+        tableSelect.value = tableId;
+        
+        // Update visible display
+        if (currentTableText) {
+          currentTableText.textContent = `Tafel ${tableId}`;
+        }
+        
+        // 更新左上角桌号显示
+        const currentTableNumberElement = document.getElementById('current-table-number');
+        if (currentTableNumberElement) {
+          currentTableNumberElement.textContent = tableId;
+        }
+        
+        // Update global table number
+        window.tableNumber = tableId;
+
+        // Update DOM element that other scripts depend on
+        const tafelNummerElement = document.getElementById('tafelNummer');
+        if (tafelNummerElement) {
+          tafelNummerElement.textContent = tableId;
+        }
+
+        // Update visible table display
+        const tafelNummerDisplay = document.getElementById('tafel-nummer');
+        if (tafelNummerDisplay) {
+          tafelNummerDisplay.textContent = `Tafel - ${tableId}`;
+        }
+
+        // Update AppConfig for staff mode
+        if (window.AppConfig && window.AppConfig.updateTableId) {
+          window.AppConfig.updateTableId(tableId);
+        }
+
+        // ✅ 调用 setupRealtimeListeners 来更新 invoice-number 和其他监听器
+        if (window.__orderInstance && typeof window.__orderInstance.setupRealtimeListeners === 'function') {
+          console.log('🔄 重新设置实时监听器以更新 invoice-number...');
+          try {
+            await window.__orderInstance.setupRealtimeListeners();
+            console.log('✅ 实时监听器重新设置完成');
+          } catch (error) {
+            console.error('❌ 设置实时监听器失败:', error);
+          }
+        } else {
+          console.warn('⚠️ Order instance 或 setupRealtimeListeners 方法未找到');
+        }
+
+        // Trigger any existing table change handlers
+        if (window.onTableChange) {
+          window.onTableChange(tableId);
+        }
+
+        console.log('✅ Staff selected table:', tableId, '- Updated all references and listeners');
+        
+        // Close modal
+        hideTableModal();
+      }
+
+      // Event listeners for modal
+      if (tableSelectorContent) {
+        tableSelectorContent.addEventListener('click', (e) => {
+          // 阻止点击事件冒泡到下拉框
+          e.preventDefault();
+          e.stopPropagation();
+          console.log('🖱️ 点击了桌号选择器，准备显示弹窗...');
+          console.log('tableSelectorContent element:', tableSelectorContent);
+          console.log('tableListModal element:', tableListModal);
+          showTableModal();
+        });
+        
+        // 备用点击方法
+        tableSelectorContent.onclick = function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          console.log('🖱️ 备用点击方法触发...');
+          showTableModal();
+        };
+        
+        console.log('✅ 桌号选择器点击事件监听器已绑定');
+      } else {
+        console.error('❌ 找不到桌号选择器元素！');
+      }
+
+      if (tableModalOverlay) {
+        tableModalOverlay.addEventListener('click', hideTableModal);
+      }
+      
+      if (tableModalClose) {
+        tableModalClose.addEventListener('click', hideTableModal);
+      }
+
+      // 调试按钮事件
+      const debugModalBtn = document.getElementById('debug-modal-btn');
+      if (debugModalBtn) {
+        debugModalBtn.addEventListener('click', () => {
+          console.log('🔴 调试按钮被点击，强制显示弹窗');
+          showTableModal();
+        });
+      }
+
+      // ESC key to close modal
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && tableListModal.style.display === 'block') {
+          hideTableModal();
+        }
+      });
+
+      // Populate table options dynamically from Firebase
+      async function loadTablesFromFirebase() {
+        try {
+          // 等待Firebase配置准备就绪
+          console.log('⏳ 等待Firebase配置就绪...');
+          await waitForAppConfig();
+          
+          const database = firebase.database();
+          const restaurantPath = AppConfig.restName; // 可以根据需要动态获取
+          
+          console.log('📞 请求Firebase桌号数据:', `${restaurantPath}/tafel`);
+          const snapshot = await database.ref(`${restaurantPath}/tafel`).once('value');
+          const tablesDataFromDB = snapshot.val();
+          
+          if (tablesDataFromDB) {
+            tablesData = tablesDataFromDB; // Store for modal use
+            
+            // 清空现有选项（除了默认选项）
+            const options = tableSelect.querySelectorAll('option:not([value=""])');
+            options.forEach(option => option.remove());
+            
+            // 从Firebase数据创建桌号选项
+            const tableIds = Object.keys(tablesDataFromDB);
+            console.log('📋 从Firebase加载的桌号:', tableIds);
+            
+            // 按桌号排序（数字和字符串混合排序）
+            tableIds.sort((a, b) => {
+              const aMatch = a.match(/\d+/);
+              const bMatch = b.match(/\d+/);
+              if (aMatch && bMatch) {
+                return parseInt(aMatch[0]) - parseInt(bMatch[0]);
+              }
+              return a.localeCompare(b);
+            });
+            
+            // 创建选项并检查历史记录
+            for (const tableId of tableIds) {
+              const option = document.createElement('option');
+              const displayId = tableId.replace('Tafel-', ''); // 移除前缀显示
+              option.value = displayId;
+              
+              // 检查该桌是否有历史订单记录
+              try {
+                const historySnapshot = await database.ref(`${restaurantPath}/tafel/${tableId}/orders/history`).once('value');
+                const historyData = historySnapshot.val();
+                
+                if (historyData && Object.keys(historyData).length > 0) {
+                  // 有历史记录，高亮显示
+                  option.textContent = `🔥 Tafel ${displayId} (${Object.keys(historyData).length} orders)`;
+                  option.style.background = 'linear-gradient(90deg, #ffd700, #ffed4a)';
+                  option.style.color = '#d97706';
+                  option.style.fontWeight = 'bold';
+                  option.setAttribute('data-has-history', 'true');
+                  console.log(`📈 Tafel ${displayId} has ${Object.keys(historyData).length} orders in history`);
+                } else {
+                  // 没有历史记录，普通显示
+                  option.textContent = `Tafel ${displayId}`;
+                  option.setAttribute('data-has-history', 'false');
+                }
+              } catch (historyError) {
+                console.warn(`⚠️ 无法获取Tafel ${displayId}的历史记录:`, historyError);
+                option.textContent = `Tafel ${displayId}`;
+                option.setAttribute('data-has-history', 'false');
+              }
+              
+              tableSelect.appendChild(option);
+            }
+            
+            console.log(`✅ 成功加载 ${tableIds.length} 个桌号选项（含历史记录检查）`);
+          } else {
+            console.warn('⚠️ Firebase中未找到桌号数据，使用备用方案');
+            loadFallbackTables();
+          }
+        } catch (error) {
+          console.error('❌ 加载桌号列表失败:', error);
+          loadFallbackTables();
+        }
+      }
+      
+      // 备用桌号加载函数
+      function loadFallbackTables() {
+        console.log('📋 使用备用桌号方案 (1-30)');
+        for (let i = 1; i <= 30; i++) {
+          const option = document.createElement('option');
+          option.value = i;
+          option.textContent = `Tafel ${i}`;
+          tableSelect.appendChild(option);
+        }
+      }
+      
+      // 等待自定义token认证完成 - 使用员工系统的认证方式
+      async function waitForCustomTokenAuthentication() {
+        try {
+          // 1. 等待AppConfig准备就绪
+          console.log('⏳ 等待AppConfig加载完成...');
+          await waitForAppConfig();
+          
+          // 2. 获取Python认证URL
+          const pythonAuthUrl = window.AppConfig?.pythonAuth;
+          if (!pythonAuthUrl) {
+            throw new Error('Missing pythonAuth URL in AppConfig');
+          }
+          
+          // 3. 获取自定义token
+          console.log('🔑 获取自定义token...', pythonAuthUrl);
+          const response = await fetch(pythonAuthUrl, { method: 'GET' });
+          
+          if (!response.ok) {
+            throw new Error(`Failed to get auth token: ${response.statusText}`);
+          }
+          
+          const data = await response.json();
+          if (!data.token) {
+            throw new Error('No token received from backend');
+          }
+          
+          // 4. 使用自定义token登录Firebase
+          console.log('🔑 使用自定义token登录Firebase...');
+          await firebase.auth().signInWithCustomToken(data.token);
+          
+          console.log('✅ Firebase自定义token认证成功');
+          
+        } catch (error) {
+          console.error('❌ 自定义token认证失败:', error);
+          throw error;
+        }
+      }
+      
+      // 等待AppConfig加载完成
+      function waitForAppConfig() {
+        return new Promise((resolve) => {
+          const checkConfig = () => {
+            if (window.AppConfig?.configReady) {
+              resolve();
+            } else {
+              setTimeout(checkConfig, 100);
+            }
+          };
+          checkConfig();
+        });
+      }
+      
+      // 延迟调用动态加载函数，等待firebase-loader.js完成初始化
+      setTimeout(() => {
+        loadTablesFromFirebase();
+      }, 2000); // 给Firebase配置和认证更多时间
+
+      // Handle table selection (keeping the change listener for backward compatibility)
+      tableSelect.addEventListener('change', async function () {
+        const selectedTable = this.value;
+        if (selectedTable && currentTableText) {
+          // Update visible display
+          currentTableText.textContent = `Tafel ${selectedTable}`;
+          
+          // 更新左上角桌号显示
+          const currentTableNumberElement = document.getElementById('current-table-number');
+          if (currentTableNumberElement) {
+            currentTableNumberElement.textContent = selectedTable;
+          }
+          
+          // Update global table number
+          window.tableNumber = selectedTable;
+
+          // Update DOM element that other scripts depend on
+          const tafelNummerElement = document.getElementById('tafelNummer');
+          if (tafelNummerElement) {
+            tafelNummerElement.textContent = selectedTable;
+          }
+
+          // Update visible table display
+          const tafelNummerDisplay = document.getElementById('tafel-nummer');
+          if (tafelNummerDisplay) {
+            tafelNummerDisplay.textContent = `Tafel - ${selectedTable}`;
+          }
+
+          // Update AppConfig for staff mode
+          if (window.AppConfig && window.AppConfig.updateTableId) {
+            window.AppConfig.updateTableId(selectedTable);
+          }
+
+          // ✅ 调用 setupRealtimeListeners 来更新 invoice-number 和其他监听器
+          if (window.__orderInstance && typeof window.__orderInstance.setupRealtimeListeners === 'function') {
+            console.log('🔄 重新设置实时监听器以更新 invoice-number...');
+            try {
+              await window.__orderInstance.setupRealtimeListeners();
+              console.log('✅ 实时监听器重新设置完成');
+            } catch (error) {
+              console.error('❌ 设置实时监听器失败:', error);
+            }
+          } else {
+            console.warn('⚠️ Order instance 或 setupRealtimeListeners 方法未找到');
+          }
+
+          // Trigger any existing table change handlers
+          if (window.onTableChange) {
+            window.onTableChange(selectedTable);
+          }
+
+          console.log('✅ Staff selected table:', selectedTable, '- Updated all references and listeners');
+        } else if (!selectedTable) {
+          // Reset display
+          if (currentTableText) {
+            currentTableText.textContent = "Kies een tafel";
+          }
+          
+          // 重置左上角桌号显示为默认值1
+          const currentTableNumberElement = document.getElementById('current-table-number');
+          if (currentTableNumberElement) {
+            currentTableNumberElement.textContent = "1";
+          }
+          
+          window.tableNumber = null;
+
+          // Reset DOM elements
+          const tafelNummerElement = document.getElementById('tafelNummer');
+          if (tafelNummerElement) {
+            tafelNummerElement.textContent = "1"; // Default to table 1
+          }
+
+          const tafelNummerDisplay = document.getElementById('tafel-nummer');
+          if (tafelNummerDisplay) {
+            tafelNummerDisplay.textContent = `Tafel - 1`;
+          }
+
+          // Reset to default table 1 for staff mode
+          if (window.AppConfig && window.AppConfig.updateTableId) {
+            window.AppConfig.updateTableId("1");
+          }
+
+          // ✅ 重置到默认桌号时也重新设置监听器
+          if (window.__orderInstance && typeof window.__orderInstance.setupRealtimeListeners === 'function') {
+            console.log('🔄 重置到默认桌号，重新设置实时监听器...');
+            try {
+              await window.__orderInstance.setupRealtimeListeners();
+              console.log('✅ 默认桌号实时监听器设置完成');
+            } catch (error) {
+              console.error('❌ 默认桌号监听器设置失败:', error);
+            }
+          }
+        }
+      });
+      
+      // 实时监听订单变化并更新桌号高亮显示
+      function setupTableHistoryListener() {
+        if (!window.AppConfig || !window.AppConfig.configReady) {
+          setTimeout(setupTableHistoryListener, 1000);
+          return;
+        }
+        
+        const database = firebase.database();
+        const restaurantPath = AppConfig.restName;
+        
+        console.log('🔄 设置桌号历史监听器...');
+        
+        // 监听所有桌号的订单历史变化
+        database.ref(`${restaurantPath}/tafel`).on('child_changed', async (snapshot) => {
+          const tableId = snapshot.key;
+          const displayId = tableId.replace('Tafel-', '');
+          
+          // 查找对应的选项元素
+          const option = tableSelect.querySelector(`option[value="${displayId}"]`);
+          if (option) {
+            try {
+              // 重新检查历史记录
+              const historySnapshot = await database.ref(`${restaurantPath}/tafel/${tableId}/orders/history`).once('value');
+              const historyData = historySnapshot.val();
+              
+              if (historyData && Object.keys(historyData).length > 0) {
+                // 更新为有历史记录的样式
+                option.textContent = `🔥 Tafel ${displayId} (${Object.keys(historyData).length} orders)`;
+                option.style.background = 'linear-gradient(90deg, #ffd700, #ffed4a)';
+                option.style.color = '#d97706';
+                option.style.fontWeight = 'bold';
+                option.setAttribute('data-has-history', 'true');
+                console.log(`🔥 Tafel ${displayId} 历史记录已更新: ${Object.keys(historyData).length} orders`);
+              } else {
+                // 恢复为无历史记录的样式
+                option.textContent = `Tafel ${displayId}`;
+                option.style.background = '';
+                option.style.color = '';
+                option.style.fontWeight = '';
+                option.setAttribute('data-has-history', 'false');
+                console.log(`📋 Tafel ${displayId} 历史记录已清除`);
+              }
+            } catch (error) {
+              console.error(`❌ 更新Tafel ${displayId}历史状态失败:`, error);
+            }
+          }
+        });
+      }
+      
+      // 启动历史监听器
+      setTimeout(setupTableHistoryListener, 4000);
+    });
+  </script>
+
+
+
+  <!-- FAB (moved to end of body for Safari/iOS compatibility) -->
+  <div id="fab-dial" class="fab-container" aria-label="Acties" aria-expanded="false">
+    <button id="fab-main" class="fab-main" aria-haspopup="true" aria-controls="fab-actions">
+      <span class="fab-icon" id="fab-icon-plus">＋</span>
+      <span class="fab-icon hidden" id="fab-icon-close">✕</span>
+    </button>
+    <ul id="fab-actions" class="fab-actions" role="menu">
+      <li role="menuitem">
+        <button class="fab-action" data-action="history" title="Historie">
+          <i class="fas fa-archive"></i>
+        </button>
+        <span class="fab-label">Historie</span>
+      </li>
+      <li role="menuitem">
+        <button class="fab-action" data-action="last" title="Laatste order">
+          <i class="fas fa-history"></i>
+        </button>
+        <span class="fab-label">Laatste</span>
+      </li>
+      <li role="menuitem">
+        <button class="fab-action fab-send" data-action="send" title="Verzend" style="position:relative;">
+          <i class="fas fa-paper-plane"></i>
+          <span id="fab-send-badge" class="fab-badge">0</span>
+        </button>
+        <span class="fab-label fab-label-strong">Verzend</span>
+      </li>
+      <li role="menuitem">
+        <button class="fab-action danger" data-action="clear" title="Leegmaken">
+          <i class="fas fa-trash"></i>
+        </button>
+        <span class="fab-label">Leegmaken</span>
+      </li>
+    </ul>
+  </div>
+  <script>
+    // FAB: keep above footer and safe area on iOS
+    (function () {
+      const dial = document.getElementById('fab-dial');
+      const main = document.getElementById('fab-main');
+      const plus = document.getElementById('fab-icon-plus');
+      const close = document.getElementById('fab-icon-close');
+      const footer = document.querySelector('.receipt-footer, #categorie'); // adjust if needed
+
+      function setFabBottom() {
+        const footerH = footer ? footer.getBoundingClientRect().height : 0;
+        // 16px gap + safe area + footer height
+        const px = 16 + footerH;
+        dial.style.setProperty('--fab-bottom', `calc(env(safe-area-inset-bottom) + ${px}px)`);
+      }
+
+      // Toggle actions
+      main?.addEventListener('click', () => {
+        const expanded = dial.getAttribute('aria-expanded') === 'true';
+        dial.setAttribute('aria-expanded', String(!expanded));
+        plus?.classList.toggle('hidden', !expanded === true);
+        close?.classList.toggle('hidden', expanded === true);
+      });
+
+      // Recompute on layout changes
+      ['load', 'resize', 'orientationchange'].forEach(ev => window.addEventListener(ev, setFabBottom));
+      if ('ResizeObserver' in window && footer) new ResizeObserver(setFabBottom).observe(footer);
+      setFabBottom();
+
+      // Optional: close when tapping outside actions
+      document.addEventListener('click', (e) => {
+        if (!dial.contains(e.target) && dial.getAttribute('aria-expanded') === 'true') {
+          dial.setAttribute('aria-expanded', 'false');
+          plus.classList.remove('hidden');
+          close.classList.add('hidden');
+        }
+      }, true);
+    })();
+
+    // 套餐类型切换功能
+    (function () {
+      const packageTypeSelector = document.getElementById('packageTypeSelector');
+      const packageTypeDisplay = document.getElementById('packageType');
+
+      if (packageTypeSelector && packageTypeDisplay) {
+        // 监听选择器变化
+        packageTypeSelector.addEventListener('change', function () {
+          const newPackageType = this.value;
+          packageTypeDisplay.textContent = newPackageType;
+
+          console.log('🍽️ 套餐类型切换为:', newPackageType);
+
+          // 重新加载菜单以应用新的价格
+          if (window.order && typeof window.order.loadMenuFromFirebase === 'function') {
+            console.log('🔄 重新加载菜单以应用套餐价格...');
+            window.order.loadMenuFromFirebase();
+          }
+        });
+
+        // 初始化显示
+        packageTypeDisplay.textContent = packageTypeSelector.value;
+      }
+    })();
+  </script>
+
+  <!-- 悬浮控制面板按钮 -->
+  <button id="open-control-panel" class="floating-control-panel-btn" title="打开控制面板">
+    <i class="fas fa-cogs"></i>
+    <span class="btn-text">Controlepaneel</span>
+  </button>
+
+  <!-- 控制面板弹窗 -->
+  <div id="control-panel-overlay" class="control-panel-overlay">
+    <div id="control-panel-modal" class="control-panel-modal">
+      <div class="control-panel-header">
+        <h3><i class="fas fa-cogs"></i> Tafelcontrole</h3>
+        <button id="close-control-panel" class="close-btn">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      
+      <!-- Quick Reset Button at Top -->
+      <div class="quick-reset-container">
+        <button id="quick-reset-button" class="quick-reset-btn" title="Tafel snel vrijmaken - Reset alle instellingen">
+          <svg class="reset-icon" viewBox="0 0 24 24" width="18" height="18">
+            <path fill="currentColor" d="M17.65,6.35C16.2,4.9 14.21,4 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20C15.73,20 18.84,17.45 19.73,14H17.65C16.83,16.33 14.61,18 12,18A6,6 0 0,1 6,12A6,6 0 0,1 12,6C13.66,6 15.14,6.69 16.22,7.78L13,11H20V4L17.65,6.35Z"/>
+          </svg>
+          <span class="reset-text">Snel Reset Tafel</span>
+        </button>
+      </div>
+      
+      <div class="control-panel-content">
+        <!-- 当前桌台信息 -->
+        <div class="control-section">
+          <h4><i class="fas fa-info-circle"></i> Huidige tafelgegevens</h4>
+          <div class="control-info">
+            <span id="current-table-info">Tafel - 1</span>
+          </div>
+        </div>
+        
+        <!-- 人数调整 -->
+        <div class="control-section">
+          <h4><i class="fas fa-users"></i> Aantal personen aanpassen</h4>
+          <div class="control-group">
+            <label for="person-count">Huidige aantal personen:</label>
+            <div class="number-input-group">
+              <button id="decrease-persons" class="number-btn">-</button>
+              <input type="number" id="person-count" min="1" max="20" value="1">
+              <button id="increase-persons" class="number-btn">+</button>
+            </div>
+            <button id="update-persons" class="action-btn update-btn">
+              <i class="fas fa-save"></i> Aantal personen bijwerken
+            </button>
+          </div>
+        </div>
+        
+        <!-- 套餐控制 -->
+        <div class="control-section">
+          <h4><i class="fas fa-utensils"></i> Menu beheer</h4>
+          <div class="control-group">
+            <label for="menu-count">Aantal menu's:</label>
+            <div class="number-input-group">
+              <button id="decrease-menu" class="number-btn">-</button>
+              <input type="number" id="menu-count" min="0" max="10" value="0">
+              <button id="increase-menu" class="number-btn">+</button>
+            </div>
+            <button id="update-menu-count" class="action-btn update-btn">
+              <i class="fas fa-save"></i> Aantal menu's bijwerken
+            </button>
+          </div>
+          
+          <div class="control-group">
+            <label>All-in menu status:</label>
+            <div class="cp-toggle-wrapper">
+              <label class="cp-toggle-switch">
+                <input type="checkbox" id="all-in-toggle" class="cp-toggle-input">
+                <span class="cp-toggle-slider"></span>
+              </label>
+              <span id="all-in-status" class="cp-status-text">Uit</span>
+            </div>
+          </div>
+          
+          <div class="control-group">
+            <label>Menu type:</label>
+            <div class="cp-toggle-wrapper">
+              <label class="cp-toggle-switch">
+                <input type="checkbox" id="menu-type-toggle" class="cp-toggle-input">
+                <span class="cp-toggle-slider"></span>
+              </label>
+              <span id="menu-type-status" class="cp-status-text">Dinner</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 订单管理 -->
+        <div class="control-section">
+          <h4><i class="fas fa-list"></i> Bestelbeheer</h4>
+          <div class="control-group">
+            <button id="clear-order-history" class="action-btn danger-btn">
+              <i class="fas fa-history"></i> Bestelgeschiedenis wissen
+            </button>
+          </div>
+        </div>
+        
+        <!-- 重置功能 -->
+        <div class="control-section">
+          <h4><i class="fas fa-undo"></i> Reset functies</h4>
+          <div class="control-group">
+            <button id="reset-order-number" class="action-btn warning-btn">
+              <i class="fas fa-hashtag"></i> Bestelnummer resetten naar 1
+            </button>
+            <button id="reset-all-settings" class="action-btn danger-btn">
+              <i class="fas fa-exclamation-triangle"></i> Alle instellingen resetten
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="control-panel-footer">
+        <button id="close-control-panel-footer" class="action-btn cancel-btn">
+          <i class="fas fa-times"></i> Sluiten
+        </button>
+      </div>
+    </div>
+  </div>
+
+</body>
+
+</html>

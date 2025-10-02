@@ -1,0 +1,16 @@
+{
+  "adminPassword": "7788",
+  "dessertLimiet": 2,
+  "etenLimiet": 4,
+  "maxTijd": 600,
+  "requirePinToClose": true,
+  "restNaam": "Asian Boulevard",
+  "round_time": 15,
+  "timeLimit": true,
+  "titleImage": "https://cislink.nl/asianboulervard/ab-logo-gold.webp",
+  "translateOn": false,
+  "whatsappBerichtAan": false,
+  "whatsappRecipients": [
+    "31619971032"
+  ]
+}

@@ -1,0 +1,1413 @@
+
+  // Assuming orderInstance is defined elsewhere in your code
+// You can use the Order class defined in order.js here
+const orderInstance = new Order();
+
+//////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////
+// Function to format timestamp to HH:MM format
+function formatTimestamp(timestamp) {
+    const date = new Date(timestamp);
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    return `${hours}:${minutes}`;
+}
+
+
+
+
+function formatCurrency(amount) {
+    // Format amount with euros symbol and two decimal places
+    return `€${amount.toFixed(2)}`;
+}
+//////////////////////////////////////////////////
+//progress bar script. to start with value 15 in Index.html file, header section
+function progressbarShow() {
+ 
+
+  // Show the overlay and spinner
+  $("#overlay").show();
+
+}
+
+
+
+/////////////////////////////////////////////////////////////////////
+document.getElementById("order-history").addEventListener("click", async () => {
+    try {
+        const RestNameUrl = window.AppConfig?.restName || 'asianboulevard';
+        const tafelId = `Tafel-${document.getElementById("tafelNummer").innerText.trim()}`;
+        const historyPath = `${RestNameUrl}/tafel/${tafelId}/orders/history/`;
+
+        // Fetch all order history from Firebase
+        const orderHistorySnapshot = await firebase.database().ref(historyPath).once("value");
+        const orderHistoryData = orderHistorySnapshot.val();
+
+        if (orderHistoryData) {
+            // Transform the order history data into an array for rendering
+            const orderHistoryArray = Object.values(orderHistoryData).map(order => ({
+                invoiceNumber: order.invoiceNumber,
+                date: order.date,
+                orderDetails: order.orderDetails
+            }));
+
+            // Render the order history table
+            renderOrderHistory(orderHistoryArray);
+        } else {
+          showNotification("Geen bestellingen gevonden!", "error", 2500);
+        }
+    } catch (error) {
+        console.error("Error fetching order history:", error);
+  showNotification('Fout bij het ophalen van de bestelgeschiedenis.', 'error', 4000);
+    }
+});
+
+
+
+
+
+
+///////////////////////////////////////////////////////////////////////////////
+
+
+ // Function to calculate remaining time based on timer text, for wachttijd tussen elke ronde
+  function calculateRemainingTime(timerText) {
+    // Log the timer text for debugging
+    console.log('Timer text:', timerText);
+
+    // 替换原 calculateRemainingTime
+    // 先识别 "MM:SS"
+    let m = timerText.match(/(\d{1,2}):(\d{2})/);
+    if (m) {
+      const minutes = parseInt(m[1], 10);
+      const seconds = parseInt(m[2], 10);
+      return (minutes * 60 + seconds) * 1000;
+    }
+    // 兼容旧格式 "Xm Ys"
+    m = timerText.match(/(\d+)m\s+(\d+)s/);
+    if (m) {
+      const minutes = parseInt(m[1], 10);
+      const seconds = parseInt(m[2], 10);
+      return (minutes * 60 + seconds) * 1000;
+    }
+    return NaN; // 解析失败
+  }
+
+//als de timmer nog loopt, dan gaan wij kijken of er eten wordt besteld
+
+function checkTimerRunning() {
+    return new Promise(function(resolve, reject) {
+        var timerText = document.getElementById('timer').textContent.trim();
+        var timerIsRunning = timerText !== "U kunt nu bestellen";
+        var remainingTime = calculateRemainingTime(timerText); // Calculate remaining time
+        resolve({ timerIsRunning: timerIsRunning, remainingTime: remainingTime, timerText: timerText});
+    });
+}
+
+$('#order-verzend').click(async function () {
+  const timerText = $('#timer').text().trim(); // Get the current timer text
+
+  if (!areItemsAdded()) {
+    showMessage('U heeft nog niets toegevoegd!');
+    return;
+  }
+
+  // 员工版本完全跳过时间限制检查
+  if (window.AppConfig && AppConfig.timeLimit === false) {
+    console.log("✅ 员工版本：跳过所有时间限制检查，直接发送订单");
+    proceedToSendOrder();
+    return;
+  }
+
+  // 只有当config.timeLimit为true时才启用timer限制
+  if (window.AppConfig && AppConfig.timeLimit) {
+    if (timerText !== 'U kunt nu bestellen') {
+      // 检查订单内容
+      const tafelNr = document.getElementById('tafelNummer').innerText.trim();
+      const orderData = await fetchOrderGroupsFromFirebase(tafelNr);
+      if (!orderData || orderData.length === 0) {
+        showMessage('Er is geen bestelling gevonden.');
+        return;
+      }
+      const groepGeenItems = orderData.filter(item => item.group === "geen");
+      const groepOtherItems = orderData.filter(item => item.group !== "geen");
+      if (groepGeenItems.length > 0 && groepOtherItems.length > 0) {
+        // 混合订单，弹窗让用户确认只发送饮料
+        await showDrinksOnlyModal(async (confirmed) => {
+          if (confirmed) {
+            await sendOnlyDrinksOrder(groepGeenItems);
+            await removeSentDrinksFromOrder(groepGeenItems);
+          }
+        });
+// 动态生成荷兰语饮料下单提示弹窗
+function showDrinksOnlyModal(callback) {
+  // 移除已存在的弹窗
+  const existing = document.getElementById('drinks-only-modal');
+  if (existing) existing.remove();
+  // 创建遮罩
+  const overlay = document.createElement('div');
+  overlay.id = 'drinks-only-modal';
+  overlay.style.position = 'fixed';
+  overlay.style.top = 0;
+  overlay.style.left = 0;
+  overlay.style.width = '100vw';
+  overlay.style.height = '100vh';
+  overlay.style.background = 'rgba(0,0,0,0.35)';
+  overlay.style.zIndex = 99999; // 确保高于所有UI
+  overlay.style.display = 'flex';
+  overlay.style.alignItems = 'center';
+  overlay.style.justifyContent = 'center';
+  // 创建内容框
+  const box = document.createElement('div');
+  box.style.background = '#fff';
+  box.style.borderRadius = '10px';
+  box.style.boxShadow = '0 2px 16px #0003';
+  box.style.padding = '32px 24px 20px 24px';
+  box.style.maxWidth = '90vw';
+  box.style.width = '340px';
+  box.style.textAlign = 'center';
+  // 消息
+  const msg = document.createElement('div');
+  msg.innerHTML = 'Op dit moment kunt u alleen drankjes bestellen.<br>Wilt u alleen de drankjes nu bestellen?';
+  msg.style.fontSize = '1.18rem';
+  msg.style.marginBottom = '28px';
+  msg.style.color = '#222';
+  msg.style.fontWeight = '500';
+  msg.style.lineHeight = '1.5';
+  msg.style.padding = '0 2px';
+  // 按钮区
+  const btnWrap = document.createElement('div');
+  btnWrap.style.display = 'flex';
+  btnWrap.style.justifyContent = 'space-between';
+  btnWrap.style.gap = '18px';
+  // 取消按钮
+  const cancelBtn = document.createElement('button');
+  cancelBtn.textContent = 'Annuleren';
+  cancelBtn.style.flex = '1';
+  cancelBtn.style.padding = '10px 0';
+  cancelBtn.style.background = '#f5f5f5';
+  cancelBtn.style.border = '1px solid #ccc';
+  cancelBtn.style.borderRadius = '6px';
+  cancelBtn.style.fontSize = '1rem';
+  cancelBtn.style.color = '#444';
+  cancelBtn.style.transition = 'background 0.2s';
+  cancelBtn.onmouseover = () => cancelBtn.style.background = '#e0e0e0';
+  cancelBtn.onmouseout = () => cancelBtn.style.background = '#f5f5f5';
+  cancelBtn.onclick = () => {
+    overlay.remove();
+    if (callback) callback(false);
+  };
+  // 确定按钮
+  const okBtn = document.createElement('button');
+  okBtn.id = 'drinks-only-confirm-btn'; // 添加特定ID
+  okBtn.textContent = 'Bevestigen';
+  okBtn.style.flex = '1';
+  okBtn.style.padding = '10px 0';
+  okBtn.style.background = 'linear-gradient(90deg,#ffd700 60%,#ffb300 100%)';
+  okBtn.style.border = 'none';
+  okBtn.style.borderRadius = '6px';
+  okBtn.style.fontSize = '1rem';
+  okBtn.style.color = '#fff'; // 改为白色字体
+  okBtn.style.fontWeight = 'bold';
+  okBtn.style.textShadow = '0 1px 2px rgba(0,0,0,0.3)'; // 添加文字阴影增强对比度
+  okBtn.style.boxShadow = '0 2px 8px #ffd70033';
+  okBtn.style.transition = 'background 0.2s';
+  okBtn.onmouseover = () => okBtn.style.background = 'linear-gradient(90deg,#ffe066 60%,#ffb300 100%)';
+  okBtn.onmouseout = () => okBtn.style.background = 'linear-gradient(90deg,#ffd700 60%,#ffb300 100%)';
+  okBtn.onclick = () => {
+    overlay.remove();
+    if (callback) callback(true);
+  };
+  // 组装
+  btnWrap.appendChild(cancelBtn);
+  btnWrap.appendChild(okBtn);
+  box.appendChild(msg);
+  box.appendChild(btnWrap);
+  overlay.appendChild(box);
+  document.body.appendChild(overlay);
+  // 动画效果
+  box.animate([
+    { transform: 'scale(0.95)', opacity: 0 },
+    { transform: 'scale(1)', opacity: 1 }
+  ], { duration: 180, fill: 'forwards' });
+  // ESC关闭
+  setTimeout(() => {
+    overlay.focus();
+    overlay.onkeydown = (e) => {
+      if (e.key === 'Escape') {
+        overlay.remove();
+        if (callback) callback(false);
+      }
+    };
+  }, 100);
+  // 禁止滚动
+  document.body.style.overflow = 'hidden';
+  overlay.addEventListener('remove', () => {
+    document.body.style.overflow = '';
+    });
+  }
+      return;
+      } else if (groepGeenItems.length > 0 && groepOtherItems.length === 0) {
+      // 只有饮料，允许下单
+      proceedToSendOrder();
+      return;
+      } else {
+      // 没有饮料，只有菜品，阻止下单
+      showNotification('U kunt pas bestellen als de wachttijd voorbij is.', 'error', 2500);
+      return;
+      }
+    }
+    }
+
+    // 其余条件判断
+    const { conditionMet, message } = await isConditionMet();
+    if (!conditionMet) {
+    showNotification(message, 'error', 2500);
+    return;
+    }
+
+  // ✅ If all conditions are met, proceed to send the order
+  proceedToSendOrder();
+// 只发送饮料订单
+async function sendOnlyDrinksOrder(drinkItems) {
+  // 只发送非 groep1/groep3/groep4 的项目（即饮料和允许的其他组）
+  const tafelNr = document.getElementById('tafelNummer').innerText.trim();
+  const restName = window.AppConfig?.restName || 'asianboulevard';
+  const tafelId = `Tafel-${tafelNr}`;
+  const dbRef = firebase.database().ref(`${restName}/tafel/${tafelId}/orders/orderlist`);
+  const snapshot = await dbRef.once('value');
+  const data = snapshot.val() || {};
+  // 只保留 group 不是 groep1/groep3/groep4 的项
+  const allowedData = {};
+  for (const [sku, item] of Object.entries(data)) {
+    if (!["groep1", "groep3", "groep4"].includes(item.group)) {
+      allowedData[sku] = item;
+    }
+  }
+  await dbRef.set(allowedData);
+  proceedToSendOrder();
+}
+
+// 从订单列表中移除已发送饮料
+async function removeSentDrinksFromOrder(drinkItems) {
+  // 这里假设每个 drinkItem 有 sku 字段
+  const drinkSkus = drinkItems.map(item => item.sku);
+  // 获取当前订单
+  const tafelNr = document.getElementById('tafelNummer').innerText.trim();
+  const restName = window.AppConfig?.restName || 'asianboulevard';
+  const tafelId = `Tafel-${tafelNr}`;
+  const dbRef = firebase.database().ref(`${restName}/tafel/${tafelId}/orders/orderlist`);
+  const snapshot = await dbRef.once('value');
+  const data = snapshot.val();
+  if (!data) return;
+  // 移除饮料项
+  for (const sku of drinkSkus) {
+    if (data[sku]) {
+      delete data[sku];
+    }
+  }
+  await dbRef.set(Object.keys(data).length > 0 ? data : null);
+  // 刷新UI
+  if (window.updateQuantityLabelsFromFirebase) window.updateQuantityLabelsFromFirebase();
+}
+});
+
+async function isConditionMet() {
+    try {
+        // ✅ **Check if the timer is running**
+        const timerData = await checkTimerRunning();
+        console.log("🕒 Timer status:", timerData);
+
+        // ✅ **Fetch order data from Firebase**
+        const tafelNr = document.getElementById('tafelNummer').innerText.trim();
+        const orderData = await fetchOrderGroupsFromFirebase(tafelNr);
+
+        if (!orderData || orderData.length === 0) {
+            console.log("⚠️ No order data found.");
+            return { conditionMet: false, message: "Er is geen bestelling gevonden." };
+        }
+
+        const totalItems = orderData.length;
+        const groepGeenItems = orderData.filter(item => item.group === "geen").length;
+        const groepOtherItems = orderData.filter(item => ["groep1", "groep3", "groep4"].includes(item.group)).length;
+
+        console.log(`📊 Total items: ${totalItems}`);
+        console.log(`✅ GroepGeen items: ${groepGeenItems}`);
+        console.log(`❌ Groep1, 3, 4 items: ${groepOtherItems}`);
+
+        // ✅ **Condition 1: If all items are from groepGeen, allow ordering immediately**
+        if (groepGeenItems === totalItems && totalItems > 0) {
+            console.log("✅ All items are from groepGeen. Allowing order.");
+            return { conditionMet: true, message: "Uw bestelling wordt verwerkt." };
+        }
+
+           // ❌ **Condition 2: If there's a mix of groepGeen and other groups, do not allow**
+           if (timerData.timerIsRunning && groepGeenItems > 0 && groepOtherItems > 0) {
+              console.log("❌ Mix of groepGeen and other groups found. Order not allowed.");
+              return { conditionMet: false, message: "U kunt nog geen bestelling plaatsen met een combinatie van dranken en andere gerechten wanneer de wachttijd nog niet verstreken is." };
+          }
+          if (!timerData.timerIsRunning && groepGeenItems > 0 && groepOtherItems > 0) {
+              console.log("❌ Mix of groepGeen and other groups found. Order not allowed.");
+              return { conditionMet: true, message: "" };
+          }
+
+        // ✅ **Condition 3: If only groep1, groep3, groep4 items are present, check timer**
+        if (!timerData.timerIsRunning && groepOtherItems === totalItems && totalItems > 0) {
+            console.log("✅ Timer finished, and only groep1, groep3, groep4 items. Allowing order.");
+            return { conditionMet: true, message: "Uw bestelling wordt verwerkt." };
+        }
+
+        // ❌ **Condition 4: If groep1, groep3, groep4 items exist but timer is running, block order**
+        if (timerData.timerIsRunning && groepOtherItems > 0) {
+            console.log("❌ Order contains groep1, groep3, or groep4, but the timer is still running. Order not allowed.");
+            return { conditionMet: false, message: "U kunt pas bestellen als de wachttijd verstreken is." };
+        }
+
+        console.log("⚠️ No conditions met, defaulting to false.");
+        return { conditionMet: false, message: "Er is een fout opgetreden bij het controleren van uw bestelling." };
+
+    } catch (error) {
+        console.error('❌ Error checking conditions:', error);
+        return { conditionMet: false, message: "Er is een fout opgetreden bij het controleren van uw bestelling." };
+    }
+}
+
+// ✅ **Function to Fetch Order Groups from Firebase**
+async function fetchOrderGroupsFromFirebase(tafelNr) {
+    try {
+        // ✅ Corrected Firebase Path
+        const restName = AppConfig?.restName || 'asianboulevard';
+//        const restName = document.getElementById("restName").textContent;  
+        if (!restName) {
+            console.error("❌ Restaurant name not found.");
+            return [];
+        }
+        const tafelId = `Tafel-${tafelNr}`;
+        const dbRef = firebase.database().ref(`${restName}/tafel/${tafelId}/orders/orderlist`);
+        const snapshot = await dbRef.once('value');
+        const data = snapshot.val();
+
+        if (!data) {
+            console.log("⚠️ No order data found.");
+            return [];
+        }
+
+        // ✅ Convert Firebase object into an array of items
+        const orderItems = Object.values(data).map(item => ({
+            description: item.description || "Onbekend gerecht",
+            group: item.group || "geen" // Default to 'geen' if missing
+        }));
+
+        console.log("🛠️ Corrected Firebase Order Data:", orderItems);
+        return orderItems;
+
+    } catch (error) {
+        console.error("❌ Error fetching order data from Firebase:", error);
+        return [];
+    }
+}
+
+
+
+
+
+
+function formatTime(milliseconds) {
+    // Convert milliseconds to seconds
+    var totalSeconds = Math.floor(milliseconds / 1000);
+    
+    // Calculate minutes and seconds
+    var minutes = Math.floor(totalSeconds / 60);
+    var seconds = totalSeconds % 60;
+    
+    // Format minutes and seconds with leading zeros if necessary
+    var formattedMinutes = minutes < 10 ? "0" + minutes : minutes;
+    var formattedSeconds = seconds < 10 ? "0" + seconds : seconds;
+    console.log(formattedMinutes + ":" + formattedSeconds)
+    // Return formatted time string
+    return formattedMinutes + ":" + formattedSeconds;
+}
+
+
+
+function proceedToSendOrder(drinksOnly = false) {
+    // 如果是只发饮料，临时只显示饮料在 paypad
+    if (drinksOnly && window.__sendingDrinksOnly) {
+      // 你可以在这里自定义只发饮料的下单逻辑
+      // 例如只渲染饮料到 paypad，或直接调用 closeSale 只传饮料
+      // 这里只是简单弹出支付界面，具体实现可根据后端接口调整
+      // 例如 window.orderInstance.sendPartialOrder(window.__sendingDrinksOnly)
+      // 暂时复用原有逻辑
+    }
+    $('#paypad').show(); // Show the paypad div
+    $('#paypad-overlay').show();
+    $('#close-sale').show();   
+}
+
+ function areItemsAdded() {
+    return $('#receipt-details tr').length > 0; // Check if there are any rows in the order list
+  }
+
+
+
+
+
+
+$(document).ready(function() {
+  // Toggle visibility of the categorie section and the overlay
+  $('#toggle-footer-btn').click(function() {
+    $('#categorie').toggle();   // Toggle the visibility of the categorie section
+    $('#overlay-2').toggle();   // Toggle the visibility of the overlay
+  });
+
+  // Event listener for the overlay to close the categorie section and hide the overlay itself
+  $('#overlay-2').click(function() {
+    $('#categorie').hide();  // Hide the categorie section
+    $(this).hide();          // Hide the overlay
+  });
+
+  // Toggle visibility of submenus for btn-lvl1
+  $('.btn-lvl1').click(function() {
+    // Hide all submenus
+    $('.submenu').hide();
+    // Show the submenu corresponding to the clicked button
+    var targetSubMenu = $(this).attr('data-target');
+    $('#' + targetSubMenu).toggle();
+    // Hide overlay-2 when a category button is clicked
+    $('#overlay-2').hide();
+  });
+  // 额外处理food/drink/service分类按钮点击时隐藏overlay-2
+  $('#btn-food-main, #btn-drink-main, #btn-service-main').click(function() {
+    $('#overlay-2').hide();
+  });
+
+  // 统一处理二级按钮点击：隐藏子菜单、类别容器与遮罩层（使用事件委托，支持动态添加）
+  $(document).off('click.hideSubmenu', '.btn-lvl2').on('click.hideSubmenu', '.btn-lvl2', function(e){
+    $('.submenu').hide();
+    $('#categorie').hide();
+    $('#overlay-2').hide();
+  });
+
+  // Toggle Cat4-Cat8 submenu when Cat3 button is clicked
+  $('#cat3').click(function(event) {
+    event.preventDefault(); // Prevent default action of the link
+    $('#lvl3SubMenu').toggle(); // Toggle the display of the Cat4-Cat8 submenu
+  });
+
+  // Add click event listener to level 3 buttons (btn-lvl3)
+  $('.btn-lvl3').click(function() {
+    // Add any further functionality for level 3 buttons here if needed
+    $('#lvl3SubMenu').hide();
+     $('#categorie').hide();
+     $('#overlay-2').toggle(); 
+  });
+
+    // ===== 动态填充 Menu's 一级分类（基于 exceptions 中的套餐） =====
+  function initServiceCategoryFromConfig() {
+      console.log('🔄 initServiceCategoryFromConfig 被调用...');
+      console.log('📊 检查点:', {
+        AppConfig: !!window.AppConfig,
+        configReady: window.AppConfig?.configReady,
+        database: !!window.database || !!firebase.database,
+        buttonElement: !!document.getElementById('btn-service-main')
+      });
+      
+      // 等待 AppConfig 就绪
+      if (!window.AppConfig || !window.AppConfig.configReady) {
+        console.log('⏳ AppConfig未就绪，60ms后重试...');
+        setTimeout(initServiceCategoryFromConfig, 60);
+        return;
+      }
+      
+      console.log('✅ AppConfig就绪，调用initDynamicMenusButton...');
+      // 新的动态Menu's逻辑
+      initDynamicMenusButton();
+  }
+
+  // 新函数：动态初始化Menu's按钮，基于exceptions数据
+  async function initDynamicMenusButton() {
+    try {
+      console.log('🔄 开始初始化动态Menu\'s按钮...');
+      
+      const restName = window.AppConfig?.restName || document.getElementById('restName')?.textContent || 'asianboulevard';
+      console.log('📡 使用餐厅名称:', restName);
+      
+      // 正确路径：使用 menukaart 和 menukaart/exceptions
+      const exceptionsRef = database.ref(`${restName}/menukaart/exceptions`);
+      const menuRef = database.ref(`${restName}/menukaart`);
+      
+      console.log('📥 开始获取Firebase数据...');
+      
+      // 获取exceptions数据
+      const exceptionsSnapshot = await exceptionsRef.once("value");
+      const exceptionsData = exceptionsSnapshot.val();
+      
+      // 获取菜单数据
+      const menuSnapshot = await menuRef.once("value");
+      const menuData = menuSnapshot.val();
+      
+      console.log('📋 Exceptions数据:', exceptionsData ? `找到${Object.keys(exceptionsData).length}个异常项` : '未找到');
+      console.log('🍽️ Menu数据:', menuData ? `找到${Object.keys(menuData).length}个菜单项` : '未找到');
+      
+      if (!exceptionsData || !menuData) {
+        // 如果没有套餐数据，隐藏按钮
+        console.log('❌ 缺少数据，隐藏Menu\'s按钮');
+        $('#btn-service-main').hide();
+        return;
+      }
+      
+      // 判断当前时间（工作日/周末）
+      const currentDay = new Date().getDay();
+      const isWeekend = (currentDay >= 5 || currentDay === 0); // Friday=5, Saturday=6, Sunday=0
+      
+      // 查找当前可用的套餐
+      let availableMenuId = null;
+      let availableMenuName = null;
+      
+      for (const sku of Object.keys(exceptionsData)) {
+        const exceptionData = exceptionsData[sku];
+        const reason = exceptionData?.reason || "";
+        const menuItem = menuData[sku];
+        
+        if (!menuItem || menuItem.status !== "beschikbaar") continue;
+        
+        // 根据时间匹配套餐
+        let isCurrentlyAvailable = false;
+        if (isWeekend) {
+          // 周末：显示包含"weekend"的套餐或不包含"doordeweeks"的通用套餐
+          isCurrentlyAvailable = reason.includes("weekend") || !reason.includes("doordeweeks");
+        } else {
+          // 工作日：显示包含"doordeweeks"的套餐或不包含"weekend"的通用套餐
+          isCurrentlyAvailable = reason.includes("doordeweeks") || !reason.includes("weekend");
+        }
+        
+        if (isCurrentlyAvailable) {
+          availableMenuId = sku;
+          availableMenuName = menuItem.description || `Menu ${sku}`;
+          break; // 找到第一个匹配的套餐就停止
+        }
+      }
+      
+      const $btn = $('#btn-service-main');
+      const $wrap = $('#serviceSubMenu');
+      
+      if (availableMenuId && availableMenuName) {
+        // 找到可用套餐，设置按钮
+        const displayName = isWeekend ? 
+          `Weekend Menu's` : 
+          `Doordeweeks Menu's`;
+        
+        $btn.text(displayName);
+        $btn.attr('data-menu-target', availableMenuId);
+        $wrap.remove(); // 不需要子菜单，直接跳转
+        
+        // 设置直接跳转到套餐
+        $btn.attr('href', `#${availableMenuId}`);
+        
+        // 添加点击事件
+        $btn.off('click.dynamicMenu').on('click.dynamicMenu', function(e) {
+          e.preventDefault();
+          
+          // 关闭分类面板
+          $('#overlay-2').hide();
+          $('#categorie').hide();
+          
+          // 滚动到目标套餐
+          const targetElement = document.getElementById(availableMenuId);
+          if (targetElement) {
+            targetElement.scrollIntoView({ 
+              behavior: 'smooth', 
+              block: 'start' 
+            });
+            
+            // 高亮显示目标元素
+            $(targetElement).addClass('highlight-flash');
+            setTimeout(() => {
+              $(targetElement).removeClass('highlight-flash');
+            }, 2000);
+            
+            console.log(`🎯 跳转到套餐: ${availableMenuName} (ID: ${availableMenuId})`);
+          }
+        });
+        
+        $btn.show();
+        console.log(`✅ 动态Menu's按钮已设置: ${displayName} -> ${availableMenuName} (${availableMenuId})`);
+        
+      } else {
+        // 没有找到可用套餐，隐藏按钮
+        $btn.hide();
+        console.log('⚠️ 未找到当前可用的套餐，Menu\'s按钮已隐藏');
+        console.log('📊 分析详情:', {
+          isWeekend: isWeekend,
+          totalExceptions: Object.keys(exceptionsData).length,
+          availableInMenu: Object.keys(exceptionsData).filter(sku => menuData[sku]?.status === "beschikbaar").length
+        });
+      }
+      
+    } catch (error) {
+      console.error('❌ 初始化动态Menu\'s按钮时出错:', error);
+      console.error('🔍 错误详情:', {
+        errorMessage: error.message,
+        errorStack: error.stack,
+        restName: document.getElementById('restName')?.textContent,
+        configReady: window.AppConfig?.configReady
+      });
+      $('#btn-service-main').hide();
+    }
+  }
+
+  // 供外部（firebase-loader.js）重试调用
+  window.initServiceCategoryFromConfig = initServiceCategoryFromConfig;
+  window.initDynamicMenusButton = initDynamicMenusButton;
+  
+  // 延迟初始化，确保所有依赖都加载完毕
+  document.addEventListener('DOMContentLoaded', function() {
+    console.log('🔄 DOM加载完成，开始初始化服务按钮...');
+    // 等待更长时间确保Firebase配置完成
+    setTimeout(initServiceCategoryFromConfig, 3000);
+  });
+
+  // Service button functionality
+  $('#service-btn').click(function() {
+    $('#categorie').hide();
+    $('#overlay-2').toggle(); 
+  });
+});
+
+// === FAB wiring (mobile) ===
+document.addEventListener('DOMContentLoaded', () => {
+  const fabContainer = document.getElementById('fab-dial');
+  const fabMain = document.getElementById('fab-main');
+  const plusIcon = document.getElementById('fab-icon-plus');
+  const closeIcon = document.getElementById('fab-icon-close');
+  if (!fabContainer || !fabMain) return;
+  // Enable no-trigger mode (hide the plus button; actions controlled elsewhere)
+  fabContainer.classList.add('no-trigger');
+
+  const toggleFab = () => {
+    const expanded = fabContainer.getAttribute('aria-expanded') === 'true';
+    const next = !expanded;
+    fabContainer.setAttribute('aria-expanded', String(next));
+    if (next) {
+      plusIcon.classList.add('hidden');
+      closeIcon.classList.remove('hidden');
+      fabMain.classList.add('open');
+    } else {
+      closeIcon.classList.add('hidden');
+      plusIcon.classList.remove('hidden');
+      fabMain.classList.remove('open');
+    }
+  };
+
+  fabMain.addEventListener('click', (e) => { e.preventDefault(); toggleFab(); });
+  // In no-trigger mode we don't need the click on fabMain; keep for safety, but hidden.
+
+  fabContainer.querySelectorAll('.fab-action').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const action = btn.getAttribute('data-action');
+      // Delegate to existing buttons to reuse logic/UI side effects
+      switch(action){
+        case 'history': document.getElementById('order-history')?.click(); break;
+        case 'last': document.getElementById('show-bevestig-btn')?.click(); break;
+        case 'send': document.getElementById('order-verzend')?.click(); break;
+        case 'clear': document.getElementById('order-clear')?.click(); break;
+      }
+      // auto close after action
+      fabContainer.setAttribute('aria-expanded', 'false');
+      closeIcon.classList.add('hidden');
+      plusIcon.classList.remove('hidden');
+      fabMain.classList.remove('open');
+    });
+  });
+
+  // Close FAB if clicking outside
+  document.addEventListener('click', (e) => {
+    // Skip closing if click originated from toggle-order-list (we may be auto-opening) or skip flag active
+    const skipUntil = window._fabSkipCloseUntil || 0;
+    if (Date.now() < skipUntil) return;
+    if (e.target && (e.target.id === 'toggle-order-list' || e.target.closest('#toggle-order-list'))) return;
+    if (!fabContainer.contains(e.target) && fabContainer.getAttribute('aria-expanded')==='true') {
+      fabContainer.setAttribute('aria-expanded','false');
+      closeIcon.classList.add('hidden');
+      plusIcon.classList.remove('hidden');
+      fabMain.classList.remove('open');
+    }
+  });
+});
+
+
+
+
+
+
+
+document.getElementById("show-bevestig-btn").addEventListener("click", async function () {
+    const RestNameUrl = window.AppConfig?.restName || 'asianboulevard';
+    const tafelId = `Tafel-${document.getElementById("tafelNummer").innerText.trim()}`;
+    const historyPath = `${RestNameUrl}/tafel/${tafelId}/orders/history/`;
+
+    try {
+        // Fetch the last order from Firebase
+        const lastOrderSnapshot = await firebase.database().ref(historyPath).orderByKey().limitToLast(1).once("value");
+        const lastOrderData = lastOrderSnapshot.val();
+
+        if (lastOrderData) {
+            const lastOrderKey = Object.keys(lastOrderData)[0]; // Get the key of the last order
+            const orderDetails = lastOrderData[lastOrderKey].orderDetails;
+
+            // Render the order details
+            renderOrderDetails(lastOrderKey, orderDetails);
+        } else {
+            showNotification("U heeft nog niets besteld.", "error", 2500);
+        }
+    } catch (error) {
+        console.error("Error fetching last order:", error);
+  showNotification('Fout bij het ophalen van de laatste bestelling.', 'error', 4000);
+    }
+});
+
+
+function renderOrderDetails(orderKey, orderDetails) {
+    // Check if the container already exists and remove it
+    const existingContainer = document.getElementById("order-history-container");
+    if (existingContainer) {
+        existingContainer.remove();
+    }
+
+    // Create a new fixed-position div to hold the table
+    const container = document.createElement("div");
+    container.id = "order-history-container";
+    container.style.position = "fixed";
+    container.style.top = "50%";
+    container.style.left = "50%";
+    container.style.transform = "translate(-50%, -50%)";
+    container.style.width = "90%";
+    container.style.maxWidth = "700px";
+    container.style.maxHeight = "70%";
+    container.style.overflowY = "auto";
+    container.style.backgroundColor = "#fff";
+    container.style.border = "1px solid #ccc";
+    container.style.borderRadius = "10px";
+    container.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.2)";
+    container.style.padding = "20px";
+    container.style.zIndex = "10005";
+
+    // Add a close button
+    const closeButton = document.createElement("button");
+    closeButton.innerText = "Sluiten";
+    closeButton.style.position = "absolute";
+    closeButton.style.top = "10px";
+    closeButton.style.right = "10px";
+    closeButton.style.border = "none";
+    closeButton.style.backgroundColor = "#f44336";
+    closeButton.style.color = "#fff";
+    closeButton.style.padding = "5px 10px";
+    closeButton.style.borderRadius = "5px";
+    closeButton.style.cursor = "pointer";
+    closeButton.style.fontSize = "14px";
+    closeButton.addEventListener("click", () => {
+        container.remove();
+    });
+    container.appendChild(closeButton);
+
+    // Format the time using the first order item's time
+    const firstOrderTime = orderDetails[0][0]; // Assuming the first item has the relevant time
+    const tijdFormatted = new Date(firstOrderTime).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", hour12: false });
+
+    // Add a message with the formatted time at the top-left
+    const timeMessage = document.createElement("div");
+    timeMessage.innerText = `Om ${tijdFormatted}`;
+    timeMessage.style.fontSize = "16px";
+    timeMessage.style.fontWeight = "bold";
+    timeMessage.style.color = "#333";
+    timeMessage.style.marginBottom = "15px"; // Add spacing between message and table
+    container.appendChild(timeMessage);
+
+    // Create the table
+    const table = document.createElement("table");
+    table.style.width = "100%";
+    table.style.borderCollapse = "collapse";
+    table.style.fontFamily = "Arial, sans-serif";
+    table.style.fontSize = "14px";
+
+    // Table header
+    const thead = document.createElement("thead");
+    const headerRow = document.createElement("tr");
+    ["Aantal", "Naam", "Btw", "Prijs"].forEach(headerText => {
+        const th = document.createElement("th");
+        th.style.border = "1px solid #ddd";
+        th.style.padding = "8px";
+        th.style.backgroundColor = "#f2f2f2";
+        th.style.color = "#333";
+        th.style.textAlign = "left";
+        th.innerText = headerText;
+        headerRow.appendChild(th);
+    });
+    thead.appendChild(headerRow);
+    table.appendChild(thead);
+
+    // Table body
+    const tbody = document.createElement("tbody");
+    let total = 0;
+
+    orderDetails.forEach(orderItem => {
+        const row = document.createElement("tr");
+
+        // Extract data from the orderItem array
+        const quantity = orderItem[2];
+        const price = orderItem[3];
+        const taxRate = orderItem[4];
+        const productName = orderItem[5];
+
+        // Calculate tax and item total
+        const taxAmount = (price / (1 + taxRate)) * taxRate * quantity;
+        const itemTotal = price * quantity;
+        total += itemTotal;
+
+        // Append data to the row
+        [
+            quantity,
+            productName,
+            `€${taxAmount.toFixed(2)}`,
+            `€${itemTotal.toFixed(2)}`
+        ].forEach(cellData => {
+            const td = document.createElement("td");
+            td.style.border = "1px solid #ddd";
+            td.style.padding = "8px";
+            td.style.color = "#000"; // Ensure font color is black
+            td.style.textAlign = "left";
+            td.innerText = cellData;
+            row.appendChild(td);
+        });
+
+        tbody.appendChild(row);
+    });
+
+    // Append the total row
+    const totalRow = document.createElement("tr");
+    totalRow.style.fontWeight = "bold";
+
+    ["", "Totaal", "", `€${total.toFixed(2)}`].forEach((cellData, index) => {
+        const td = document.createElement("td");
+        td.style.border = "1px solid #ddd";
+        td.style.padding = "8px";
+        td.style.textAlign = index === 1 ? "right" : "left";
+        td.style.color = "#000"; // Ensure font color is black
+        td.innerText = cellData;
+        totalRow.appendChild(td);
+    });
+    tbody.appendChild(totalRow);
+
+    table.appendChild(tbody);
+
+    // Append table to container
+    container.appendChild(table);
+
+    // Append container to the body
+    document.body.appendChild(container);
+}
+
+function renderOrderHistory(orderHistory) {
+    // Check if the container already exists and remove it
+    const existingContainer = document.getElementById("order-history-container");
+    if (existingContainer) {
+        existingContainer.remove();
+    }
+
+    // Create a new fixed-position div to hold the table
+    const container = document.createElement("div");
+    container.id = "order-history-container";
+    container.style.position = "fixed";
+    container.style.top = "50%";
+    container.style.left = "50%";
+    container.style.transform = "translate(-50%, -50%)";
+    container.style.width = "95%";
+    container.style.maxWidth = "900px";
+    container.style.maxHeight = "80%";
+    container.style.overflowY = "auto";
+    container.style.backgroundColor = "#fff";
+    container.style.border = "1px solid #ccc";
+    container.style.borderRadius = "10px";
+    container.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.2)";
+    container.style.padding = "20px";
+    container.style.zIndex = "10005";
+
+    // Add a close button
+    const closeButton = document.createElement("button");
+    closeButton.innerText = "Sluiten";
+    closeButton.style.position = "absolute";
+    closeButton.style.top = "10px";
+    closeButton.style.right = "10px";
+    closeButton.style.border = "none";
+    closeButton.style.backgroundColor = "#f44336";
+    closeButton.style.color = "#fff";
+    closeButton.style.padding = "5px 10px";
+    closeButton.style.borderRadius = "5px";
+    closeButton.style.cursor = "pointer";
+    closeButton.style.fontSize = "14px";
+    closeButton.addEventListener("click", () => {
+        container.remove();
+    });
+    container.appendChild(closeButton);
+
+    // Calculate total amount across all orders
+    let totalAmount = 0;
+
+    // Create a title with total amount
+    const title = document.createElement("div");
+    title.innerText = `Totaal: €${totalAmount.toFixed(2)}`;
+    title.style.fontSize = "18px";
+    title.style.fontWeight = "bold";
+    title.style.color = "#333";
+    title.style.marginBottom = "15px"; // Add spacing between title and table
+    container.appendChild(title);
+
+    // Create the table
+    const table = document.createElement("table");
+    table.style.width = "100%";
+    table.style.borderCollapse = "collapse";
+    table.style.fontFamily = "Arial, sans-serif";
+    table.style.fontSize = "14px";
+
+    // Table header
+    const thead = document.createElement("thead");
+    const headerRow = document.createElement("tr");
+    ["Bestel#", "Tijd", "Aantal", "Naam", "Prijs"].forEach(headerText => {
+        const th = document.createElement("th");
+        th.style.border = "1px solid #ddd";
+        th.style.padding = "8px";
+        th.style.backgroundColor = "#f2f2f2";
+        th.style.color = "#333";
+        th.style.textAlign = "left";
+        th.innerText = headerText;
+        headerRow.appendChild(th);
+    });
+    thead.appendChild(headerRow);
+    table.appendChild(thead);
+
+    // Table body
+    const tbody = document.createElement("tbody");
+
+    let lastInvoiceNumber = null; // Track the last invoice number to determine when it changes
+    let isEven = false; // Alternate the row color for each invoice number
+
+    // Iterate through order history and populate the table
+    orderHistory.forEach(order => {
+        const invoiceNumber = order.invoiceNumber;
+        const formattedTime = new Date(order.date).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", hour12: false });
+
+        // Check if the invoice number has changed
+        if (lastInvoiceNumber !== invoiceNumber) {
+            isEven = !isEven; // Toggle the color scheme
+            lastInvoiceNumber = invoiceNumber;
+        }
+
+        // Iterate through each item in the order
+        order.orderDetails.forEach(item => {
+            const quantity = item[2];
+            const productName = item[5];
+            const price = item[3] * quantity;
+
+            totalAmount += price; // Add to the total amount
+
+            // Append data to the row
+            const row = document.createElement("tr");
+            row.style.backgroundColor = isEven ? "#ffffff" : "#f9f9f9"; // Alternate background colors
+            row.style.transition = "background-color 0.3s ease"; // Smooth transition
+
+            [invoiceNumber, formattedTime, quantity, productName, `€${price.toFixed(2)}`].forEach(cellData => {
+                const td = document.createElement("td");
+                td.style.border = "1px solid #ddd";
+                td.style.padding = "8px";
+                td.style.color = "#000"; // Ensure font color is black
+                td.style.textAlign = "left";
+                td.innerText = cellData;
+                row.appendChild(td);
+            });
+
+            tbody.appendChild(row);
+        });
+    });
+
+    table.appendChild(tbody);
+
+    // Update the title with the calculated total amount
+    title.innerText = `Totaal: €${totalAmount.toFixed(2)}`;
+
+    // Append table to container
+    container.appendChild(table);
+
+    // Append container to the body
+    document.body.appendChild(container);
+}
+
+
+
+
+
+function showMessage(message) {
+  $('#message-box').html(message).fadeIn(); // Set message content and show message box
+  setTimeout(function() {
+    $('#message-box').fadeOut(); // Hide message box after 3 seconds
+  }, 3000);
+}
+
+ 
+//取消下单的按钮
+$('#verzend-close').click(function() {
+
+$('#paypad').hide();
+$('#paypad-overlay').hide();
+
+}
+
+);
+
+
+
+$(document).on('click', '#close-sale', async function () {
+  try {
+    await waitForAppConfig();
+
+    const rest = AppConfig.restName || 'asianboulevard';
+    const tafelId = AppConfig.tafelId;
+    const savedPin = AppConfig.pincode;
+    const isStaffMode = AppConfig.isStaffMode;
+
+    console.log("🔍 Debug Info:");
+    console.log("  - rest:", rest);
+    console.log("  - tafelId (raw):", tafelId);
+    console.log("  - savedPin:", savedPin);
+    console.log("  - isStaffMode:", isStaffMode);
+
+    // 员工模式特殊处理：检查是否选择了台号
+    if (isStaffMode) {
+      if (!rest) {
+        console.error("❌ Restaurant name missing");
+        showNotification('Restaurantnaam ontbreekt, neem contact op met de beheerder.', 'error', 4000);
+        return;
+      }
+      
+      if (!tafelId) {
+        console.error("❌ Table ID missing - staff must select a table");
+        showNotification('Selecteer eerst een tafelnummer voordat u een bestelling indient.', 'error', 4000);
+        return;
+      }
+    } else {
+      // 非员工模式需要完整验证
+      if (!rest || !tafelId || !savedPin) {
+        console.error("❌ AppConfig incomplete: rest, tafelId or pincode missing.");
+        return;
+      }
+    }
+
+    // 确保tafelId格式正确 - 添加 "Tafel-" 前缀如果缺失
+    let formattedTafelId = tafelId;
+    if (!tafelId.startsWith('Tafel-')) {
+      formattedTafelId = `Tafel-${tafelId}`;
+    }
+    
+    console.log("🔍 Formatted tafelId:", formattedTafelId);
+
+    const db = firebase.database();
+    const tableRef = db.ref(`${rest}/tafel/${formattedTafelId}`);
+    
+    console.log("🔍 Firebase path:", `${rest}/tafel/${formattedTafelId}`);
+    
+    const snapshot = await tableRef.once('value');
+    const tableData = snapshot.val();
+
+    console.log("🔍 Table data from Firebase:", tableData);
+    console.log("🔍 Snapshot exists:", snapshot.exists());
+
+    if (!tableData) {
+      console.error("❌ No table data found for:", `${rest}/tafel/${formattedTafelId}`);
+      showNotification(`Tafelnummer ${formattedTafelId} gegevens niet gevonden, controleer of het tafelnummer correct is.`, 'error', 4000);
+      return;
+    }
+
+    const tafelPin = tableData.Pincode || "";
+    const status = tableData.Status || "gesloten";
+
+    console.log(`🔐 PIN check — uit URL: ${savedPin}, uit Firebase: ${tafelPin}, status: ${status}, staff mode: ${isStaffMode}`);
+
+    // 员工模式跳过PIN验证
+    if (!isStaffMode && String(savedPin) !== String(tafelPin)) {
+      showNotification(`Het wachtwoord is onjuist, u kunt op dit moment geen bestelling plaatsen!`, "error", 2500);
+      return;
+    }
+
+    // 员工模式跳过桌子状态检查
+    if (!isStaffMode && status !== 'open') {
+      showNotification(`Sorry, de tafel is nog niet geopend en bestellingen kunnen niet worden ontvangen!`, "error", 2500);
+      return;
+    }
+
+    const timerText = $('#timer').text().trim();
+    const invoiceNumText = $('#lastInvoiceNum').text().trim();
+    let InvoiceNumber = parseInt(invoiceNumText, 10);
+    if (isNaN(InvoiceNumber)) InvoiceNumber = 0;
+
+    console.log("✅ All checks passed, proceeding with order submission");
+
+    // ✅ 继续订单提交流程
+    order.closeSale(timerText, InvoiceNumber, AppConfig.tafelRaw);
+
+    $('#paypad').hide();
+    $('#paypad-overlay').hide();
+
+  } catch (error) {
+    console.error('🚨 Fout bij PIN-verificatie:', error);
+    showNotification('Er is een fout opgetreden bij het controleren van de pincode of tafelstatus.', 'error', 4000);
+  }
+});
+
+
+
+
+
+
+  $(function() {
+    $("#dialog").dialog({
+      modal: true,
+      width: 390,
+      height: 260,
+      autoOpen: false,
+      
+      show: {
+        effect: "blind",
+        duration: 800
+      },
+      hide: {
+        effect: "slide",
+        duration: 1200
+      }
+    });
+
+    $("#close-sale").on("click", function() {
+      $("#dialog").dialog("open");
+    });
+
+// Function to update the button styling based on the order list state
+function updateButtonStyle() {
+    const button = document.getElementById('toggle-order-list');
+    cartButton.classList.add('animate-button');
+    setTimeout(() => {
+        button.classList.remove('animate-button'); // Remove the class after the animation ends
+    }, 200); // Adjust the duration (in milliseconds) to match the animation duration
+}
+
+
+///////////////////////////////////////////////////
+
+// Helper: open FAB actions panel (mobile)
+function openFabActions(){
+  const fab = document.getElementById('fab-dial');
+  if(!fab) return; // desktop or FAB not present
+  fab.setAttribute('aria-expanded','true');
+  const plus = document.getElementById('fab-icon-plus');
+  const close = document.getElementById('fab-icon-close');
+  plus && plus.classList.add('hidden');
+  close && close.classList.remove('hidden');
+  const fabMain = document.getElementById('fab-main');
+  fabMain && fabMain.classList.add('open');
+  positionFabActions();
+}
+function closeFabActions(){
+  const fab = document.getElementById('fab-dial');
+  if(!fab) return;
+  fab.setAttribute('aria-expanded','false');
+  const plus = document.getElementById('fab-icon-plus');
+  const close = document.getElementById('fab-icon-close');
+  close && close.classList.add('hidden');
+  plus && plus.classList.remove('hidden');
+  const fabMain = document.getElementById('fab-main');
+  fabMain && fabMain.classList.remove('open');
+}
+
+$('#toggle-order-list').click(function() {
+  const wasHidden = $('#mainBody').is(':hidden');
+  $('#mainBody').toggle();
+  if (wasHidden && $('#mainBody').is(':visible')) {
+    scrollToElement('order-verzend');
+  // Set a short skip-close window to prevent immediate outside click collapse
+    window._fabSkipCloseUntil = Date.now() + 400;
+    // Directly mark expanded (no trigger mode)
+    const fab = document.getElementById('fab-dial');
+    if(fab){
+      fab.setAttribute('aria-expanded','true');
+    positionFabActions();
+    }
+  } else if(!wasHidden && $('#mainBody').is(':hidden')) {
+    closeFabActions(); // auto collapse when closing
+  }
+});
+
+
+$('#history-close').click(function() {
+$('#historyContainer').hide();
+});
+
+
+/////////////////////////////////////////////////////
+
+// === Dynamic positioning of fab-actions just below receipt, clamped to viewport ===
+function positionFabActions(){
+  const fab = document.getElementById('fab-dial');
+  const actions = document.getElementById('fab-actions');
+  const mainBody = document.getElementById('mainBody');
+  if(!fab || !actions || !mainBody || mainBody.style.display==='none') return;
+  const receipt = document.querySelector('#mainBody .receipt');
+  const gap = 12; // space below receipt
+  const minBottom = 10; // min distance from bottom edge
+  const panelH = actions.offsetHeight || 120;
+  fab.style.top=''; fab.style.bottom='';
+  if(receipt){
+    const rect = receipt.getBoundingClientRect();
+    const desiredTop = rect.bottom + gap;
+    if(desiredTop + panelH + minBottom <= window.innerHeight){
+      fab.style.top = desiredTop + 'px';
+      return;
+    }
+  }
+  fab.style.bottom = minBottom + 'px';
+}
+
+window.addEventListener('resize', positionFabActions);
+window.addEventListener('orientationchange', positionFabActions);
+// Mutation observer to reposition when order lines change
+const receiptDetailsEl = document.getElementById('receipt-details');
+if(receiptDetailsEl && window.MutationObserver){
+  const obs = new MutationObserver(()=> positionFabActions());
+  obs.observe(receiptDetailsEl,{childList:true});
+}
+
+
+// function attachDropdownEventListener() {
+//     // Add event listener for dropdown menu
+//     $(document).on("change", "#filter-dropdown", function() {
+//         const filterValue = this.value;
+//         // document.getElementById("overlay-history").style.display = "block";
+//         fetchFilteredData(filterValue);
+
+//     });
+// }
+
+
+
+
+
+///////////////////////////////////////////////////////////
+
+
+
+
+
+// Function to fetch order history data
+
+
+
+function scrollToElement(id) {
+    var element = document.getElementById(id);
+    element.scrollIntoView({ block: 'start', behavior: 'smooth' });
+}
+
+
+
+
+  });
+//////////////////////////////////////////////////////////////////////////////////////
+
+
+// function fetchOrderHistoryData(tafelNr) {
+//     console.log("Fetching order history data...");
+//     // Call Google Apps Script function to fetch order history data
+//     google.script.run.withSuccessHandler(function(data) {
+//         // Populate data into orderHistories div
+//         document.getElementById("orderHistories").innerHTML = data;
+        
+//         // Set orderHistories div to be visible
+//         document.getElementById("orderHistories").style.display = "block";
+        
+//         // Add event listener for dropdown menu
+//         document.getElementById("filter-dropdown").addEventListener("change", function() {
+//             const filterValue = this.value;
+//             $('#ronde').text(filterValue);
+//             fetchFilteredData(filterValue);
+//         });
+//     }).getOrderHistory(tafelNr);
+// }
+
+
+// Get a reference to the button
+const cartButton = document.getElementById('toggle-order-list');
+
+
+// Function to update the button styling based on the order list state
+function updateButtonStyle() {
+    const button = document.getElementById('toggle-order-list');
+    cartButton.classList.add('animate-button');
+    setTimeout(() => {
+        button.classList.remove('animate-button'); // Remove the class after the animation ends
+    }, 200); // Adjust the duration (in milliseconds) to match the animation duration
+}
+
+//////////////mainBody div wipe up close effects
+let startY;
+let touchMoved = false;
+
+document.addEventListener('touchstart', (e) => {
+  startY = e.touches[0].clientY;
+  touchMoved = false;
+});
+
+document.addEventListener('touchmove', (e) => {
+  let currentY = e.touches[0].clientY;
+  let diffY = currentY - startY;
+  if (diffY < -250) {
+    touchMoved = true;
+    document.getElementById('mainBody').style.display = 'none';
+  }
+});
+
+document.addEventListener('touchend', (e) => {
+  if (!touchMoved) {
+    let currentY = e.changedTouches[0].clientY;
+    let diffY = currentY - startY;
+    if (diffY > 400) { // Adjust this threshold value as needed
+      document.getElementById('mainBody').style.display = 'block';
+    }
+  }
+});
+// Hide #mainBody when swiping up
+document.addEventListener('touchmove', (e) => {
+  let currentY = e.touches[0].clientY;
+  let diffY = currentY - startY;
+  if (diffY < -250) {
+    touchMoved = true;
+    document.getElementById('mainBody').style.display = 'none';
+  if (typeof closeFabActions === 'function') closeFabActions(); // Collapse FAB when hiding mainBody
+  }
+});
+
+// Hide #mainBody when clicking outside of it, except the #toggle-order-list button
+document.addEventListener('click', (e) => {
+  const mainBody = document.getElementById('mainBody');
+  const toggleOrderListButton = document.getElementById('toggle-order-list');
+
+  // Check if the clicked element or any of its ancestors has the class 'quantity-adjust'
+  const isQuantityAdjustButton = e.target.closest('.quantity-adjust, .modify-quantity, .delete, .increase-quantity, .decrease-quantity');
+
+  if (
+    mainBody && 
+    !mainBody.contains(e.target) && 
+    (!toggleOrderListButton || !toggleOrderListButton.contains(e.target)) &&
+    !isQuantityAdjustButton // Exclude clicks on quantity-adjust buttons
+  ) {
+    mainBody.style.display = 'none';
+  if (typeof closeFabActions === 'function') closeFabActions(); // Collapse FAB when hiding mainBody
+  }
+});
+

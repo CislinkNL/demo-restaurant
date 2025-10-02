@@ -1,0 +1,26 @@
+{
+  "WebHook": "https://develop.cislink.nl/create-order",
+  "WebHookStatus": "https://develop.cislink.nl/health",
+  "defaultPin": 9986,
+  "dessertLimiet": 1,
+  "etenLimiet": 5,
+  "functionsBaseUrl": "https://europe-west1-cislink-351208.cloudfunctions.net/app",
+  "geoBaseLat": 52.324466524141364,
+  "geoBaseLon": 4.884722671418321,
+  "geoEnabled": true,
+  "geoRadiusMeters": 300,
+  "maxTijd": 120,
+  "pythonAuth": "https://develop.cislink.nl/authenticate",
+  "requirePinToClose": false,
+  "restNaam": "Asian Boulevard",
+  "restName": "Asian Boulevard",
+  "restUrlName": "AsianBoulevard",
+  "round_time": 15,
+  "server_access": "Time9changeit",
+  "timeLimit": true,
+  "titleImage": "https://cislink.nl/asianboulervard/ab-logo-gold.webp",
+  "whatsappPhone": 31619971032,
+  "whatsappRecipients": [
+    31619971032
+  ]
+}

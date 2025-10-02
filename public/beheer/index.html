@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Management Console - Full</title>
+    <link rel="stylesheet" href="restaurant-management.css">
+    <style>
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+
+        .loading-card {
+            background: rgba(255, 255, 255, 0.95);
+            color: #333;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        .loading-progress {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+    </style>
+</head>
+
+<body class="theme-blue-dragon">
+    <div id="loading" class="loading-screen">
+        <div class="loading-card">
+            <div class="spinner"></div>
+            <h2>🍱 餐厅管理控制台</h2>
+            <p id="loading-text">正在加载系统组件...</p>
+            <div id="loading-progress" class="loading-progress"></div>
+        </div>
+    </div>
+
+    <div id="app"></div>
+
+    <!-- Font Awesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+    <!-- React 18 - 开发版本用于更好的错误信息 -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+
+    <!-- Firebase v9 Compat -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+
+    <!-- QR Code Library -->
+    <script src="modules/qrcode.min.js"></script>
+
+    <!-- Configuration Manager -->
+    <script src="modules/config-manager.js"></script>
+
+    <!-- Image Upload System (Pure JavaScript) -->
+    <script src="modules/firebase-storage-uploader.js"></script>
+    <script src="modules/image-upload-manager.js"></script>
+
+    <script>
+        let loadingSteps = [];
+
+        function updateLoadingText(text) {
+            document.getElementById('loading-text').textContent = text;
+        }
+
+        function addProgressStep(step) {
+            loadingSteps.push(step);
+            document.getElementById('loading-progress').innerHTML = loadingSteps.join('<br>');
+        }
+
+        // 设置全局变量和React hooks
+        window.React = React;
+        window.ReactDOM = ReactDOM;
+        window.firebase = firebase;
+
+        // 设置React hooks到window对象
+        window.useState = React.useState;
+        window.useEffect = React.useEffect;
+        window.useCallback = React.useCallback;
+        window.useMemo = React.useMemo;
+        window.useRef = React.useRef;
+        window.useContext = React.useContext;
+        window.useReducer = React.useReducer;
+        window.createElement = React.createElement;
+
+        // Firebase配置
+        const firebaseConfig = {
+            apiKey: "AIzaSyA_NlCWWWULhzonlPd2CRX0vazmippuhfs",
+            authDomain: "cislink.firebaseapp.com",
+            databaseURL: "https://cislink-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "cislink",
+            storageBucket: "cislink.firebasestorage.app",
+            messagingSenderId: "295505146634",
+            appId: "1:295505146634:web:16fd88e0b4733e77f7c0f3",
+            measurementId: "G-KDGSLNXHF4"
+        };
+
+        // 初始化Firebase
+        if (firebase.apps.length === 0) {
+            firebase.initializeApp(firebaseConfig);
+        }
+
+        function showError(message) {
+            const loading = document.getElementById('loading');
+            const t = window.LANGUAGE_TRANSLATIONS ?
+                (key) => (window.LANGUAGE_TRANSLATIONS[localStorage.getItem('restaurant-language') || 'zh'] || window.LANGUAGE_TRANSLATIONS.zh)[key] || key :
+                (key) => key;
+
+            loading.innerHTML = `
+                <div class="loading-card">
+                    <div style="text-align: center; padding: 40px; color: #d32f2f;">
+                        <h2>❌ ${t('loadingFailed')}</h2>
+                        <p>${message}</p>
+                        <button onclick="location.reload()" style="background: #667eea; color: white; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-size: 14px; margin-top: 20px;">🔄 ${t('retry')}</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function hideLoading() {
+            const loading = document.getElementById('loading');
+            loading.style.opacity = '0';
+            loading.style.transition = 'opacity 0.5s';
+            setTimeout(() => loading.style.display = 'none', 500);
+        }
+
+        // 动态加载脚本
+        function loadScript(src, description) {
+            return new Promise((resolve, reject) => {
+                updateLoadingText(`正在加载 ${description}...`);
+                addProgressStep(`✓ 开始加载 ${description}`);
+
+                const script = document.createElement('script');
+                script.src = src;
+                script.onload = () => {
+                    addProgressStep(`✅ ${description} 加载完成`);
+                    resolve();
+                };
+                script.onerror = () => {
+                    addProgressStep(`❌ ${description} 加载失败`);
+                    reject(new Error(`无法加载 ${description}`));
+                };
+                document.head.appendChild(script);
+            });
+        }
+
+        // 启动应用
+        async function startApp() {
+            try {
+                console.log('🚀 开始启动完整版应用...');
+                addProgressStep('🚀 初始化应用...');
+
+                // 检查依赖库
+                if (typeof React === 'undefined') {
+                    throw new Error('React未加载');
+                }
+                if (typeof ReactDOM === 'undefined') {
+                    throw new Error('ReactDOM未加载');
+                }
+                if (typeof firebase === 'undefined') {
+                    throw new Error('Firebase未加载');
+                }
+
+                addProgressStep('✅ 基础库检查完成');
+
+                // 按顺序加载模块 - 配置文件必须最先加载
+                await loadScript('restaurant-config.js', '餐厅配置管理系统');
+                await loadScript('modules/translations.js', '语言翻译模块');
+                await loadScript('modules/data-operations.js', '数据操作模块');
+                await loadScript('restaurant-management-full.js', '完整管理控制台');
+
+                updateLoadingText('正在启动应用...');
+
+                // 检查所有模块是否加载完成
+                const requiredModules = [
+                    'LANGUAGE_TRANSLATIONS',
+                    'LanguageProvider',
+                    'RestaurantDataOperations',
+                    'RestaurantManagementConsole'
+                ];
+
+                const missingModules = requiredModules.filter(module => !window[module]);
+                if (missingModules.length > 0) {
+                    throw new Error(`缺少模块: ${missingModules.join(', ')}`);
+                }
+
+                addProgressStep('✅ 所有模块加载完成');
+
+                // 渲染应用 - 用LanguageProvider包装
+                updateLoadingText('正在渲染界面...');
+                const appContainer = document.getElementById('app');
+                const Component = window.RestaurantManagementConsole;
+                const LanguageProvider = window.LanguageProvider;
+
+                // 创建被LanguageProvider包装的组件
+                const WrappedApp = React.createElement(
+                    LanguageProvider,
+                    {},
+                    React.createElement(Component)
+                );
+
+                if (ReactDOM.createRoot) {
+                    const root = ReactDOM.createRoot(appContainer);
+                    root.render(WrappedApp);
+                } else {
+                    ReactDOM.render(WrappedApp, appContainer);
+                }
+
+                addProgressStep('✅ 界面渲染完成');
+                console.log('✅ 完整版应用启动成功');
+
+            } catch (error) {
+                console.error('❌ 启动失败:', error);
+                showError(error.message);
+            } finally {
+                // 延迟一点时间显示完成状态，然后隐藏加载界面
+                setTimeout(() => {
+                    hideLoading();
+                }, 1000);
+            }
+        }
+
+        // 启动初始化
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', startApp);
+        } else {
+            startApp();
+        }
+    </script>
+</body>
+
+</html>

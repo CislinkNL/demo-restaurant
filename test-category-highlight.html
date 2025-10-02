@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>分类按钮测试</title>
+    <style>
+        body { background: #000119; color: white; padding: 20px; }
+        .test-category-btn {
+            background: #0089f7;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .menu-item {
+            background: rgba(30, 41, 59, 0.8);
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 8px;
+            min-height: 60px;
+        }
+        /* 高亮动画样式 */
+        @keyframes highlightPulse {
+            0% {
+                background: linear-gradient(135deg, rgba(0, 137, 247, 0.3), rgba(255, 215, 0, 0.3)) !important;
+                box-shadow: 0 0 0 0 rgba(0, 137, 247, 0.7);
+                transform: scale(1);
+            }
+            50% {
+                background: linear-gradient(135deg, rgba(0, 137, 247, 0.6), rgba(255, 215, 0, 0.6)) !important;
+                box-shadow: 0 0 0 10px rgba(0, 137, 247, 0);
+                transform: scale(1.02);
+            }
+            100% {
+                background: linear-gradient(135deg, rgba(0, 137, 247, 0.3), rgba(255, 215, 0, 0.3)) !important;
+                box-shadow: 0 0 0 0 rgba(0, 137, 247, 0);
+                transform: scale(1);
+            }
+        }
+        .highlight-target {
+            animation: highlightPulse 1.5s ease-in-out;
+            z-index: 10 !important;
+            position: relative !important;
+        }
+    </style>
+</head>
+<body>
+    <h1>分类按钮高亮测试</h1>
+    
+    <!-- 模拟分类按钮 -->
+    <a class="test-category-btn btn-foodlvl2" href="#food" onclick="testCategoryClick(event, this)">食物分类</a>
+    <a class="test-category-btn btn-drinkslvl2" href="#drinks" onclick="testCategoryClick(event, this)">饮料分类</a>
+    <a class="test-category-btn btn-lvl3" href="#dessert" onclick="testCategoryClick(event, this)">甜点分类</a>
+    
+    <!-- 模拟菜单项 -->
+    <div class="menu-item" data-group="food" id="food-item-1">
+        <h3>汉堡包</h3>
+        <p>美味的牛肉汉堡</p>
+    </div>
+    
+    <div class="menu-item" data-group="food" id="food-item-2">
+        <h3>薯条</h3>
+        <p>酥脆的炸薯条</p>
+    </div>
+    
+    <div class="menu-item" data-group="drinks" id="drink-item-1">
+        <h3>可乐</h3>
+        <p>冰凉的可口可乐</p>
+    </div>
+    
+    <div class="menu-item" data-group="drinks" id="drink-item-2">
+        <h3>橙汁</h3>
+        <p>新鲜的橙汁</p>
+    </div>
+    
+    <div class="menu-item" data-group="dessert" id="dessert-item-1">
+        <h3>冰淇淋</h3>
+        <p>香草冰淇淋</p>
+    </div>
+
+    <script>
+        function testCategoryClick(event, target) {
+            event.preventDefault();
+            
+            console.log('分类按钮被点击:', target.textContent);
+            
+            const targetId = target.getAttribute('href')?.replace('#', '');
+            let targetElement = document.getElementById(targetId);
+            
+            // 如果找不到精确的目标元素，尝试查找对应分组的第一个菜单项
+            if (!targetElement && targetId) {
+                console.log('未找到精确目标，查找分组:', targetId);
+                
+                // 尝试根据分类名称查找对应的菜单项
+                const menuItems = document.querySelectorAll('.menu-item[data-group]');
+                for (const item of menuItems) {
+                    const itemGroup = item.getAttribute('data-group');
+                    console.log('检查菜单项分组:', itemGroup);
+                    
+                    // 检查分组名称是否匹配（忽略大小写和特殊字符）
+                    if (itemGroup && (itemGroup.toLowerCase().includes(targetId.toLowerCase()) || 
+                        targetId.toLowerCase().includes(itemGroup.toLowerCase()))) {
+                        targetElement = item;
+                        console.log('找到匹配的菜单项:', item);
+                        break;
+                    }
+                }
+            }
+            
+            if (targetElement) {
+                console.log('开始滚动和高亮:', targetElement);
+                targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                animateHighlight(targetElement);
+            } else {
+                console.warn(`未找到目标元素: ${targetId}`);
+            }
+        }
+        
+        function animateHighlight(element) {
+            console.log('执行高亮动画:', element);
+            
+            // 移除之前的高亮类（如果存在）
+            element.classList.remove('highlight-target');
+            
+            // 强制重新渲染
+            element.offsetHeight;
+            
+            // 添加高亮类触发动画
+            element.classList.add('highlight-target');
+            
+            // 1.5秒后自动移除类
+            setTimeout(() => {
+                element.classList.remove('highlight-target');
+                console.log('高亮动画结束');
+            }, 1500);
+        }
+    </script>
+</body>
+</html>

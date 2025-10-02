@@ -1,0 +1,8303 @@
+{
+  "Tafel-1": {
+    "Persons": 2,
+    "Pincode": "123",
+    "Status": "open",
+    "TableOrder": 1,
+    "URL": "https://asianboulevard.web.app/?rest=AsianBoulevard&tafel=1",
+    "menuType": "dinner",
+    "orders": {
+      "aggregates": {
+        "desserts": 0,
+        "hoofdgerechten": 0,
+        "totaalPrijs": 0,
+        "updatedAt": 1757439717354
+      },
+      "menu": 0,
+      "orderNumbers": 1
+    },
+    "timer": {
+      "duration": 15,
+      "endTime": 1758047122377,
+      "startTime": 1758046222377
+    }
+  },
+  "Tafel-10": {
+    "Persons": 2,
+    "Pincode": "123",
+    "Status": "open",
+    "TableOrder": 11,
+    "URL": "https://asianboulevard.web.app/?rest=AsianBoulevard&tafel=10",
+    "menuType": "dinner",
+    "orders": {
+      "menu": 0,
+      "orderNumbers": 1
+    },
+    "timer": {
+      "duration": 15,
+      "endTime": 1758042866314,
+      "startTime": 1758041966314
+    }
+  },
+  "Tafel-10A": {
+    "Persons": 2,
+    "Pincode": "123",
+    "Status": "open",
+    "TableOrder": 12,
+    "URL": "https://asianboulevard.web.app/?rest=AsianBoulevard&tafel=10A",
+    "menuType": "dinner",
+    "orders": {
+      "menu": 0,
+      "orderNumbers": 1
+    },
+    "timer": {
+      "duration": 15,
+      "endTime": 1755627574542,
+      "startTime": 1755626674542
+    }
+  },
+  "Tafel-11": {
+    "Persons": 6,
+    "Pincode": "123",
+    "Status": "open",
+    "TableOrder": 13,
+    "URL": "https://asianboulevard.web.app/?rest=AsianBoulevard&tafel=11",
+    "menuType": "dinner",
+    "orders": {
+      "history": [
+        null,
+        null,
+        {
+          "date": "2025-09-17T16:56:05.679Z",
+          "invoiceNumber": 2,
+          "orderDetails": [
+            [
+              "2025-09-17T16:56:05.679Z",
+              "113",
+              1,
+              0,
+              0,
+              "Carpaccio salade"
+            ],
+            [
+              "2025-09-17T16:56:05.679Z",
+              "126",
+              1,
+              0,
+              0,
+              "Sake tobiko"
+            ],
+            [
+              "2025-09-17T16:56:05.679Z",
+              "146",
+              1,
+              0,
+              0,
+              "Sake Sashimi"
+            ],
+            [
+              "2025-09-17T16:56:05.679Z",
+              "174",
+              2,
+              0,
+              0,
+              "Ebi Fly"
+            ],
+            [
+              "2025-09-17T16:56:05.679Z",
+              "1",
+              2,
+              0,
+              0,
+              "Sake nigiri"
+            ],
+            [
+              "2025-09-17T16:56:05.679Z",
+              "31",
+              2,
+              0,
+              0,
+              "Sake maki"
+            ],
+            [
+              "2025-09-17T16:56:05.679Z",
+              "36",
+              1,
+              0,
+              0,
+              "California maki"
+            ],
+            [
+              "2025-09-17T16:56:05.679Z",
+              "38",
+              1,
+              0,
+              0,
+              "Avocado sake maki"
+            ],
+            [
+              "2025-09-17T16:56:05.679Z",
+              "39",
+              1,
+              0,
+              0,
+              "Spicy salmon maki"
+            ],
+            [
+              "2025-09-17T16:56:05.679Z",
+              "40",
+              2,
+              0,
+              0,
+              "Dragon roll"
+            ],
+            [
+              "2025-09-17T16:56:05.679Z",
+              "53",
+              1,
+              0,
+              0,
+              "Sake temaki"
+            ],
+            [
+              "2025-09-17T16:56:05.679Z",
+              "61",
+              3,
+              0,
+              0,
+              "Sashimi salade"
+            ],
+            [
+              "2025-09-17T16:56:05.679Z",
+              "78",
+              1,
+              0,
+              0,
+              "Tomaten soup"
+            ],
+            [
+              "2025-09-17T16:56:05.679Z",
+              "88",
+              2,
+              0,
+              0,
+              "Edamame"
+            ],
+            [
+              "2025-09-17T16:56:05.679Z",
+              "94",
+              1,
+              0,
+              0,
+              "Casava"
+            ],
+            [
+              "2025-09-17T16:56:05.679Z",
+              "96",
+              1,
+              0,
+              0,
+              "Sweet potato"
+            ],
+            [
+              "2025-09-17T16:56:05.679Z",
+              "9",
+              1,
+              0,
+              0,
+              "Unagi nigiri"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 0
+            }
+          ],
+          "timestamp": 1758128167709,
+          "totalItems": 17
+        },
+        {
+          "date": "2025-09-17T17:19:32.541Z",
+          "invoiceNumber": 3,
+          "orderDetails": [
+            [
+              "2025-09-17T17:19:32.541Z",
+              "10",
+              1,
+              0,
+              0,
+              "Tamago nigiri"
+            ],
+            [
+              "2025-09-17T17:19:32.541Z",
+              "113",
+              1,
+              0,
+              0,
+              "Carpaccio salade"
+            ],
+            [
+              "2025-09-17T17:19:32.541Z",
+              "126",
+              2,
+              0,
+              0,
+              "Sake tobiko"
+            ],
+            [
+              "2025-09-17T17:19:32.541Z",
+              "127",
+              1,
+              0,
+              0,
+              "Carpaccio roll"
+            ],
+            [
+              "2025-09-17T17:19:32.541Z",
+              "129",
+              1,
+              0,
+              0,
+              "Sake truffel"
+            ],
+            [
+              "2025-09-17T17:19:32.541Z",
+              "146",
+              3,
+              0,
+              0,
+              "Sake Sashimi"
+            ],
+            [
+              "2025-09-17T17:19:32.541Z",
+              "31",
+              1,
+              0,
+              0,
+              "Sake maki"
+            ],
+            [
+              "2025-09-17T17:19:32.541Z",
+              "38",
+              3,
+              0,
+              0,
+              "Avocado sake maki"
+            ],
+            [
+              "2025-09-17T17:19:32.541Z",
+              "3",
+              1,
+              0,
+              0,
+              "Avocado nigiri"
+            ],
+            [
+              "2025-09-17T17:19:32.541Z",
+              "40",
+              4,
+              0,
+              0,
+              "Dragon roll"
+            ],
+            [
+              "2025-09-17T17:19:32.541Z",
+              "42",
+              1,
+              0,
+              0,
+              "Spicy tori"
+            ],
+            [
+              "2025-09-17T17:19:32.541Z",
+              "46",
+              1,
+              0,
+              0,
+              "Beef maki"
+            ],
+            [
+              "2025-09-17T17:19:32.541Z",
+              "84",
+              1,
+              0,
+              0,
+              "Ebi tempura"
+            ],
+            [
+              "2025-09-17T17:19:32.541Z",
+              "86",
+              1,
+              0,
+              0,
+              "Fried fish"
+            ],
+            [
+              "2025-09-17T17:19:32.541Z",
+              "88",
+              1,
+              0,
+              0,
+              "Edamame"
+            ],
+            [
+              "2025-09-17T17:19:32.541Z",
+              "98",
+              1,
+              0,
+              0,
+              "Uienring"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 0
+            }
+          ],
+          "timestamp": 1758129573107,
+          "totalItems": 16
+        },
+        {
+          "date": "2025-09-17T17:54:19.063Z",
+          "invoiceNumber": 4,
+          "orderDetails": [
+            [
+              "2025-09-17T17:54:19.063Z",
+              "100",
+              1,
+              0,
+              0,
+              "Fried bun"
+            ],
+            [
+              "2025-09-17T17:54:19.063Z",
+              "102",
+              1,
+              0,
+              0,
+              "Beef spies"
+            ],
+            [
+              "2025-09-17T17:54:19.063Z",
+              "105",
+              1,
+              0,
+              0,
+              "Ebi garlic"
+            ],
+            [
+              "2025-09-17T17:54:19.063Z",
+              "115",
+              2,
+              0,
+              0,
+              "Beef teriyaki"
+            ],
+            [
+              "2025-09-17T17:54:19.063Z",
+              "128",
+              1,
+              0,
+              0,
+              "Tuna maki"
+            ],
+            [
+              "2025-09-17T17:54:19.063Z",
+              "146",
+              2,
+              0,
+              0,
+              "Sake Sashimi"
+            ],
+            [
+              "2025-09-17T17:54:19.063Z",
+              "174",
+              1,
+              0,
+              0,
+              "Ebi Fly"
+            ],
+            [
+              "2025-09-17T17:54:19.063Z",
+              "1",
+              2,
+              0,
+              0,
+              "Sake nigiri"
+            ],
+            [
+              "2025-09-17T17:54:19.063Z",
+              "202",
+              1,
+              3,
+              0,
+              "Pepsi Cola Max"
+            ],
+            [
+              "2025-09-17T17:54:19.063Z",
+              "205",
+              1,
+              3.2,
+              0,
+              "Liptop Ice Tea"
+            ],
+            [
+              "2025-09-17T17:54:19.063Z",
+              "237",
+              1,
+              4.5,
+              0,
+              "Affligem Dubbel"
+            ],
+            [
+              "2025-09-17T17:54:19.063Z",
+              "239",
+              2,
+              3.2,
+              0,
+              "Radler 0,0%"
+            ],
+            [
+              "2025-09-17T17:54:19.063Z",
+              "2",
+              1,
+              0,
+              0,
+              "Maguro nigiri"
+            ],
+            [
+              "2025-09-17T17:54:19.063Z",
+              "41",
+              1,
+              0,
+              0,
+              "Fantasy roll"
+            ],
+            [
+              "2025-09-17T17:54:19.063Z",
+              "44",
+              1,
+              0,
+              0,
+              "Tempura maki"
+            ],
+            [
+              "2025-09-17T17:54:19.063Z",
+              "78",
+              1,
+              0,
+              0,
+              "Tomaten soup"
+            ],
+            [
+              "2025-09-17T17:54:19.063Z",
+              "82",
+              1,
+              0,
+              0,
+              "Mini loempia"
+            ],
+            [
+              "2025-09-17T17:54:19.063Z",
+              "86",
+              1,
+              0,
+              0,
+              "Fried fish"
+            ],
+            [
+              "2025-09-17T17:54:19.063Z",
+              "87",
+              1,
+              0,
+              0,
+              "Inktvis ring"
+            ],
+            [
+              "2025-09-17T17:54:19.063Z",
+              "90",
+              1,
+              0,
+              0,
+              "Frikandel"
+            ],
+            [
+              "2025-09-17T17:54:19.063Z",
+              "93",
+              1,
+              0,
+              0,
+              "Chickenwings"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 17.1
+            }
+          ],
+          "timestamp": 1758131659853,
+          "totalItems": 21
+        },
+        {
+          "date": "2025-09-17T18:18:50.249Z",
+          "invoiceNumber": 5,
+          "orderDetails": [
+            [
+              "2025-09-17T18:18:50.249Z",
+              "10",
+              1,
+              0,
+              0,
+              "Tamago nigiri"
+            ],
+            [
+              "2025-09-17T18:18:50.249Z",
+              "115",
+              1,
+              0,
+              0,
+              "Beef teriyaki"
+            ],
+            [
+              "2025-09-17T18:18:50.249Z",
+              "136",
+              1,
+              0,
+              0,
+              "Mozarella"
+            ],
+            [
+              "2025-09-17T18:18:50.249Z",
+              "146",
+              2,
+              0,
+              0,
+              "Sake Sashimi"
+            ],
+            [
+              "2025-09-17T18:18:50.249Z",
+              "1",
+              1,
+              0,
+              0,
+              "Sake nigiri"
+            ],
+            [
+              "2025-09-17T18:18:50.249Z",
+              "205",
+              1,
+              3.2,
+              0,
+              "Liptop Ice Tea"
+            ],
+            [
+              "2025-09-17T18:18:50.249Z",
+              "2",
+              1,
+              0,
+              0,
+              "Maguro nigiri"
+            ],
+            [
+              "2025-09-17T18:18:50.249Z",
+              "31",
+              1,
+              0,
+              0,
+              "Sake maki"
+            ],
+            [
+              "2025-09-17T18:18:50.249Z",
+              "40",
+              1,
+              0,
+              0,
+              "Dragon roll"
+            ],
+            [
+              "2025-09-17T18:18:50.249Z",
+              "69",
+              1,
+              0,
+              0,
+              "Pudding"
+            ],
+            [
+              "2025-09-17T18:18:50.249Z",
+              "88",
+              1,
+              0,
+              0,
+              "Edamame"
+            ],
+            [
+              "2025-09-17T18:18:50.249Z",
+              "90",
+              1,
+              0,
+              0,
+              "Frikandel"
+            ],
+            [
+              "2025-09-17T18:18:50.249Z",
+              "96",
+              1,
+              0,
+              0,
+              "Sweet potato"
+            ],
+            [
+              "2025-09-17T18:18:50.249Z",
+              "99",
+              1,
+              0,
+              0,
+              "Shrimp Croquette"
+            ],
+            [
+              "2025-09-17T18:18:50.249Z",
+              "9",
+              1,
+              0,
+              0,
+              "Unagi nigiri"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 3.2
+            }
+          ],
+          "timestamp": 1758133130616,
+          "totalItems": 15
+        },
+        {
+          "date": "2025-09-17T18:27:52.022Z",
+          "invoiceNumber": 6,
+          "orderDetails": [
+            [
+              "2025-09-17T18:27:52.022Z",
+              "237",
+              1,
+              4.5,
+              0,
+              "Affligem Dubbel"
+            ],
+            [
+              "2025-09-17T18:27:52.022Z",
+              "239",
+              1,
+              3.2,
+              0,
+              "Radler 0,0%"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 7.7
+            }
+          ],
+          "timestamp": 1758133672408,
+          "totalItems": 2
+        },
+        {
+          "date": "2025-09-17T18:38:43.109Z",
+          "invoiceNumber": 7,
+          "orderDetails": [
+            [
+              "2025-09-17T18:38:43.109Z",
+              "69",
+              1,
+              0,
+              0,
+              "Pudding"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 0
+            }
+          ],
+          "timestamp": 1758134323555,
+          "totalItems": 1
+        },
+        {
+          "date": "2025-09-17T18:52:40.031Z",
+          "invoiceNumber": 8,
+          "orderDetails": [
+            [
+              "2025-09-17T18:52:40.031Z",
+              "288",
+              1,
+              0,
+              0,
+              "Rekening graag"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 0
+            }
+          ],
+          "timestamp": 1758135160323,
+          "totalItems": 1
+        }
+      ],
+      "menu": 6,
+      "orderNumbers": 9
+    },
+    "timer": {
+      "duration": 15,
+      "endTime": 1758135223677,
+      "startTime": 1758134323677
+    }
+  },
+  "Tafel-12": {
+    "Persons": 3,
+    "Pincode": "123",
+    "Status": "open",
+    "TableOrder": 14,
+    "URL": "https://asianboulevard.web.app/?rest=AsianBoulevard&tafel=12",
+    "menuType": "dinner",
+    "orders": {
+      "aggregates": {
+        "desserts": 0,
+        "hoofdgerechten": 0,
+        "totaalPrijs": 0,
+        "updatedAt": 1757348151365
+      },
+      "menu": 0,
+      "orderNumbers": 1
+    },
+    "timer": {
+      "duration": 15,
+      "endTime": 1758041911896,
+      "startTime": 1758041011896
+    }
+  },
+  "Tafel-13": {
+    "Persons": 2,
+    "Pincode": "123",
+    "Status": "open",
+    "TableOrder": 15,
+    "URL": "https://asianboulevard.web.app/?rest=AsianBoulevard&tafel=13",
+    "menuType": "dinner",
+    "orders": {
+      "history": [
+        null,
+        {
+          "date": "2025-09-17T17:12:18.137Z",
+          "invoiceNumber": "Ober-1",
+          "orderDetails": [
+            [
+              "2025-09-17T17:12:18.137Z",
+              "181",
+              2,
+              "37.90",
+              0,
+              "AYCE Ma-Do Volwassene"
+            ],
+            [
+              "2025-09-17T17:12:18.137Z",
+              "204",
+              2,
+              "3.00",
+              0,
+              "7-up"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 81.8
+            }
+          ],
+          "timestamp": 1758129138652,
+          "totalItems": 2
+        },
+        {
+          "date": "2025-09-17T17:17:01.955Z",
+          "invoiceNumber": 2,
+          "orderDetails": [
+            [
+              "2025-09-17T17:17:01.955Z",
+              "113",
+              1,
+              0,
+              0,
+              "Carpaccio salade"
+            ],
+            [
+              "2025-09-17T17:17:01.955Z",
+              "127",
+              1,
+              0,
+              0,
+              "Carpaccio roll"
+            ],
+            [
+              "2025-09-17T17:17:01.955Z",
+              "146",
+              1,
+              0,
+              0,
+              "Sake Sashimi"
+            ],
+            [
+              "2025-09-17T17:17:01.955Z",
+              "61",
+              1,
+              0,
+              0,
+              "Sashimi salade"
+            ],
+            [
+              "2025-09-17T17:17:01.955Z",
+              "64",
+              1,
+              0,
+              0,
+              "Pickles"
+            ],
+            [
+              "2025-09-17T17:17:01.955Z",
+              "78",
+              1,
+              0,
+              0,
+              "Tomaten soup"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 0
+            }
+          ],
+          "timestamp": 1758129422206,
+          "totalItems": 6
+        },
+        {
+          "date": "2025-09-17T17:32:08.294Z",
+          "invoiceNumber": 3,
+          "orderDetails": [
+            [
+              "2025-09-17T17:32:08.294Z",
+              "102",
+              1,
+              0,
+              0,
+              "Beef spies"
+            ],
+            [
+              "2025-09-17T17:32:08.294Z",
+              "106",
+              1,
+              0,
+              0,
+              "Gyoza"
+            ],
+            [
+              "2025-09-17T17:32:08.294Z",
+              "114",
+              1,
+              0,
+              0,
+              "Crispy beef"
+            ],
+            [
+              "2025-09-17T17:32:08.294Z",
+              "115",
+              1,
+              0,
+              0,
+              "Beef teriyaki"
+            ],
+            [
+              "2025-09-17T17:32:08.294Z",
+              "130",
+              1,
+              0,
+              0,
+              "Muguro truffel"
+            ],
+            [
+              "2025-09-17T17:32:08.294Z",
+              "146",
+              1,
+              0,
+              0,
+              "Sake Sashimi"
+            ],
+            [
+              "2025-09-17T17:32:08.294Z",
+              "45",
+              1,
+              0,
+              0,
+              "Crispy california"
+            ],
+            [
+              "2025-09-17T17:32:08.294Z",
+              "82",
+              1,
+              0,
+              0,
+              "Mini loempia"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 0
+            }
+          ],
+          "timestamp": 1758130328654,
+          "totalItems": 8
+        },
+        {
+          "date": "2025-09-17T18:04:59.392Z",
+          "invoiceNumber": 4,
+          "orderDetails": [
+            [
+              "2025-09-17T18:04:59.392Z",
+              "107",
+              1,
+              0,
+              0,
+              "Tori peppa"
+            ],
+            [
+              "2025-09-17T18:04:59.392Z",
+              "115",
+              1,
+              0,
+              0,
+              "Beef teriyaki"
+            ],
+            [
+              "2025-09-17T18:04:59.392Z",
+              "146",
+              1,
+              0,
+              0,
+              "Sake Sashimi"
+            ],
+            [
+              "2025-09-17T18:04:59.392Z",
+              "204",
+              2,
+              3,
+              0,
+              "7-up"
+            ],
+            [
+              "2025-09-17T18:04:59.392Z",
+              "39",
+              1,
+              0,
+              0,
+              "Spicy salmon maki"
+            ],
+            [
+              "2025-09-17T18:04:59.392Z",
+              "44",
+              1,
+              0,
+              0,
+              "Tempura maki"
+            ],
+            [
+              "2025-09-17T18:04:59.392Z",
+              "67",
+              1,
+              0,
+              0,
+              "Crispy chicken salade"
+            ],
+            [
+              "2025-09-17T18:04:59.392Z",
+              "74",
+              1,
+              0,
+              0,
+              "Ramen soya beef"
+            ],
+            [
+              "2025-09-17T18:04:59.392Z",
+              "94",
+              1,
+              0,
+              0,
+              "Casava"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 6
+            }
+          ],
+          "timestamp": 1758132299983,
+          "totalItems": 9
+        },
+        {
+          "date": "2025-09-17T18:37:01.780Z",
+          "invoiceNumber": 5,
+          "orderDetails": [
+            [
+              "2025-09-17T18:37:01.780Z",
+              "102",
+              1,
+              0,
+              0,
+              "Beef spies"
+            ],
+            [
+              "2025-09-17T18:37:01.780Z",
+              "115",
+              1,
+              0,
+              0,
+              "Beef teriyaki"
+            ],
+            [
+              "2025-09-17T18:37:01.780Z",
+              "119",
+              1,
+              0,
+              0,
+              "Tori teriyaki"
+            ],
+            [
+              "2025-09-17T18:37:01.780Z",
+              "146",
+              1,
+              0,
+              0,
+              "Sake Sashimi"
+            ],
+            [
+              "2025-09-17T18:37:01.780Z",
+              "38",
+              1,
+              0,
+              0,
+              "Avocado sake maki"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 0
+            }
+          ],
+          "timestamp": 1758134222049,
+          "totalItems": 5
+        },
+        {
+          "date": "2025-09-17T19:00:37.879Z",
+          "invoiceNumber": 6,
+          "orderDetails": [
+            [
+              "2025-09-17T19:00:37.879Z",
+              "1371",
+              1,
+              0,
+              0,
+              "Vanille + slagroom"
+            ],
+            [
+              "2025-09-17T19:00:37.879Z",
+              "142",
+              2,
+              0,
+              0,
+              "Creme Brulee"
+            ],
+            [
+              "2025-09-17T19:00:37.879Z",
+              "143",
+              1,
+              0,
+              0,
+              "Verassingsgebak"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 0
+            }
+          ],
+          "timestamp": 1758135638334,
+          "totalItems": 3
+        }
+      ],
+      "menu": 2,
+      "orderNumbers": 7
+    },
+    "timer": {
+      "duration": 15,
+      "endTime": 1758136538557,
+      "startTime": 1758135638557
+    }
+  },
+  "Tafel-14": {
+    "Persons": 2,
+    "Pincode": "123",
+    "Status": "open",
+    "TableOrder": 16,
+    "URL": "https://asianboulevard.web.app/?rest=AsianBoulevard&tafel=14",
+    "menuType": "dinner",
+    "orders": {
+      "history": [
+        null,
+        {
+          "date": "2025-09-17T16:27:23.352Z",
+          "invoiceNumber": "Ober-1",
+          "orderDetails": [
+            [
+              "2025-09-17T16:27:23.352Z",
+              "181",
+              2,
+              "37.90",
+              0,
+              "AYCE Ma-Do Volwassene"
+            ],
+            [
+              "2025-09-17T16:27:23.352Z",
+              "205",
+              2,
+              "3.20",
+              0,
+              "Liptop Ice Tea"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 79
+            }
+          ],
+          "timestamp": 1758126443753,
+          "totalItems": 2
+        },
+        {
+          "date": "2025-09-17T16:32:54.377Z",
+          "invoiceNumber": 2,
+          "orderDetails": [
+            [
+              "2025-09-17T16:32:54.377Z",
+              "105",
+              1,
+              0,
+              0,
+              "Ebi garlic"
+            ],
+            [
+              "2025-09-17T16:32:54.377Z",
+              "111",
+              1,
+              0,
+              0,
+              "Grilled salmon"
+            ],
+            [
+              "2025-09-17T16:32:54.377Z",
+              "16",
+              1,
+              0,
+              0,
+              "Wasabi"
+            ],
+            [
+              "2025-09-17T16:32:54.377Z",
+              "19",
+              1,
+              0,
+              0,
+              "Gember"
+            ],
+            [
+              "2025-09-17T16:32:54.377Z",
+              "33",
+              1,
+              0,
+              0,
+              "Kani maki"
+            ],
+            [
+              "2025-09-17T16:32:54.377Z",
+              "403",
+              1,
+              0,
+              0,
+              "Citroentjes"
+            ],
+            [
+              "2025-09-17T16:32:54.377Z",
+              "40",
+              1,
+              0,
+              0,
+              "Dragon roll"
+            ],
+            [
+              "2025-09-17T16:32:54.377Z",
+              "42",
+              1,
+              0,
+              0,
+              "Spicy tori"
+            ],
+            [
+              "2025-09-17T16:32:54.377Z",
+              "46",
+              1,
+              0,
+              0,
+              "Beef maki"
+            ],
+            [
+              "2025-09-17T16:32:54.377Z",
+              "5",
+              1,
+              0,
+              0,
+              "Flamed sake cheese"
+            ],
+            [
+              "2025-09-17T16:32:54.377Z",
+              "76",
+              1,
+              0,
+              0,
+              "Ramen ebi"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 0
+            }
+          ],
+          "timestamp": 1758126774848,
+          "totalItems": 11
+        },
+        {
+          "date": "2025-09-17T16:55:08.535Z",
+          "invoiceNumber": 3,
+          "orderDetails": [
+            [
+              "2025-09-17T16:55:08.535Z",
+              "101",
+              1,
+              0,
+              0,
+              "Kip spies"
+            ],
+            [
+              "2025-09-17T16:55:08.535Z",
+              "105",
+              1,
+              0,
+              0,
+              "Ebi garlic"
+            ],
+            [
+              "2025-09-17T16:55:08.535Z",
+              "114",
+              1,
+              0,
+              0,
+              "Crispy beef"
+            ],
+            [
+              "2025-09-17T16:55:08.535Z",
+              "40",
+              2,
+              0,
+              0,
+              "Dragon roll"
+            ],
+            [
+              "2025-09-17T16:55:08.535Z",
+              "84",
+              1,
+              0,
+              0,
+              "Ebi tempura"
+            ],
+            [
+              "2025-09-17T16:55:08.535Z",
+              "89",
+              1,
+              0,
+              0,
+              "Patat"
+            ],
+            [
+              "2025-09-17T16:55:08.535Z",
+              "91",
+              1,
+              0,
+              0,
+              "Mushrooms"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 0
+            }
+          ],
+          "timestamp": 1758128108883,
+          "totalItems": 7
+        },
+        {
+          "date": "2025-09-17T17:13:03.614Z",
+          "invoiceNumber": 4,
+          "orderDetails": [
+            [
+              "2025-09-17T17:13:03.614Z",
+              "106",
+              1,
+              0,
+              0,
+              "Gyoza"
+            ],
+            [
+              "2025-09-17T17:13:03.614Z",
+              "115",
+              1,
+              0,
+              0,
+              "Beef teriyaki"
+            ],
+            [
+              "2025-09-17T17:13:03.614Z",
+              "40",
+              1,
+              0,
+              0,
+              "Dragon roll"
+            ],
+            [
+              "2025-09-17T17:13:03.614Z",
+              "82",
+              1,
+              0,
+              0,
+              "Mini loempia"
+            ],
+            [
+              "2025-09-17T17:13:03.614Z",
+              "84",
+              1,
+              0,
+              0,
+              "Ebi tempura"
+            ],
+            [
+              "2025-09-17T17:13:03.614Z",
+              "88",
+              1,
+              0,
+              0,
+              "Edamame"
+            ],
+            [
+              "2025-09-17T17:13:03.614Z",
+              "96",
+              1,
+              0,
+              0,
+              "Sweet potato"
+            ],
+            [
+              "2025-09-17T17:13:03.614Z",
+              "99",
+              1,
+              0,
+              0,
+              "Shrimp Croquette"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 0
+            }
+          ],
+          "timestamp": 1758129183953,
+          "totalItems": 8
+        },
+        {
+          "date": "2025-09-17T17:17:22.315Z",
+          "invoiceNumber": 5,
+          "orderDetails": [
+            [
+              "2025-09-17T17:17:22.315Z",
+              "208",
+              1,
+              3,
+              0,
+              "Cassis"
+            ],
+            [
+              "2025-09-17T17:17:22.315Z",
+              "217",
+              1,
+              6.9,
+              0,
+              "Sourcy Blauw (100 cl)"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 9.9
+            }
+          ],
+          "timestamp": 1758129442511,
+          "totalItems": 2
+        },
+        {
+          "date": "2025-09-17T17:40:40.222Z",
+          "invoiceNumber": 6,
+          "orderDetails": [
+            [
+              "2025-09-17T17:40:40.222Z",
+              "111",
+              4,
+              0,
+              0,
+              "Grilled salmon"
+            ],
+            [
+              "2025-09-17T17:40:40.222Z",
+              "114",
+              1,
+              0,
+              0,
+              "Crispy beef"
+            ],
+            [
+              "2025-09-17T17:40:40.222Z",
+              "174",
+              1,
+              0,
+              0,
+              "Ebi Fly"
+            ],
+            [
+              "2025-09-17T17:40:40.222Z",
+              "403",
+              2,
+              0,
+              0,
+              "Citroentjes"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 0
+            }
+          ],
+          "timestamp": 1758130840429,
+          "totalItems": 4
+        },
+        {
+          "date": "2025-09-17T18:12:40.118Z",
+          "invoiceNumber": 7,
+          "orderDetails": [
+            [
+              "2025-09-17T18:12:40.118Z",
+              "100",
+              1,
+              0,
+              0,
+              "Fried bun"
+            ],
+            [
+              "2025-09-17T18:12:40.118Z",
+              "1381",
+              1,
+              0,
+              0,
+              "Citroen + slagroom"
+            ],
+            [
+              "2025-09-17T18:12:40.118Z",
+              "509",
+              1,
+              1,
+              0,
+              "Mochi Vanille"
+            ],
+            [
+              "2025-09-17T18:12:40.118Z",
+              "519",
+              1,
+              1,
+              0,
+              "Mochi Mango"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 2
+            }
+          ],
+          "timestamp": 1758132760440,
+          "totalItems": 4
+        },
+        {
+          "date": "2025-09-17T18:27:45.058Z",
+          "invoiceNumber": 8,
+          "orderDetails": [
+            [
+              "2025-09-17T18:27:45.058Z",
+              "288",
+              1,
+              0,
+              0,
+              "Rekening graag"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 0
+            }
+          ],
+          "timestamp": 1758133665261,
+          "totalItems": 1
+        }
+      ],
+      "menu": 2,
+      "orderNumbers": 9
+    },
+    "timer": {
+      "duration": 15,
+      "endTime": 1758133660547,
+      "startTime": 1758132760547
+    }
+  },
+  "Tafel-15": {
+    "Persons": 2,
+    "Pincode": "123",
+    "Status": "open",
+    "TableOrder": 17,
+    "URL": "https://asianboulevard.web.app/?rest=AsianBoulevard&tafel=15",
+    "menuType": "dinner",
+    "orders": {
+      "aggregates": {
+        "desserts": 0,
+        "hoofdgerechten": 0,
+        "totaalPrijs": 0,
+        "updatedAt": 1756575480635
+      },
+      "menu": 0,
+      "orderNumbers": 1
+    },
+    "timer": {
+      "duration": 15,
+      "endTime": 1758045115858,
+      "startTime": 1758044215858
+    }
+  },
+  "Tafel-16": {
+    "Persons": 2,
+    "Pincode": "123",
+    "Status": "open",
+    "TableOrder": 18,
+    "URL": "https://asianboulevard.web.app/?rest=AsianBoulevard&tafel=16",
+    "menuType": "dinner",
+    "orders": {
+      "history": [
+        null,
+        {
+          "date": "2025-09-17T16:01:28.109Z",
+          "invoiceNumber": "Ober-1",
+          "orderDetails": [
+            [
+              "2025-09-17T16:01:28.109Z",
+              "181",
+              2,
+              "37.90",
+              0,
+              "AYCE Ma-Do Volwassene"
+            ],
+            [
+              "2025-09-17T16:01:28.109Z",
+              "219",
+              1,
+              "3.20",
+              0,
+              "Lipton Ice Tea Green"
+            ],
+            [
+              "2025-09-17T16:01:28.109Z",
+              "227",
+              1,
+              "4.20",
+              0,
+              "Affligem Blond 0,0%"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 83.2
+            }
+          ],
+          "timestamp": 1758124888460,
+          "totalItems": 3
+        },
+        {
+          "date": "2025-09-17T16:05:21.706Z",
+          "invoiceNumber": 2,
+          "orderDetails": [
+            [
+              "2025-09-17T16:05:21.706Z",
+              "26",
+              1,
+              0,
+              0,
+              "Sake gunkan"
+            ],
+            [
+              "2025-09-17T16:05:21.706Z",
+              "35",
+              1,
+              0,
+              0,
+              "Veggie cream maki"
+            ],
+            [
+              "2025-09-17T16:05:21.706Z",
+              "37",
+              1,
+              0,
+              0,
+              "Fried Maki"
+            ],
+            [
+              "2025-09-17T16:05:21.706Z",
+              "39",
+              1,
+              0,
+              0,
+              "Spicy salmon maki"
+            ],
+            [
+              "2025-09-17T16:05:21.706Z",
+              "40",
+              1,
+              0,
+              0,
+              "Dragon roll"
+            ],
+            [
+              "2025-09-17T16:05:21.706Z",
+              "45",
+              1,
+              0,
+              0,
+              "Crispy california"
+            ],
+            [
+              "2025-09-17T16:05:21.706Z",
+              "46",
+              1,
+              0,
+              0,
+              "Beef maki"
+            ],
+            [
+              "2025-09-17T16:05:21.706Z",
+              "66",
+              1,
+              0,
+              0,
+              "Gevuld eitje"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 0
+            }
+          ],
+          "timestamp": 1758125121891,
+          "totalItems": 8
+        },
+        {
+          "date": "2025-09-17T16:26:50.537Z",
+          "invoiceNumber": 3,
+          "orderDetails": [
+            [
+              "2025-09-17T16:26:50.537Z",
+              "101",
+              1,
+              0,
+              0,
+              "Kip spies"
+            ],
+            [
+              "2025-09-17T16:26:50.537Z",
+              "126",
+              1,
+              0,
+              0,
+              "Sake tobiko"
+            ],
+            [
+              "2025-09-17T16:26:50.537Z",
+              "127",
+              1,
+              0,
+              0,
+              "Carpaccio roll"
+            ],
+            [
+              "2025-09-17T16:26:50.537Z",
+              "129",
+              1,
+              0,
+              0,
+              "Sake truffel"
+            ],
+            [
+              "2025-09-17T16:26:50.537Z",
+              "130",
+              1,
+              0,
+              0,
+              "Muguro truffel"
+            ],
+            [
+              "2025-09-17T16:26:50.537Z",
+              "134",
+              1,
+              0,
+              0,
+              "Kokosball"
+            ],
+            [
+              "2025-09-17T16:26:50.537Z",
+              "87",
+              1,
+              0,
+              0,
+              "Inktvis ring"
+            ],
+            [
+              "2025-09-17T16:26:50.537Z",
+              "96",
+              1,
+              0,
+              0,
+              "Sweet potato"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 0
+            }
+          ],
+          "timestamp": 1758126410931,
+          "totalItems": 8
+        },
+        {
+          "date": "2025-09-17T16:52:53.759Z",
+          "invoiceNumber": 4,
+          "orderDetails": [
+            [
+              "2025-09-17T16:52:53.759Z",
+              "111",
+              1,
+              0,
+              0,
+              "Grilled salmon"
+            ],
+            [
+              "2025-09-17T16:52:53.759Z",
+              "120",
+              1,
+              0,
+              0,
+              "Usuyaki cheese"
+            ],
+            [
+              "2025-09-17T16:52:53.759Z",
+              "129",
+              1,
+              0,
+              0,
+              "Sake truffel"
+            ],
+            [
+              "2025-09-17T16:52:53.759Z",
+              "146",
+              1,
+              0,
+              0,
+              "Sake Sashimi"
+            ],
+            [
+              "2025-09-17T16:52:53.759Z",
+              "32",
+              1,
+              0,
+              0,
+              "Kappa maki"
+            ],
+            [
+              "2025-09-17T16:52:53.759Z",
+              "35",
+              1,
+              0,
+              0,
+              "Veggie cream maki"
+            ],
+            [
+              "2025-09-17T16:52:53.759Z",
+              "37",
+              1,
+              0,
+              0,
+              "Fried Maki"
+            ],
+            [
+              "2025-09-17T16:52:53.759Z",
+              "68",
+              1,
+              0,
+              0,
+              "Vers fruit"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 0
+            }
+          ],
+          "timestamp": 1758127974178,
+          "totalItems": 8
+        },
+        {
+          "date": "2025-09-17T16:53:26.498Z",
+          "invoiceNumber": 5,
+          "orderDetails": [
+            [
+              "2025-09-17T16:53:26.498Z",
+              "236",
+              1,
+              4.2,
+              0,
+              "Affligem Blond"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 4.2
+            }
+          ],
+          "timestamp": 1758128006707,
+          "totalItems": 1
+        },
+        {
+          "date": "2025-09-17T17:25:40.610Z",
+          "invoiceNumber": 6,
+          "orderDetails": [
+            [
+              "2025-09-17T17:25:40.610Z",
+              "113",
+              1,
+              0,
+              0,
+              "Carpaccio salade"
+            ],
+            [
+              "2025-09-17T17:25:40.610Z",
+              "115",
+              1,
+              0,
+              0,
+              "Beef teriyaki"
+            ],
+            [
+              "2025-09-17T17:25:40.610Z",
+              "68",
+              1,
+              0,
+              0,
+              "Vers fruit"
+            ],
+            [
+              "2025-09-17T17:25:40.610Z",
+              "69",
+              1,
+              0,
+              0,
+              "Pudding"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 0
+            }
+          ],
+          "timestamp": 1758129940993,
+          "totalItems": 4
+        },
+        {
+          "date": "2025-09-17T17:26:29.946Z",
+          "invoiceNumber": 7,
+          "orderDetails": [
+            [
+              "2025-09-17T17:26:29.946Z",
+              "202",
+              1,
+              3,
+              0,
+              "Pepsi Cola Max"
+            ],
+            [
+              "2025-09-17T17:26:29.946Z",
+              "219",
+              1,
+              3.2,
+              0,
+              "Lipton Ice Tea Green"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 6.2
+            }
+          ],
+          "timestamp": 1758129990360,
+          "totalItems": 2
+        },
+        {
+          "date": "2025-09-17T17:46:17.170Z",
+          "invoiceNumber": 8,
+          "orderDetails": [
+            [
+              "2025-09-17T17:46:17.170Z",
+              "137",
+              2,
+              0,
+              0,
+              "Vanille ijs"
+            ],
+            [
+              "2025-09-17T17:46:17.170Z",
+              "140",
+              1,
+              0,
+              0,
+              "Chocolade ijs"
+            ],
+            [
+              "2025-09-17T17:46:17.170Z",
+              "143",
+              1,
+              0,
+              0,
+              "Verassingsgebak"
+            ],
+            [
+              "2025-09-17T17:46:17.170Z",
+              "69",
+              1,
+              0,
+              0,
+              "Pudding"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 0
+            }
+          ],
+          "timestamp": 1758131177543,
+          "totalItems": 4
+        },
+        {
+          "date": "2025-09-17T18:02:33.868Z",
+          "invoiceNumber": 9,
+          "orderDetails": [
+            [
+              "2025-09-17T18:02:33.868Z",
+              "288",
+              1,
+              0,
+              0,
+              "Rekening graag"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 0
+            }
+          ],
+          "timestamp": 1758132154254,
+          "totalItems": 1
+        }
+      ],
+      "menu": 2,
+      "orderNumbers": 10
+    },
+    "timer": {
+      "duration": 15,
+      "endTime": 1758132077676,
+      "startTime": 1758131177676
+    }
+  },
+  "Tafel-17": {
+    "Persons": 2,
+    "Pincode": "123",
+    "Status": "open",
+    "TableOrder": 19,
+    "URL": "https://asianboulevard.web.app/?rest=AsianBoulevard&tafel=17",
+    "menuType": "dinner",
+    "orders": {
+      "history": [
+        null,
+        {
+          "date": "2025-09-17T16:29:47.551Z",
+          "invoiceNumber": "Ober-1",
+          "orderDetails": [
+            [
+              "2025-09-17T16:29:47.551Z",
+              "181",
+              2,
+              "37.90",
+              0,
+              "AYCE Ma-Do Volwassene"
+            ],
+            [
+              "2025-09-17T16:29:47.551Z",
+              "201",
+              1,
+              "3.00",
+              0,
+              "Pepsi Cola"
+            ],
+            [
+              "2025-09-17T16:29:47.551Z",
+              "208",
+              1,
+              "3.00",
+              0,
+              "Cassis"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 81.8
+            }
+          ],
+          "timestamp": 1758126587958,
+          "totalItems": 3
+        },
+        {
+          "date": "2025-09-17T16:34:41.098Z",
+          "invoiceNumber": 2,
+          "orderDetails": [
+            [
+              "2025-09-17T16:34:41.098Z",
+              "10",
+              1,
+              0,
+              0,
+              "Tamago nigiri"
+            ],
+            [
+              "2025-09-17T16:34:41.098Z",
+              "13",
+              1,
+              0,
+              0,
+              "Crown"
+            ],
+            [
+              "2025-09-17T16:34:41.098Z",
+              "39",
+              1,
+              0,
+              0,
+              "Spicy salmon maki"
+            ],
+            [
+              "2025-09-17T16:34:41.098Z",
+              "45",
+              1,
+              0,
+              0,
+              "Crispy california"
+            ],
+            [
+              "2025-09-17T16:34:41.098Z",
+              "6",
+              1,
+              0,
+              0,
+              "Banana nigiri"
+            ],
+            [
+              "2025-09-17T16:34:41.098Z",
+              "7",
+              1,
+              0,
+              0,
+              "Strawberry nigiri"
+            ],
+            [
+              "2025-09-17T16:34:41.098Z",
+              "92",
+              1,
+              0,
+              0,
+              "Courgette"
+            ],
+            [
+              "2025-09-17T16:34:41.098Z",
+              "96",
+              1,
+              0,
+              0,
+              "Sweet potato"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 0
+            }
+          ],
+          "timestamp": 1758126881456,
+          "totalItems": 8
+        },
+        {
+          "date": "2025-09-17T17:10:59.722Z",
+          "invoiceNumber": 3,
+          "orderDetails": [
+            [
+              "2025-09-17T17:10:59.722Z",
+              "106",
+              2,
+              0,
+              0,
+              "Gyoza"
+            ],
+            [
+              "2025-09-17T17:10:59.722Z",
+              "32",
+              1,
+              0,
+              0,
+              "Kappa maki"
+            ],
+            [
+              "2025-09-17T17:10:59.722Z",
+              "35",
+              1,
+              0,
+              0,
+              "Veggie cream maki"
+            ],
+            [
+              "2025-09-17T17:10:59.722Z",
+              "37",
+              1,
+              0,
+              0,
+              "Fried Maki"
+            ],
+            [
+              "2025-09-17T17:10:59.722Z",
+              "42",
+              1,
+              0,
+              0,
+              "Spicy tori"
+            ],
+            [
+              "2025-09-17T17:10:59.722Z",
+              "70",
+              1,
+              0,
+              0,
+              "Fruit jelly"
+            ],
+            [
+              "2025-09-17T17:10:59.722Z",
+              "79",
+              1,
+              0,
+              0,
+              "Sweet & sour chicken"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 0
+            }
+          ],
+          "timestamp": 1758129060244,
+          "totalItems": 7
+        },
+        {
+          "date": "2025-09-17T17:40:07.268Z",
+          "invoiceNumber": 4,
+          "orderDetails": [
+            [
+              "2025-09-17T17:40:07.268Z",
+              "136",
+              1,
+              0,
+              0,
+              "Mozarella"
+            ],
+            [
+              "2025-09-17T17:40:07.268Z",
+              "203",
+              1,
+              3,
+              0,
+              "Sisi"
+            ],
+            [
+              "2025-09-17T17:40:07.268Z",
+              "219",
+              1,
+              3.2,
+              0,
+              "Lipton Ice Tea Green"
+            ],
+            [
+              "2025-09-17T17:40:07.268Z",
+              "32",
+              1,
+              0,
+              0,
+              "Kappa maki"
+            ],
+            [
+              "2025-09-17T17:40:07.268Z",
+              "36",
+              1,
+              0,
+              0,
+              "California maki"
+            ],
+            [
+              "2025-09-17T17:40:07.268Z",
+              "37",
+              1,
+              0,
+              0,
+              "Fried Maki"
+            ],
+            [
+              "2025-09-17T17:40:07.268Z",
+              "44",
+              1,
+              0,
+              0,
+              "Tempura maki"
+            ],
+            [
+              "2025-09-17T17:40:07.268Z",
+              "69",
+              2,
+              0,
+              0,
+              "Pudding"
+            ],
+            [
+              "2025-09-17T17:40:07.268Z",
+              "95",
+              1,
+              0,
+              0,
+              "Fried banana"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 6.2
+            }
+          ],
+          "timestamp": 1758130807841,
+          "totalItems": 9
+        },
+        {
+          "date": "2025-09-17T18:23:51.367Z",
+          "invoiceNumber": 5,
+          "orderDetails": [
+            [
+              "2025-09-17T18:23:51.367Z",
+              "68",
+              2,
+              0,
+              0,
+              "Vers fruit"
+            ],
+            [
+              "2025-09-17T18:23:51.367Z",
+              "70",
+              2,
+              0,
+              0,
+              "Fruit jelly"
+            ],
+            [
+              "2025-09-17T18:23:51.367Z",
+              "7",
+              2,
+              0,
+              0,
+              "Strawberry nigiri"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 0
+            }
+          ],
+          "timestamp": 1758133431834,
+          "totalItems": 3
+        },
+        {
+          "date": "2025-09-17T18:53:09.271Z",
+          "invoiceNumber": 6,
+          "orderDetails": [
+            [
+              "2025-09-17T18:53:09.271Z",
+              "137",
+              1,
+              0,
+              0,
+              "Vanille ijs"
+            ],
+            [
+              "2025-09-17T18:53:09.271Z",
+              "1391",
+              1,
+              0,
+              0,
+              "Groen Thee + slagroom"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 0
+            }
+          ],
+          "timestamp": 1758135189770,
+          "totalItems": 2
+        }
+      ],
+      "menu": 2,
+      "orderNumbers": 7
+    },
+    "timer": {
+      "duration": 15,
+      "endTime": 1758136089918,
+      "startTime": 1758135189918
+    }
+  },
+  "Tafel-18": {
+    "Persons": 2,
+    "Pincode": "123",
+    "Status": "open",
+    "TableOrder": 20,
+    "URL": "https://asianboulevard.web.app/?rest=AsianBoulevard&tafel=18",
+    "menuType": "dinner",
+    "orders": {
+      "history": [
+        null,
+        {
+          "date": "2025-09-17T15:46:25.006Z",
+          "invoiceNumber": "Ober-1",
+          "orderDetails": [
+            [
+              "2025-09-17T15:46:25.006Z",
+              "181",
+              2,
+              "37.90",
+              0,
+              "AYCE Ma-Do Volwassene"
+            ],
+            [
+              "2025-09-17T15:46:25.006Z",
+              "205",
+              1,
+              "3.20",
+              0,
+              "Liptop Ice Tea"
+            ],
+            [
+              "2025-09-17T15:46:25.006Z",
+              "216",
+              1,
+              "2.70",
+              0,
+              "Sourcy Rood (20 cl)"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 81.7
+            }
+          ],
+          "timestamp": 1758123985394,
+          "totalItems": 3
+        },
+        {
+          "date": "2025-09-17T15:50:31.389Z",
+          "invoiceNumber": 2,
+          "orderDetails": [
+            [
+              "2025-09-17T15:50:31.389Z",
+              "115",
+              1,
+              0,
+              0,
+              "Beef teriyaki"
+            ],
+            [
+              "2025-09-17T15:50:31.389Z",
+              "124",
+              1,
+              0,
+              0,
+              "Unagi dreams"
+            ],
+            [
+              "2025-09-17T15:50:31.389Z",
+              "16",
+              1,
+              0,
+              0,
+              "Wasabi"
+            ],
+            [
+              "2025-09-17T15:50:31.389Z",
+              "19",
+              1,
+              0,
+              0,
+              "Gember"
+            ],
+            [
+              "2025-09-17T15:50:31.389Z",
+              "21",
+              1,
+              0,
+              0,
+              "Gunkan Tobiko"
+            ],
+            [
+              "2025-09-17T15:50:31.389Z",
+              "32",
+              1,
+              0,
+              0,
+              "Kappa maki"
+            ],
+            [
+              "2025-09-17T15:50:31.389Z",
+              "36",
+              1,
+              0,
+              0,
+              "California maki"
+            ],
+            [
+              "2025-09-17T15:50:31.389Z",
+              "38",
+              1,
+              0,
+              0,
+              "Avocado sake maki"
+            ],
+            [
+              "2025-09-17T15:50:31.389Z",
+              "88",
+              1,
+              0,
+              0,
+              "Edamame"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 0
+            }
+          ],
+          "timestamp": 1758124231733,
+          "totalItems": 9
+        },
+        {
+          "date": "2025-09-17T16:09:12.806Z",
+          "invoiceNumber": 3,
+          "orderDetails": [
+            [
+              "2025-09-17T16:09:12.806Z",
+              "19",
+              1,
+              0,
+              0,
+              "Gember"
+            ],
+            [
+              "2025-09-17T16:09:12.806Z",
+              "1",
+              1,
+              0,
+              0,
+              "Sake nigiri"
+            ],
+            [
+              "2025-09-17T16:09:12.806Z",
+              "217",
+              1,
+              6.9,
+              0,
+              "Sourcy Blauw (100 cl)"
+            ],
+            [
+              "2025-09-17T16:09:12.806Z",
+              "31",
+              1,
+              0,
+              0,
+              "Sake maki"
+            ],
+            [
+              "2025-09-17T16:09:12.806Z",
+              "32",
+              1,
+              0,
+              0,
+              "Kappa maki"
+            ],
+            [
+              "2025-09-17T16:09:12.806Z",
+              "40",
+              1,
+              0,
+              0,
+              "Dragon roll"
+            ],
+            [
+              "2025-09-17T16:09:12.806Z",
+              "46",
+              1,
+              0,
+              0,
+              "Beef maki"
+            ],
+            [
+              "2025-09-17T16:09:12.806Z",
+              "80",
+              1,
+              0,
+              0,
+              "Yaki meshi"
+            ],
+            [
+              "2025-09-17T16:09:12.806Z",
+              "88",
+              1,
+              0,
+              0,
+              "Edamame"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 6.9
+            }
+          ],
+          "timestamp": 1758125353200,
+          "totalItems": 9
+        },
+        {
+          "date": "2025-09-17T16:31:53.852Z",
+          "invoiceNumber": 4,
+          "orderDetails": [
+            [
+              "2025-09-17T16:31:53.852Z",
+              "116",
+              1,
+              0,
+              0,
+              "Usuyaki"
+            ],
+            [
+              "2025-09-17T16:31:53.852Z",
+              "127",
+              1,
+              0,
+              0,
+              "Carpaccio roll"
+            ],
+            [
+              "2025-09-17T16:31:53.852Z",
+              "22",
+              1,
+              0,
+              0,
+              "Wakame gunkan"
+            ],
+            [
+              "2025-09-17T16:31:53.852Z",
+              "38",
+              1,
+              0,
+              0,
+              "Avocado sake maki"
+            ],
+            [
+              "2025-09-17T16:31:53.852Z",
+              "53",
+              1,
+              0,
+              0,
+              "Sake temaki"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 0
+            }
+          ],
+          "timestamp": 1758126714176,
+          "totalItems": 5
+        },
+        {
+          "date": "2025-09-17T16:52:19.617Z",
+          "invoiceNumber": 5,
+          "orderDetails": [
+            [
+              "2025-09-17T16:52:19.617Z",
+              "115",
+              1,
+              0,
+              0,
+              "Beef teriyaki"
+            ],
+            [
+              "2025-09-17T16:52:19.617Z",
+              "208",
+              1,
+              3,
+              0,
+              "Cassis"
+            ],
+            [
+              "2025-09-17T16:52:19.617Z",
+              "32",
+              1,
+              0,
+              0,
+              "Kappa maki"
+            ],
+            [
+              "2025-09-17T16:52:19.617Z",
+              "3",
+              1,
+              0,
+              0,
+              "Avocado nigiri"
+            ],
+            [
+              "2025-09-17T16:52:19.617Z",
+              "80",
+              1,
+              0,
+              0,
+              "Yaki meshi"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 3
+            }
+          ],
+          "timestamp": 1758127940189,
+          "totalItems": 5
+        },
+        {
+          "date": "2025-09-17T17:20:38.143Z",
+          "invoiceNumber": 6,
+          "orderDetails": [
+            [
+              "2025-09-17T17:20:38.143Z",
+              "1371",
+              1,
+              0,
+              0,
+              "Vanille + slagroom"
+            ],
+            [
+              "2025-09-17T17:20:38.143Z",
+              "137",
+              1,
+              0,
+              0,
+              "Vanille ijs"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 0
+            }
+          ],
+          "timestamp": 1758129638570,
+          "totalItems": 2
+        }
+      ],
+      "menu": 2,
+      "orderNumbers": 7
+    },
+    "timer": {
+      "duration": 15,
+      "endTime": 1758130538717,
+      "startTime": 1758129638717
+    }
+  },
+  "Tafel-19": {
+    "Persons": 1,
+    "Pincode": "123",
+    "Status": "open",
+    "TableOrder": 21,
+    "URL": "https://asianboulevard.web.app/?rest=AsianBoulevard&tafel=19",
+    "menuType": "dinner",
+    "orders": {
+      "menu": 0,
+      "orderNumbers": 1,
+      "orderlist": {
+        "19__default": {
+          "allergy": "",
+          "description": "Gember",
+          "group": "geen",
+          "price": 0,
+          "quantity": 1,
+          "sku": "19",
+          "subtotal": 0,
+          "taxAmount": 0,
+          "taxRate": 0
+        }
+      }
+    },
+    "timer": {
+      "duration": 15,
+      "endTime": 900001,
+      "startTime": 1
+    }
+  },
+  "Tafel-2": {
+    "Persons": 2,
+    "Pincode": "123",
+    "Status": "open",
+    "TableOrder": 2,
+    "URL": "https://asianboulevard.web.app/?rest=AsianBoulevard&tafel=2",
+    "menuType": "dinner",
+    "orders": {
+      "aggregates": {
+        "desserts": 0,
+        "hoofdgerechten": 0,
+        "totaalPrijs": 0,
+        "updatedAt": 1757191287575
+      },
+      "menu": 0,
+      "orderNumbers": 1
+    },
+    "timer": {
+      "duration": 15,
+      "endTime": 1758043814550,
+      "startTime": 1758042914550
+    }
+  },
+  "Tafel-21": {
+    "Persons": 3,
+    "Pincode": "123",
+    "Status": "open",
+    "TableOrder": 22,
+    "URL": "https://asianboulevard.web.app/?rest=AsianBoulevard&tafel=21",
+    "menuType": "dinner",
+    "orders": {
+      "menu": 0,
+      "orderNumbers": 1
+    },
+    "timer": {
+      "duration": 15,
+      "endTime": 1758046802364,
+      "startTime": 1758045902364
+    }
+  },
+  "Tafel-22": {
+    "Persons": 4,
+    "Pincode": "123",
+    "Status": "open",
+    "TableOrder": 23,
+    "URL": "https://asianboulevard.web.app/?rest=AsianBoulevard&tafel=22",
+    "menuType": "dinner",
+    "orders": {
+      "aggregates": {
+        "desserts": 0,
+        "hoofdgerechten": 0,
+        "totaalPrijs": 0,
+        "updatedAt": 1755972619577
+      },
+      "history": [
+        null,
+        {
+          "date": "2025-09-17T15:38:10.112Z",
+          "invoiceNumber": "Ober-1",
+          "orderDetails": [
+            [
+              "2025-09-17T15:38:10.112Z",
+              "423",
+              1,
+              "10.30",
+              0,
+              "Mojito"
+            ],
+            [
+              "2025-09-17T15:38:10.112Z",
+              "314",
+              1,
+              "9.80",
+              0,
+              "Evening Sun"
+            ],
+            [
+              "2025-09-17T15:38:10.112Z",
+              "239",
+              1,
+              "3.20",
+              0,
+              "Radler 0,0%"
+            ],
+            [
+              "2025-09-17T15:38:10.112Z",
+              "424",
+              1,
+              "10.80",
+              0,
+              "Pornstar Martini"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 34.1
+            }
+          ],
+          "timestamp": 1758123490347,
+          "totalItems": 4
+        },
+        {
+          "date": "2025-09-17T15:47:42.728Z",
+          "invoiceNumber": 2,
+          "orderDetails": [
+            [
+              "2025-09-17T15:47:42.728Z",
+              "108",
+              1,
+              0,
+              0,
+              "Ebi chili"
+            ],
+            [
+              "2025-09-17T15:47:42.728Z",
+              "110",
+              2,
+              0,
+              0,
+              "Mossel"
+            ],
+            [
+              "2025-09-17T15:47:42.728Z",
+              "126",
+              1,
+              0,
+              0,
+              "Sake tobiko"
+            ],
+            [
+              "2025-09-17T15:47:42.728Z",
+              "13",
+              1,
+              0,
+              0,
+              "Crown"
+            ],
+            [
+              "2025-09-17T15:47:42.728Z",
+              "27",
+              1,
+              0,
+              0,
+              "Spicy maguro gunkan"
+            ],
+            [
+              "2025-09-17T15:47:42.728Z",
+              "34",
+              1,
+              0,
+              0,
+              "Tekka maki"
+            ],
+            [
+              "2025-09-17T15:47:42.728Z",
+              "40",
+              2,
+              0,
+              0,
+              "Dragon roll"
+            ],
+            [
+              "2025-09-17T15:47:42.728Z",
+              "44",
+              1,
+              0,
+              0,
+              "Tempura maki"
+            ],
+            [
+              "2025-09-17T15:47:42.728Z",
+              "55",
+              1,
+              0,
+              0,
+              "Pokebowl California"
+            ],
+            [
+              "2025-09-17T15:47:42.728Z",
+              "88",
+              1,
+              0,
+              0,
+              "Edamame"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 0
+            }
+          ],
+          "timestamp": 1758124063033,
+          "totalItems": 10
+        },
+        {
+          "date": "2025-09-17T16:05:39.159Z",
+          "invoiceNumber": 3,
+          "orderDetails": [
+            [
+              "2025-09-17T16:05:39.159Z",
+              "114",
+              1,
+              0,
+              0,
+              "Crispy beef"
+            ],
+            [
+              "2025-09-17T16:05:39.159Z",
+              "124",
+              2,
+              0,
+              0,
+              "Unagi dreams"
+            ],
+            [
+              "2025-09-17T16:05:39.159Z",
+              "132",
+              1,
+              0,
+              0,
+              "Zoet/peper garnalen"
+            ],
+            [
+              "2025-09-17T16:05:39.159Z",
+              "133",
+              1,
+              0,
+              0,
+              "Dragon Balls"
+            ],
+            [
+              "2025-09-17T16:05:39.159Z",
+              "38",
+              1,
+              0,
+              0,
+              "Avocado sake maki"
+            ],
+            [
+              "2025-09-17T16:05:39.159Z",
+              "39",
+              2,
+              0,
+              0,
+              "Spicy salmon maki"
+            ],
+            [
+              "2025-09-17T16:05:39.159Z",
+              "40",
+              2,
+              0,
+              0,
+              "Dragon roll"
+            ],
+            [
+              "2025-09-17T16:05:39.159Z",
+              "6",
+              1,
+              0,
+              0,
+              "Banana nigiri"
+            ],
+            [
+              "2025-09-17T16:05:39.159Z",
+              "84",
+              1,
+              0,
+              0,
+              "Ebi tempura"
+            ],
+            [
+              "2025-09-17T16:05:39.159Z",
+              "95",
+              1,
+              0,
+              0,
+              "Fried banana"
+            ],
+            [
+              "2025-09-17T16:05:39.159Z",
+              "98",
+              1,
+              0,
+              0,
+              "Uienring"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 0
+            }
+          ],
+          "timestamp": 1758125139581,
+          "totalItems": 11
+        },
+        {
+          "date": "2025-09-17T16:31:53.977Z",
+          "invoiceNumber": 4,
+          "orderDetails": [
+            [
+              "2025-09-17T16:31:53.977Z",
+              "101",
+              1,
+              0,
+              0,
+              "Kip spies"
+            ],
+            [
+              "2025-09-17T16:31:53.977Z",
+              "123",
+              1,
+              0,
+              0,
+              "Dragon nigiri"
+            ],
+            [
+              "2025-09-17T16:31:53.977Z",
+              "231",
+              1,
+              4.5,
+              0,
+              "Sapporo (japans bier)"
+            ],
+            [
+              "2025-09-17T16:31:53.977Z",
+              "232",
+              2,
+              4.5,
+              0,
+              "Kirin (japans bier)"
+            ],
+            [
+              "2025-09-17T16:31:53.977Z",
+              "239",
+              1,
+              3.2,
+              0,
+              "Radler 0,0%"
+            ],
+            [
+              "2025-09-17T16:31:53.977Z",
+              "31",
+              1,
+              0,
+              0,
+              "Sake maki"
+            ],
+            [
+              "2025-09-17T16:31:53.977Z",
+              "63",
+              1,
+              0,
+              0,
+              "Wakame salade"
+            ],
+            [
+              "2025-09-17T16:31:53.977Z",
+              "88",
+              1,
+              0,
+              0,
+              "Edamame"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 16.7
+            }
+          ],
+          "timestamp": 1758126714253,
+          "totalItems": 8
+        },
+        {
+          "date": "2025-09-17T16:51:40.326Z",
+          "invoiceNumber": 5,
+          "orderDetails": [
+            [
+              "2025-09-17T16:51:40.326Z",
+              "138",
+              1,
+              0,
+              0,
+              "Citroen ijs"
+            ],
+            [
+              "2025-09-17T16:51:40.326Z",
+              "139",
+              1,
+              0,
+              0,
+              "Groene Thee ijs"
+            ],
+            [
+              "2025-09-17T16:51:40.326Z",
+              "141",
+              1,
+              0,
+              0,
+              "Zwarte sesam ijs"
+            ],
+            [
+              "2025-09-17T16:51:40.326Z",
+              "142",
+              2,
+              0,
+              0,
+              "Creme Brulee"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 0
+            }
+          ],
+          "timestamp": 1758127900506,
+          "totalItems": 4
+        }
+      ],
+      "menu": 0,
+      "orderNumbers": 6
+    },
+    "timer": {
+      "duration": 15,
+      "endTime": 1758128800587,
+      "startTime": 1758127900587
+    }
+  },
+  "Tafel-23": {
+    "Persons": 4,
+    "Pincode": "123",
+    "Status": "open",
+    "TableOrder": 24,
+    "URL": "https://asianboulevard.web.app/?rest=AsianBoulevard&tafel=23",
+    "menuType": "dinner",
+    "orders": {
+      "aggregates": {
+        "desserts": 0,
+        "hoofdgerechten": 0,
+        "totaalPrijs": 0,
+        "updatedAt": 1757097444158
+      },
+      "history": [
+        null,
+        {
+          "date": "2025-09-17T16:18:35.838Z",
+          "invoiceNumber": "Ober-1",
+          "orderDetails": [
+            [
+              "2025-09-17T16:18:35.838Z",
+              "217",
+              1,
+              "6.90",
+              0,
+              "Sourcy Blauw (100 cl)"
+            ],
+            [
+              "2025-09-17T16:18:35.838Z",
+              "213",
+              1,
+              "3.00",
+              0,
+              "Appelsap"
+            ],
+            [
+              "2025-09-17T16:18:35.838Z",
+              "209",
+              1,
+              "3.00",
+              0,
+              "Ginger Ale"
+            ],
+            [
+              "2025-09-17T16:18:35.838Z",
+              "224",
+              1,
+              "4.50",
+              0,
+              "Affligem Wit"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 17.4
+            }
+          ],
+          "timestamp": 1758125916105,
+          "totalItems": 4
+        },
+        {
+          "date": "2025-09-17T16:19:00.288Z",
+          "invoiceNumber": "Ober-2",
+          "orderDetails": [
+            [
+              "2025-09-17T16:19:00.288Z",
+              "181",
+              4,
+              "37.90",
+              0,
+              "AYCE Ma-Do Volwassene"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 113.69999999999999
+            }
+          ],
+          "timestamp": 1758125940680,
+          "totalItems": 1
+        },
+        {
+          "date": "2025-09-17T16:23:16.285Z",
+          "invoiceNumber": 3,
+          "orderDetails": [
+            [
+              "2025-09-17T16:23:16.285Z",
+              "113",
+              1,
+              0,
+              0,
+              "Carpaccio salade"
+            ],
+            [
+              "2025-09-17T16:23:16.285Z",
+              "115",
+              1,
+              0,
+              0,
+              "Beef teriyaki"
+            ],
+            [
+              "2025-09-17T16:23:16.285Z",
+              "123",
+              1,
+              0,
+              0,
+              "Dragon nigiri"
+            ],
+            [
+              "2025-09-17T16:23:16.285Z",
+              "125",
+              1,
+              0,
+              0,
+              "Flamed sake maki"
+            ],
+            [
+              "2025-09-17T16:23:16.285Z",
+              "1",
+              1,
+              0,
+              0,
+              "Sake nigiri"
+            ],
+            [
+              "2025-09-17T16:23:16.285Z",
+              "31",
+              2,
+              0,
+              0,
+              "Sake maki"
+            ],
+            [
+              "2025-09-17T16:23:16.285Z",
+              "32",
+              1,
+              0,
+              0,
+              "Kappa maki"
+            ],
+            [
+              "2025-09-17T16:23:16.285Z",
+              "36",
+              1,
+              0,
+              0,
+              "California maki"
+            ],
+            [
+              "2025-09-17T16:23:16.285Z",
+              "37",
+              1,
+              0,
+              0,
+              "Fried Maki"
+            ],
+            [
+              "2025-09-17T16:23:16.285Z",
+              "39",
+              1,
+              0,
+              0,
+              "Spicy salmon maki"
+            ],
+            [
+              "2025-09-17T16:23:16.285Z",
+              "40",
+              1,
+              0,
+              0,
+              "Dragon roll"
+            ],
+            [
+              "2025-09-17T16:23:16.285Z",
+              "46",
+              1,
+              0,
+              0,
+              "Beef maki"
+            ],
+            [
+              "2025-09-17T16:23:16.285Z",
+              "5",
+              1,
+              0,
+              0,
+              "Flamed sake cheese"
+            ],
+            [
+              "2025-09-17T16:23:16.285Z",
+              "61",
+              1,
+              0,
+              0,
+              "Sashimi salade"
+            ],
+            [
+              "2025-09-17T16:23:16.285Z",
+              "84",
+              1,
+              0,
+              0,
+              "Ebi tempura"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 0
+            }
+          ],
+          "timestamp": 1758126196561,
+          "totalItems": 15
+        },
+        {
+          "date": "2025-09-17T16:24:35.566Z",
+          "invoiceNumber": 4,
+          "orderDetails": [
+            [
+              "2025-09-17T16:24:35.566Z",
+              "16",
+              1,
+              0,
+              0,
+              "Wasabi"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 0
+            }
+          ],
+          "timestamp": 1758126275837,
+          "totalItems": 1
+        },
+        {
+          "date": "2025-09-17T16:43:57.964Z",
+          "invoiceNumber": 5,
+          "orderDetails": [
+            [
+              "2025-09-17T16:43:57.964Z",
+              "26",
+              1,
+              0,
+              0,
+              "Sake gunkan"
+            ],
+            [
+              "2025-09-17T16:43:57.964Z",
+              "38",
+              1,
+              0,
+              0,
+              "Avocado sake maki"
+            ],
+            [
+              "2025-09-17T16:43:57.964Z",
+              "53",
+              2,
+              0,
+              0,
+              "Sake temaki"
+            ],
+            [
+              "2025-09-17T16:43:57.964Z",
+              "108",
+              1,
+              0,
+              0,
+              "Ebi chili"
+            ],
+            [
+              "2025-09-17T16:43:57.964Z",
+              "196",
+              1,
+              0,
+              0,
+              "Oshisushi (2st)"
+            ],
+            [
+              "2025-09-17T16:43:57.964Z",
+              "115",
+              1,
+              0,
+              0,
+              "Beef teriyaki"
+            ],
+            [
+              "2025-09-17T16:43:57.964Z",
+              "31",
+              2,
+              0,
+              0,
+              "Sake maki"
+            ],
+            [
+              "2025-09-17T16:43:57.964Z",
+              "32",
+              1,
+              0,
+              0,
+              "Kappa maki"
+            ],
+            [
+              "2025-09-17T16:43:57.964Z",
+              "36",
+              1,
+              0,
+              0,
+              "California maki"
+            ],
+            [
+              "2025-09-17T16:43:57.964Z",
+              "38",
+              1,
+              0,
+              0,
+              "Avocado sake maki"
+            ],
+            [
+              "2025-09-17T16:43:57.964Z",
+              "46",
+              1,
+              0,
+              0,
+              "Beef maki"
+            ],
+            [
+              "2025-09-17T16:43:57.964Z",
+              "5",
+              1,
+              0,
+              0,
+              "Flamed sake cheese"
+            ],
+            [
+              "2025-09-17T16:43:57.964Z",
+              "61",
+              1,
+              0,
+              0,
+              "Sashimi salade"
+            ],
+            [
+              "2025-09-17T16:43:57.964Z",
+              "64",
+              1,
+              0,
+              0,
+              "Pickles"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 0
+            }
+          ],
+          "timestamp": 1758127438627,
+          "totalItems": 14
+        },
+        {
+          "date": "2025-09-17T17:08:03.077Z",
+          "invoiceNumber": 6,
+          "orderDetails": [
+            [
+              "2025-09-17T17:08:03.077Z",
+              "115",
+              1,
+              0,
+              0,
+              "Beef teriyaki"
+            ],
+            [
+              "2025-09-17T17:08:03.077Z",
+              "116",
+              1,
+              0,
+              0,
+              "Usuyaki"
+            ],
+            [
+              "2025-09-17T17:08:03.077Z",
+              "120",
+              1,
+              0,
+              0,
+              "Usuyaki cheese"
+            ],
+            [
+              "2025-09-17T17:08:03.077Z",
+              "123",
+              1,
+              0,
+              0,
+              "Dragon nigiri"
+            ],
+            [
+              "2025-09-17T17:08:03.077Z",
+              "125",
+              1,
+              0,
+              0,
+              "Flamed sake maki"
+            ],
+            [
+              "2025-09-17T17:08:03.077Z",
+              "128",
+              1,
+              0,
+              0,
+              "Tuna maki"
+            ],
+            [
+              "2025-09-17T17:08:03.077Z",
+              "146",
+              1,
+              0,
+              0,
+              "Sake Sashimi"
+            ],
+            [
+              "2025-09-17T17:08:03.077Z",
+              "196",
+              1,
+              0,
+              0,
+              "Oshisushi (2st)"
+            ],
+            [
+              "2025-09-17T17:08:03.077Z",
+              "44",
+              1,
+              0,
+              0,
+              "Tempura maki"
+            ],
+            [
+              "2025-09-17T17:08:03.077Z",
+              "5",
+              1,
+              0,
+              0,
+              "Flamed sake cheese"
+            ],
+            [
+              "2025-09-17T17:08:03.077Z",
+              "78",
+              1,
+              0,
+              0,
+              "Tomaten soup"
+            ],
+            [
+              "2025-09-17T17:08:03.077Z",
+              "7",
+              1,
+              0,
+              0,
+              "Strawberry nigiri"
+            ],
+            [
+              "2025-09-17T17:08:03.077Z",
+              "90",
+              1,
+              0,
+              0,
+              "Frikandel"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 0
+            }
+          ],
+          "timestamp": 1758128883569,
+          "totalItems": 13
+        },
+        {
+          "date": "2025-09-17T17:30:16.603Z",
+          "invoiceNumber": 7,
+          "orderDetails": [
+            [
+              "2025-09-17T17:30:16.603Z",
+              "5",
+              1,
+              0,
+              0,
+              "Flamed sake cheese"
+            ],
+            [
+              "2025-09-17T17:30:16.603Z",
+              "107",
+              1,
+              0,
+              0,
+              "Tori peppa"
+            ],
+            [
+              "2025-09-17T17:30:16.603Z",
+              "146",
+              3,
+              0,
+              0,
+              "Sake Sashimi"
+            ],
+            [
+              "2025-09-17T17:30:16.603Z",
+              "105",
+              1,
+              0,
+              0,
+              "Ebi garlic"
+            ],
+            [
+              "2025-09-17T17:30:16.603Z",
+              "128",
+              1,
+              0,
+              0,
+              "Tuna maki"
+            ],
+            [
+              "2025-09-17T17:30:16.603Z",
+              "131",
+              1,
+              0,
+              0,
+              "Spicy harumaki"
+            ],
+            [
+              "2025-09-17T17:30:16.603Z",
+              "136",
+              1,
+              0,
+              0,
+              "Mozarella"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 0
+            }
+          ],
+          "timestamp": 1758130217040,
+          "totalItems": 7
+        },
+        {
+          "date": "2025-09-17T17:45:21.861Z",
+          "invoiceNumber": 8,
+          "orderDetails": [
+            [
+              "2025-09-17T17:45:21.861Z",
+              "1371",
+              1,
+              0,
+              0,
+              "Vanille + slagroom"
+            ],
+            [
+              "2025-09-17T17:45:21.861Z",
+              "137",
+              1,
+              0,
+              0,
+              "Vanille ijs"
+            ],
+            [
+              "2025-09-17T17:45:21.861Z",
+              "1401",
+              1,
+              0,
+              0,
+              "Choco + slagroom"
+            ],
+            [
+              "2025-09-17T17:45:21.861Z",
+              "142",
+              1,
+              0,
+              0,
+              "Creme Brulee"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 0
+            }
+          ],
+          "timestamp": 1758131123474,
+          "totalItems": 4
+        }
+      ],
+      "menu": 4,
+      "orderNumbers": 9
+    },
+    "timer": {
+      "duration": 15,
+      "endTime": 1758132023580,
+      "startTime": 1758131123580
+    }
+  },
+  "Tafel-24": {
+    "Persons": 4,
+    "Pincode": "123",
+    "Status": "open",
+    "TableOrder": 25,
+    "URL": "https://asianboulevard.web.app/?rest=AsianBoulevard&tafel=24",
+    "menuType": "dinner",
+    "orders": {
+      "aggregates": {
+        "desserts": 0,
+        "hoofdgerechten": 0,
+        "totaalPrijs": 0,
+        "updatedAt": 1757785154730
+      },
+      "history": [
+        null,
+        {
+          "date": "2025-09-17T16:25:12.066Z",
+          "invoiceNumber": 1,
+          "orderDetails": [
+            [
+              "2025-09-17T16:25:12.066Z",
+              "202",
+              1,
+              3,
+              0,
+              "Pepsi Cola Max"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 3
+            }
+          ],
+          "timestamp": 1758126312549,
+          "totalItems": 1
+        },
+        {
+          "date": "2025-09-17T16:42:43.012Z",
+          "invoiceNumber": 2,
+          "orderDetails": [
+            [
+              "2025-09-17T16:42:43.012Z",
+              "104",
+              1,
+              0,
+              0,
+              "Squid"
+            ],
+            [
+              "2025-09-17T16:42:43.012Z",
+              "146",
+              2,
+              0,
+              0,
+              "Sake Sashimi"
+            ],
+            [
+              "2025-09-17T16:42:43.012Z",
+              "31",
+              1,
+              0,
+              0,
+              "Sake maki"
+            ],
+            [
+              "2025-09-17T16:42:43.012Z",
+              "34",
+              1,
+              0,
+              0,
+              "Tekka maki"
+            ],
+            [
+              "2025-09-17T16:42:43.012Z",
+              "65",
+              1,
+              0,
+              0,
+              "Krabsalade"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 0
+            }
+          ],
+          "timestamp": 1758127363450,
+          "totalItems": 5
+        },
+        {
+          "date": "2025-09-17T16:55:17.500Z",
+          "invoiceNumber": 3,
+          "orderDetails": [
+            [
+              "2025-09-17T16:55:17.500Z",
+              "205",
+              1,
+              3.2,
+              0,
+              "Liptop Ice Tea"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 3.2
+            }
+          ],
+          "timestamp": 1758128118683,
+          "totalItems": 1
+        },
+        {
+          "date": "2025-09-17T17:00:47.801Z",
+          "invoiceNumber": 4,
+          "orderDetails": [
+            [
+              "2025-09-17T17:00:47.801Z",
+              "1391",
+              1,
+              0,
+              0,
+              "Groen Thee + slagroom"
+            ],
+            [
+              "2025-09-17T17:00:47.801Z",
+              "1401",
+              1,
+              0,
+              0,
+              "Choco + slagroom"
+            ],
+            [
+              "2025-09-17T17:00:47.801Z",
+              "104",
+              1,
+              0,
+              0,
+              "Squid"
+            ],
+            [
+              "2025-09-17T17:00:47.801Z",
+              "105",
+              1,
+              0,
+              0,
+              "Ebi garlic"
+            ],
+            [
+              "2025-09-17T17:00:47.801Z",
+              "142",
+              3,
+              0,
+              0,
+              "Creme Brulee"
+            ],
+            [
+              "2025-09-17T17:00:47.801Z",
+              "146",
+              1,
+              0,
+              0,
+              "Sake Sashimi"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 0
+            }
+          ],
+          "timestamp": 1758128448279,
+          "totalItems": 6
+        }
+      ],
+      "menu": 0,
+      "orderNumbers": 5
+    },
+    "timer": {
+      "duration": 15,
+      "endTime": 1758129348379,
+      "startTime": 1758128448379
+    }
+  },
+  "Tafel-25": {
+    "Persons": 2,
+    "Pincode": "123",
+    "Status": "open",
+    "TableOrder": 26,
+    "URL": "https://asianboulevard.web.app/?rest=AsianBoulevard&tafel=25",
+    "menuType": "lunch",
+    "orders": {
+      "aggregates": {
+        "desserts": 0,
+        "hoofdgerechten": 0,
+        "totaalPrijs": 0,
+        "updatedAt": 1756139655603
+      },
+      "history": [
+        null,
+        {
+          "date": "2025-09-17T16:22:21.170Z",
+          "invoiceNumber": "Ober-1",
+          "orderDetails": [
+            [
+              "2025-09-17T16:22:21.170Z",
+              "181",
+              2,
+              "37.90",
+              0,
+              "AYCE Ma-Do Volwassene"
+            ],
+            [
+              "2025-09-17T16:22:21.170Z",
+              "207",
+              2,
+              "3.00",
+              0,
+              "Bitter Lemon"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 78.8
+            }
+          ],
+          "timestamp": 1758126141630,
+          "totalItems": 2
+        },
+        {
+          "date": "2025-09-17T16:28:30.910Z",
+          "invoiceNumber": 2,
+          "orderDetails": [
+            [
+              "2025-09-17T16:28:30.910Z",
+              "36",
+              1,
+              0,
+              0,
+              "California maki"
+            ],
+            [
+              "2025-09-17T16:28:30.910Z",
+              "38",
+              1,
+              0,
+              0,
+              "Avocado sake maki"
+            ],
+            [
+              "2025-09-17T16:28:30.910Z",
+              "44",
+              1,
+              0,
+              0,
+              "Tempura maki"
+            ],
+            [
+              "2025-09-17T16:28:30.910Z",
+              "46",
+              1,
+              0,
+              0,
+              "Beef maki"
+            ],
+            [
+              "2025-09-17T16:28:30.910Z",
+              "505",
+              1,
+              0,
+              0,
+              "Hulpstokje"
+            ],
+            [
+              "2025-09-17T16:28:30.910Z",
+              "61",
+              1,
+              0,
+              0,
+              "Sashimi salade"
+            ],
+            [
+              "2025-09-17T16:28:30.910Z",
+              "63",
+              1,
+              0,
+              0,
+              "Wakame salade"
+            ],
+            [
+              "2025-09-17T16:28:30.910Z",
+              "73",
+              1,
+              0,
+              0,
+              "Ramen soya chicken"
+            ],
+            [
+              "2025-09-17T16:28:30.910Z",
+              "77",
+              1,
+              0,
+              0,
+              "Miso soup"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 0
+            }
+          ],
+          "timestamp": 1758126511134,
+          "totalItems": 9
+        },
+        {
+          "date": "2025-09-17T16:57:53.225Z",
+          "invoiceNumber": 3,
+          "orderDetails": [
+            [
+              "2025-09-17T16:57:53.225Z",
+              "1015",
+              1,
+              0,
+              0,
+              "Bestek"
+            ],
+            [
+              "2025-09-17T16:57:53.225Z",
+              "19",
+              1,
+              0,
+              0,
+              "Gember"
+            ],
+            [
+              "2025-09-17T16:57:53.225Z",
+              "403",
+              1,
+              0,
+              0,
+              "Citroentjes"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 0
+            }
+          ],
+          "timestamp": 1758128273673,
+          "totalItems": 3
+        },
+        {
+          "date": "2025-09-17T17:01:43.184Z",
+          "invoiceNumber": 4,
+          "orderDetails": [
+            [
+              "2025-09-17T17:01:43.184Z",
+              "77",
+              2,
+              0,
+              0,
+              "Miso soup"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 0
+            }
+          ],
+          "timestamp": 1758128503371,
+          "totalItems": 1
+        },
+        {
+          "date": "2025-09-17T17:06:24.517Z",
+          "invoiceNumber": 5,
+          "orderDetails": [
+            [
+              "2025-09-17T17:06:24.517Z",
+              "1015",
+              1,
+              0,
+              0,
+              "Specifications"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 0
+            }
+          ],
+          "timestamp": 1758128784705,
+          "totalItems": 1
+        },
+        {
+          "date": "2025-09-17T17:25:21.192Z",
+          "invoiceNumber": 6,
+          "orderDetails": [
+            [
+              "2025-09-17T17:25:21.192Z",
+              "296",
+              1,
+              0,
+              0,
+              "Ice cubes"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 0
+            }
+          ],
+          "timestamp": 1758129921393,
+          "totalItems": 1
+        },
+        {
+          "date": "2025-09-17T17:26:49.331Z",
+          "invoiceNumber": 7,
+          "orderDetails": [
+            [
+              "2025-09-17T17:26:49.331Z",
+              "404",
+              1,
+              0,
+              0,
+              "Green soy sauce"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 0
+            }
+          ],
+          "timestamp": 1758130009492,
+          "totalItems": 1
+        },
+        {
+          "date": "2025-09-17T17:58:32.706Z",
+          "invoiceNumber": 8,
+          "orderDetails": [
+            [
+              "2025-09-17T17:58:32.706Z",
+              "296",
+              1,
+              0,
+              0,
+              "Ijsblokjes"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 0
+            }
+          ],
+          "timestamp": 1758131912817,
+          "totalItems": 1
+        },
+        {
+          "date": "2025-09-17T18:06:34.110Z",
+          "invoiceNumber": 9,
+          "orderDetails": [
+            [
+              "2025-09-17T18:06:34.110Z",
+              "288",
+              1,
+              0,
+              0,
+              "Rekening graag"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 0
+            }
+          ],
+          "timestamp": 1758132394306,
+          "totalItems": 1
+        }
+      ],
+      "menu": 2,
+      "orderNumbers": 10
+    },
+    "timer": {
+      "duration": 15,
+      "endTime": 1758129403412,
+      "startTime": 1758128503412
+    }
+  },
+  "Tafel-25A": {
+    "Persons": 2,
+    "Pincode": "123",
+    "Status": "open",
+    "TableOrder": 27,
+    "URL": "https://asianboulevard.web.app/?rest=AsianBoulevard&tafel=25A",
+    "menuType": "dinner",
+    "timer": {
+      "duration": 15,
+      "endTime": 900001,
+      "startTime": 1
+    }
+  },
+  "Tafel-3": {
+    "Persons": 2,
+    "Pincode": "123",
+    "Status": "open",
+    "TableOrder": 3,
+    "URL": "https://asianboulevard.web.app/?rest=AsianBoulevard&tafel=3",
+    "menuType": "dinner",
+    "orders": {
+      "aggregates": {
+        "desserts": 0,
+        "hoofdgerechten": 0,
+        "totaalPrijs": 0,
+        "updatedAt": 1755880414115
+      },
+      "menu": 0,
+      "orderNumbers": 1
+    },
+    "timer": {
+      "duration": 15,
+      "endTime": 1758042503630,
+      "startTime": 1758041603630
+    }
+  },
+  "Tafel-31": {
+    "Persons": 3,
+    "Pincode": "123",
+    "Status": "open",
+    "TableOrder": 28,
+    "URL": "https://asianboulevard.web.app/?rest=AsianBoulevard&tafel=31",
+    "menuType": "dinner",
+    "orders": {
+      "aggregates": {
+        "desserts": 0,
+        "hoofdgerechten": 0,
+        "totaalPrijs": 0,
+        "updatedAt": 1757778477857
+      },
+      "history": [
+        null,
+        {
+          "date": "2025-09-17T15:06:57.339Z",
+          "invoiceNumber": "Ober-1",
+          "orderDetails": [
+            [
+              "2025-09-17T15:06:57.339Z",
+              "181",
+              1,
+              "37.90",
+              0,
+              "AYCE Ma-Do Volwassene"
+            ],
+            [
+              "2025-09-17T15:06:57.339Z",
+              "182",
+              2,
+              "19.90",
+              0,
+              "AYCE Kind 6 tot 10 jaar"
+            ],
+            [
+              "2025-09-17T15:06:57.339Z",
+              "219",
+              2,
+              "3.20",
+              0,
+              "Lipton Ice Tea Green"
+            ],
+            [
+              "2025-09-17T15:06:57.339Z",
+              "216",
+              1,
+              "2.70",
+              0,
+              "Sourcy Rood (20 cl)"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 86.8
+            }
+          ],
+          "timestamp": 1758121617820,
+          "totalItems": 4
+        },
+        {
+          "date": "2025-09-17T16:35:44.154Z",
+          "invoiceNumber": "Ober-2",
+          "orderDetails": [
+            [
+              "2025-09-17T16:35:44.154Z",
+              "1411",
+              1,
+              "0.00",
+              0,
+              "Sesam + slagroom"
+            ],
+            [
+              "2025-09-17T16:35:44.154Z",
+              "142",
+              1,
+              "0.00",
+              0,
+              "Creme Brulee"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 0
+            }
+          ],
+          "timestamp": 1758126944297,
+          "totalItems": 2
+        }
+      ],
+      "menu": 3,
+      "orderNumbers": 3
+    },
+    "timer": {
+      "duration": 15,
+      "endTime": 1757956589649,
+      "startTime": 1757955689649
+    }
+  },
+  "Tafel-31A": {
+    "Persons": 2,
+    "Pincode": "123",
+    "Status": "open",
+    "TableOrder": 29,
+    "URL": "https://asianboulevard.web.app/?rest=AsianBoulevard&tafel=31A",
+    "menuType": "dinner",
+    "timer": {
+      "duration": 15,
+      "endTime": 900001,
+      "startTime": 1
+    }
+  },
+  "Tafel-32": {
+    "Persons": 2,
+    "Pincode": "123",
+    "Status": "open",
+    "TableOrder": 30,
+    "URL": "https://asianboulevard.web.app/?rest=AsianBoulevard&tafel=32",
+    "menuType": "dinner",
+    "orders": {
+      "aggregates": {
+        "desserts": 0,
+        "hoofdgerechten": 0,
+        "totaalPrijs": 0,
+        "updatedAt": 1757258729597
+      },
+      "menu": 0,
+      "orderNumbers": 1
+    },
+    "timer": {
+      "duration": 15,
+      "endTime": 1758047648224,
+      "startTime": 1758046748224
+    }
+  },
+  "Tafel-32A": {
+    "Persons": 2,
+    "Pincode": "123",
+    "Status": "open",
+    "TableOrder": 31,
+    "URL": "https://asianboulevard.web.app/?rest=AsianBoulevard&tafel=32A",
+    "menuType": "dinner",
+    "timer": {
+      "duration": 15,
+      "endTime": 900001,
+      "startTime": 1
+    }
+  },
+  "Tafel-33": {
+    "Persons": 2,
+    "Pincode": "123",
+    "Status": "open",
+    "TableOrder": 32,
+    "URL": "https://asianboulevard.web.app/?rest=AsianBoulevard&tafel=33",
+    "menuType": "dinner",
+    "orders": {
+      "aggregates": {
+        "desserts": 0,
+        "hoofdgerechten": 0,
+        "totaalPrijs": 0,
+        "updatedAt": 1758041847066
+      },
+      "history": [
+        null,
+        null,
+        {
+          "date": "2025-09-17T17:23:21.178Z",
+          "invoiceNumber": 2,
+          "orderDetails": [
+            [
+              "2025-09-17T17:23:21.178Z",
+              "13",
+              1,
+              0,
+              0,
+              "Crown"
+            ],
+            [
+              "2025-09-17T17:23:21.178Z",
+              "1",
+              1,
+              0,
+              0,
+              "Sake nigiri"
+            ],
+            [
+              "2025-09-17T17:23:21.178Z",
+              "31",
+              1,
+              0,
+              0,
+              "Sake maki"
+            ],
+            [
+              "2025-09-17T17:23:21.178Z",
+              "38",
+              1,
+              0,
+              0,
+              "Avocado sake maki"
+            ],
+            [
+              "2025-09-17T17:23:21.178Z",
+              "42",
+              1,
+              0,
+              0,
+              "Spicy tori"
+            ],
+            [
+              "2025-09-17T17:23:21.178Z",
+              "53",
+              1,
+              0,
+              0,
+              "Sake temaki"
+            ],
+            [
+              "2025-09-17T17:23:21.178Z",
+              "9",
+              2,
+              0,
+              0,
+              "Unagi nigiri"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 0
+            }
+          ],
+          "timestamp": 1758129801493,
+          "totalItems": 7
+        },
+        {
+          "date": "2025-09-17T17:38:46.753Z",
+          "invoiceNumber": 3,
+          "orderDetails": [
+            [
+              "2025-09-17T17:38:46.753Z",
+              "111",
+              1,
+              0,
+              0,
+              "Grilled salmon"
+            ],
+            [
+              "2025-09-17T17:38:46.753Z",
+              "115",
+              1,
+              0,
+              0,
+              "Beef teriyaki"
+            ],
+            [
+              "2025-09-17T17:38:46.753Z",
+              "119",
+              1,
+              0,
+              0,
+              "Tori teriyaki"
+            ],
+            [
+              "2025-09-17T17:38:46.753Z",
+              "126",
+              1,
+              0,
+              0,
+              "Sake tobiko"
+            ],
+            [
+              "2025-09-17T17:38:46.753Z",
+              "12",
+              1,
+              0,
+              0,
+              "Flamed sake"
+            ],
+            [
+              "2025-09-17T17:38:46.753Z",
+              "38",
+              1,
+              0,
+              0,
+              "Avocado sake maki"
+            ],
+            [
+              "2025-09-17T17:38:46.753Z",
+              "40",
+              1,
+              0,
+              0,
+              "Dragon roll"
+            ],
+            [
+              "2025-09-17T17:38:46.753Z",
+              "54",
+              1,
+              0,
+              0,
+              "Maguro temaki"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 0
+            }
+          ],
+          "timestamp": 1758130727246,
+          "totalItems": 8
+        },
+        {
+          "date": "2025-09-17T17:56:57.447Z",
+          "invoiceNumber": 4,
+          "orderDetails": [
+            [
+              "2025-09-17T17:56:57.447Z",
+              "102",
+              1,
+              0,
+              0,
+              "Beef spies"
+            ],
+            [
+              "2025-09-17T17:56:57.447Z",
+              "11",
+              1,
+              0,
+              0,
+              "Flamed maguro"
+            ],
+            [
+              "2025-09-17T17:56:57.447Z",
+              "146",
+              1,
+              0,
+              0,
+              "Sake Sashimi"
+            ],
+            [
+              "2025-09-17T17:56:57.447Z",
+              "27",
+              1,
+              0,
+              0,
+              "Spicy maguro gunkan"
+            ],
+            [
+              "2025-09-17T17:56:57.447Z",
+              "36",
+              1,
+              0,
+              0,
+              "California maki"
+            ],
+            [
+              "2025-09-17T17:56:57.447Z",
+              "45",
+              1,
+              0,
+              0,
+              "Crispy california"
+            ],
+            [
+              "2025-09-17T17:56:57.447Z",
+              "46",
+              1,
+              0,
+              0,
+              "Beef maki"
+            ],
+            [
+              "2025-09-17T17:56:57.447Z",
+              "79",
+              1,
+              0,
+              0,
+              "Sweet & sour chicken"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 0
+            }
+          ],
+          "timestamp": 1758131817866,
+          "totalItems": 8
+        },
+        {
+          "date": "2025-09-17T18:19:01.773Z",
+          "invoiceNumber": 5,
+          "orderDetails": [
+            [
+              "2025-09-17T18:19:01.773Z",
+              "115",
+              1,
+              0,
+              0,
+              "Beef teriyaki"
+            ],
+            [
+              "2025-09-17T18:19:01.773Z",
+              "118",
+              1,
+              0,
+              0,
+              "Ahirue (eend)"
+            ],
+            [
+              "2025-09-17T18:19:01.773Z",
+              "124",
+              1,
+              0,
+              0,
+              "Unagi dreams"
+            ],
+            [
+              "2025-09-17T18:19:01.773Z",
+              "146",
+              1,
+              0,
+              0,
+              "Sake Sashimi"
+            ],
+            [
+              "2025-09-17T18:19:01.773Z",
+              "1",
+              1,
+              0,
+              0,
+              "Sake nigiri"
+            ],
+            [
+              "2025-09-17T18:19:01.773Z",
+              "38",
+              1,
+              0,
+              0,
+              "Avocado sake maki"
+            ],
+            [
+              "2025-09-17T18:19:01.773Z",
+              "9",
+              2,
+              0,
+              0,
+              "Unagi nigiri"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 0
+            }
+          ],
+          "timestamp": 1758133142582,
+          "totalItems": 7
+        },
+        {
+          "date": "2025-09-17T18:47:18.480Z",
+          "invoiceNumber": 6,
+          "orderDetails": [
+            [
+              "2025-09-17T18:47:18.480Z",
+              "111",
+              2,
+              0,
+              0,
+              "Grilled salmon"
+            ],
+            [
+              "2025-09-17T18:47:18.480Z",
+              "112",
+              1,
+              0,
+              0,
+              "Makreel"
+            ],
+            [
+              "2025-09-17T18:47:18.480Z",
+              "114",
+              1,
+              0,
+              0,
+              "Crispy beef"
+            ],
+            [
+              "2025-09-17T18:47:18.480Z",
+              "146",
+              2,
+              0,
+              0,
+              "Sake Sashimi"
+            ],
+            [
+              "2025-09-17T18:47:18.480Z",
+              "9",
+              1,
+              0,
+              0,
+              "Unagi nigiri"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 0
+            }
+          ],
+          "timestamp": 1758134839033,
+          "totalItems": 5
+        },
+        null,
+        null,
+        {
+          "date": "2025-09-17T17:17:06.089Z",
+          "invoiceNumber": "Ober-9",
+          "orderDetails": [
+            [
+              "2025-09-17T17:17:06.089Z",
+              "181",
+              2,
+              "37.90",
+              0,
+              "AYCE Ma-Do Volwassene"
+            ],
+            [
+              "2025-09-17T17:17:06.089Z",
+              "219",
+              1,
+              "3.20",
+              0,
+              "Lipton Ice Tea Green"
+            ],
+            [
+              "2025-09-17T17:17:06.089Z",
+              "216",
+              1,
+              "2.70",
+              0,
+              "Sourcy Rood (20 cl) + Citroen"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 81.7
+            }
+          ],
+          "timestamp": 1758129426501,
+          "totalItems": 3
+        }
+      ],
+      "menu": 2,
+      "orderNumbers": 7
+    },
+    "timer": {
+      "duration": 15,
+      "endTime": 1758135739197,
+      "startTime": 1758134839197
+    }
+  },
+  "Tafel-34": {
+    "Persons": 3,
+    "Pincode": "123",
+    "Status": "open",
+    "TableOrder": 33,
+    "URL": "https://asianboulevard.web.app/?rest=AsianBoulevard&tafel=34",
+    "menuType": "dinner",
+    "orders": {
+      "history": [
+        null,
+        {
+          "date": "2025-09-17T14:39:29.799Z",
+          "invoiceNumber": "Ober-1",
+          "orderDetails": [
+            [
+              "2025-09-17T14:39:29.799Z",
+              "181",
+              2,
+              "37.90",
+              0,
+              "AYCE Ma-Do Volwassene"
+            ],
+            [
+              "2025-09-17T14:39:29.799Z",
+              "182",
+              1,
+              "19.90",
+              0,
+              "AYCE Kind 6 tot 10 jaar"
+            ],
+            [
+              "2025-09-17T14:39:29.799Z",
+              "212",
+              1,
+              "3.00",
+              0,
+              "Jus d'Orange"
+            ],
+            [
+              "2025-09-17T14:39:29.799Z",
+              "206",
+              1,
+              "3.00",
+              0,
+              "Tonic"
+            ],
+            [
+              "2025-09-17T14:39:29.799Z",
+              "221",
+              1,
+              "3.20",
+              0,
+              "Heineken 0,0%"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 104.89999999999999
+            }
+          ],
+          "timestamp": 1758119970271,
+          "totalItems": 5
+        },
+        {
+          "date": "2025-09-17T14:48:46.642Z",
+          "invoiceNumber": 2,
+          "orderDetails": [
+            [
+              "2025-09-17T14:48:46.642Z",
+              "109",
+              1,
+              0,
+              0,
+              "Korean BBQ fish"
+            ],
+            [
+              "2025-09-17T14:48:46.642Z",
+              "110",
+              1,
+              0,
+              0,
+              "Mossel"
+            ],
+            [
+              "2025-09-17T14:48:46.642Z",
+              "125",
+              1,
+              0,
+              0,
+              "Flamed sake maki"
+            ],
+            [
+              "2025-09-17T14:48:46.642Z",
+              "196",
+              1,
+              0,
+              0,
+              "Oshisushi (2st)"
+            ],
+            [
+              "2025-09-17T14:48:46.642Z",
+              "36",
+              1,
+              0,
+              0,
+              "California maki"
+            ],
+            [
+              "2025-09-17T14:48:46.642Z",
+              "40",
+              1,
+              0,
+              0,
+              "Dragon roll"
+            ],
+            [
+              "2025-09-17T14:48:46.642Z",
+              "61",
+              1,
+              0,
+              0,
+              "Sashimi salade"
+            ],
+            [
+              "2025-09-17T14:48:46.642Z",
+              "82",
+              1,
+              0,
+              0,
+              "Mini loempia"
+            ],
+            [
+              "2025-09-17T14:48:46.642Z",
+              "88",
+              1,
+              0,
+              0,
+              "Edamame"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 0
+            }
+          ],
+          "timestamp": 1758120527062,
+          "totalItems": 9
+        },
+        {
+          "date": "2025-09-17T15:12:26.770Z",
+          "invoiceNumber": 3,
+          "orderDetails": [
+            [
+              "2025-09-17T15:12:26.770Z",
+              "101",
+              1,
+              0,
+              0,
+              "Kip spies"
+            ],
+            [
+              "2025-09-17T15:12:26.770Z",
+              "116",
+              1,
+              0,
+              0,
+              "Usuyaki"
+            ],
+            [
+              "2025-09-17T15:12:26.770Z",
+              "146",
+              1,
+              0,
+              0,
+              "Sake Sashimi"
+            ],
+            [
+              "2025-09-17T15:12:26.770Z",
+              "21",
+              1,
+              0,
+              0,
+              "Gunkan Tobiko"
+            ],
+            [
+              "2025-09-17T15:12:26.770Z",
+              "32",
+              1,
+              0,
+              0,
+              "Kappa maki"
+            ],
+            [
+              "2025-09-17T15:12:26.770Z",
+              "36",
+              1,
+              0,
+              0,
+              "California maki"
+            ],
+            [
+              "2025-09-17T15:12:26.770Z",
+              "37",
+              1,
+              0,
+              0,
+              "Fried Maki"
+            ],
+            [
+              "2025-09-17T15:12:26.770Z",
+              "45",
+              1,
+              0,
+              0,
+              "Crispy california"
+            ],
+            [
+              "2025-09-17T15:12:26.770Z",
+              "46",
+              1,
+              0,
+              0,
+              "Beef maki"
+            ],
+            [
+              "2025-09-17T15:12:26.770Z",
+              "63",
+              1,
+              0,
+              0,
+              "Wakame salade"
+            ],
+            [
+              "2025-09-17T15:12:26.770Z",
+              "64",
+              1,
+              0,
+              0,
+              "Pickles"
+            ],
+            [
+              "2025-09-17T15:12:26.770Z",
+              "82",
+              1,
+              0,
+              0,
+              "Mini loempia"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 0
+            }
+          ],
+          "timestamp": 1758121947189,
+          "totalItems": 12
+        },
+        {
+          "date": "2025-09-17T15:36:34.428Z",
+          "invoiceNumber": 4,
+          "orderDetails": [
+            [
+              "2025-09-17T15:36:34.428Z",
+              "108",
+              1,
+              0,
+              0,
+              "Ebi chili"
+            ],
+            [
+              "2025-09-17T15:36:34.428Z",
+              "130",
+              1,
+              0,
+              0,
+              "Muguro truffel"
+            ],
+            [
+              "2025-09-17T15:36:34.428Z",
+              "16",
+              1,
+              0,
+              0,
+              "Wasabi"
+            ],
+            [
+              "2025-09-17T15:36:34.428Z",
+              "19",
+              1,
+              0,
+              0,
+              "Gember"
+            ],
+            [
+              "2025-09-17T15:36:34.428Z",
+              "403",
+              1,
+              0,
+              0,
+              "Citroentjes"
+            ],
+            [
+              "2025-09-17T15:36:34.428Z",
+              "62",
+              1,
+              0,
+              0,
+              "Spicy salmon salade"
+            ],
+            [
+              "2025-09-17T15:36:34.428Z",
+              "68",
+              1,
+              0,
+              0,
+              "Vers fruit"
+            ],
+            [
+              "2025-09-17T15:36:34.428Z",
+              "90",
+              1,
+              0,
+              0,
+              "Frikandel"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 0
+            }
+          ],
+          "timestamp": 1758123394789,
+          "totalItems": 8
+        },
+        {
+          "date": "2025-09-17T15:52:10.161Z",
+          "invoiceNumber": "Ober-5",
+          "orderDetails": [
+            [
+              "2025-09-17T15:52:10.161Z",
+              "246",
+              1,
+              "4.50",
+              0,
+              "Rode wijn (glas)"
+            ],
+            [
+              "2025-09-17T15:52:10.161Z",
+              "227",
+              1,
+              "4.20",
+              0,
+              "Affligem Blond 0,0%"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 8.7
+            }
+          ],
+          "timestamp": 1758124330311,
+          "totalItems": 2
+        },
+        {
+          "date": "2025-09-17T15:58:01.577Z",
+          "invoiceNumber": 6,
+          "orderDetails": [
+            [
+              "2025-09-17T15:58:01.577Z",
+              "112",
+              1,
+              0,
+              0,
+              "Makreel"
+            ],
+            [
+              "2025-09-17T15:58:01.577Z",
+              "133",
+              1,
+              0,
+              0,
+              "Dragon Balls"
+            ],
+            [
+              "2025-09-17T15:58:01.577Z",
+              "134",
+              1,
+              0,
+              0,
+              "Kokosball"
+            ],
+            [
+              "2025-09-17T15:58:01.577Z",
+              "135",
+              1,
+              0,
+              0,
+              "Melk Tempura"
+            ],
+            [
+              "2025-09-17T15:58:01.577Z",
+              "141",
+              2,
+              0,
+              0,
+              "Zwarte sesam ijs"
+            ],
+            [
+              "2025-09-17T15:58:01.577Z",
+              "68",
+              1,
+              0,
+              0,
+              "Vers fruit"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 0
+            }
+          ],
+          "timestamp": 1758124681957,
+          "totalItems": 6
+        },
+        {
+          "date": "2025-09-17T16:40:55.778Z",
+          "invoiceNumber": 7,
+          "orderDetails": [
+            [
+              "2025-09-17T16:40:55.778Z",
+              "138",
+              1,
+              0,
+              0,
+              "Citroen ijs"
+            ],
+            [
+              "2025-09-17T16:40:55.778Z",
+              "141",
+              1,
+              0,
+              0,
+              "Zwarte sesam ijs"
+            ],
+            [
+              "2025-09-17T16:40:55.778Z",
+              "301",
+              2,
+              2.9,
+              0,
+              "Koffie"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 5.8
+            }
+          ],
+          "timestamp": 1758127256107,
+          "totalItems": 3
+        },
+        {
+          "date": "2025-09-17T16:44:23.450Z",
+          "invoiceNumber": "Ober-8",
+          "orderDetails": [
+            [
+              "2025-09-17T16:44:23.450Z",
+              "68",
+              1,
+              "0.00",
+              0,
+              "Vers fruit"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 0
+            }
+          ],
+          "timestamp": 1758127463593,
+          "totalItems": 1
+        }
+      ],
+      "menu": 3,
+      "orderNumbers": 9
+    },
+    "timer": {
+      "duration": 15,
+      "endTime": 1758128156238,
+      "startTime": 1758127256238
+    }
+  },
+  "Tafel-35": {
+    "Persons": 3,
+    "Pincode": "123",
+    "Status": "open",
+    "TableOrder": 34,
+    "URL": "https://asianboulevard.web.app/?rest=AsianBoulevard&tafel=35",
+    "menuType": "dinner",
+    "orders": {
+      "menu": 0,
+      "orderNumbers": 1
+    },
+    "timer": {
+      "duration": 15,
+      "endTime": 1757963223042,
+      "startTime": 1757962323042
+    }
+  },
+  "Tafel-35A": {
+    "Persons": 2,
+    "Pincode": "123",
+    "Status": "open",
+    "TableOrder": 35,
+    "URL": "https://asianboulevard.web.app/?rest=AsianBoulevard&tafel=35A",
+    "menuType": "dinner",
+    "timer": {
+      "duration": 15,
+      "endTime": 900001,
+      "startTime": 1
+    }
+  },
+  "Tafel-36": {
+    "Persons": 0,
+    "Pincode": "123",
+    "Status": "open",
+    "TableOrder": 36,
+    "URL": "https://asianboulevard.web.app/?rest=AsianBoulevard&tafel=36",
+    "menuType": "dinner",
+    "orders": {
+      "history": [
+        null,
+        {
+          "date": "2025-09-17T16:14:48.253Z",
+          "invoiceNumber": "Ober-1",
+          "orderDetails": [
+            [
+              "2025-09-17T16:14:48.253Z",
+              "218",
+              1,
+              "6.90",
+              0,
+              "Sourcy Rood (100cl)"
+            ],
+            [
+              "2025-09-17T16:14:48.253Z",
+              "209",
+              1,
+              "3.00",
+              0,
+              "Ginger Ale"
+            ],
+            [
+              "2025-09-17T16:14:48.253Z",
+              "213",
+              2,
+              "3.00",
+              0,
+              "Appelsap"
+            ],
+            [
+              "2025-09-17T16:14:48.253Z",
+              "234",
+              1,
+              "4.60",
+              0,
+              "Pruimenwijn (glas)"
+            ],
+            [
+              "2025-09-17T16:14:48.253Z",
+              "249",
+              1,
+              "5.80",
+              0,
+              "Chardonnay (glas)"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 26.3
+            }
+          ],
+          "timestamp": 1758125688646,
+          "totalItems": 5
+        },
+        {
+          "date": "2025-09-17T18:09:26.682Z",
+          "invoiceNumber": "Ober-2",
+          "orderDetails": [
+            [
+              "2025-09-17T18:09:26.682Z",
+              "298",
+              3,
+              "3.50",
+              0,
+              "Verse Muntthee"
+            ],
+            [
+              "2025-09-17T18:09:26.682Z",
+              "308",
+              1,
+              "3.20",
+              0,
+              "Decappucino"
+            ],
+            [
+              "2025-09-17T18:09:26.682Z",
+              "301",
+              1,
+              "2.90",
+              0,
+              "Koffie"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 16.599999999999998
+            }
+          ],
+          "timestamp": 1758132566920,
+          "totalItems": 3
+        }
+      ],
+      "menu": 0,
+      "orderNumbers": 3
+    },
+    "timer": {
+      "duration": 15,
+      "endTime": 1758045372106,
+      "startTime": 1758044472106
+    }
+  },
+  "Tafel-4": {
+    "Persons": 2,
+    "Pincode": "123",
+    "Status": "open",
+    "TableOrder": 3,
+    "URL": "https://asianboulevard.web.app/?rest=AsianBoulevard&tafel=4",
+    "menuType": "dinner",
+    "orders": {
+      "aggregates": {
+        "desserts": 0,
+        "hoofdgerechten": 0,
+        "totaalPrijs": 0,
+        "updatedAt": 1756334225917
+      },
+      "menu": 0,
+      "orderNumbers": 1
+    },
+    "timer": {
+      "duration": 15,
+      "endTime": 1758046603906,
+      "startTime": 1758045703906
+    }
+  },
+  "Tafel-41": {
+    "Persons": 2,
+    "Pincode": "123",
+    "Status": "open",
+    "TableOrder": 37,
+    "URL": "https://asianboulevard.web.app/?rest=AsianBoulevard&tafel=41",
+    "menuType": "dinner",
+    "orders": {
+      "aggregates": {
+        "desserts": 0,
+        "hoofdgerechten": 0,
+        "totaalPrijs": 0,
+        "updatedAt": 1757697289371
+      },
+      "history": [
+        null,
+        {
+          "date": "2025-09-17T14:29:53.414Z",
+          "invoiceNumber": "Ober-1",
+          "orderDetails": [
+            [
+              "2025-09-17T14:29:53.414Z",
+              "181",
+              2,
+              "37.90",
+              0,
+              "AYCE Ma-Do Volwassene"
+            ],
+            [
+              "2025-09-17T14:29:53.414Z",
+              "215",
+              1,
+              "2.70",
+              0,
+              "Sourcy Blauw (20 cl)"
+            ],
+            [
+              "2025-09-17T14:29:53.414Z",
+              "247",
+              1,
+              "4.50",
+              0,
+              "Zoete witte wijn (glas)"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 83
+            }
+          ],
+          "timestamp": 1758119393954,
+          "totalItems": 3
+        }
+      ],
+      "menu": 2,
+      "orderNumbers": 2
+    },
+    "timer": {
+      "duration": 15,
+      "endTime": 1758043171526,
+      "startTime": 1758042271526
+    }
+  },
+  "Tafel-42": {
+    "Persons": 2,
+    "Pincode": "123",
+    "Status": "open",
+    "TableOrder": 38,
+    "URL": "https://asianboulevard.web.app/?rest=AsianBoulevard&tafel=42",
+    "menuType": "dinner",
+    "orders": {
+      "aggregates": {
+        "desserts": 0,
+        "hoofdgerechten": 0,
+        "totaalPrijs": 0,
+        "updatedAt": 1757170270645
+      },
+      "history": [
+        null,
+        null,
+        {
+          "date": "2025-09-17T17:10:16.544Z",
+          "invoiceNumber": 2,
+          "orderDetails": [
+            [
+              "2025-09-17T17:10:16.544Z",
+              "101",
+              1,
+              0,
+              0,
+              "Kip spies"
+            ],
+            [
+              "2025-09-17T17:10:16.544Z",
+              "102",
+              1,
+              0,
+              0,
+              "Beef spies"
+            ],
+            [
+              "2025-09-17T17:10:16.544Z",
+              "25",
+              1,
+              0,
+              0,
+              "Maguro gunkan"
+            ],
+            [
+              "2025-09-17T17:10:16.544Z",
+              "26",
+              1,
+              0,
+              0,
+              "Sake gunkan"
+            ],
+            [
+              "2025-09-17T17:10:16.544Z",
+              "54",
+              1,
+              0,
+              0,
+              "Maguro temaki"
+            ],
+            [
+              "2025-09-17T17:10:16.544Z",
+              "61",
+              1,
+              0,
+              0,
+              "Sashimi salade"
+            ],
+            [
+              "2025-09-17T17:10:16.544Z",
+              "82",
+              1,
+              0,
+              0,
+              "Mini loempia"
+            ],
+            [
+              "2025-09-17T17:10:16.544Z",
+              "84",
+              1,
+              0,
+              0,
+              "Ebi tempura"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 0
+            }
+          ],
+          "timestamp": 1758129016825,
+          "totalItems": 8
+        },
+        {
+          "date": "2025-09-17T17:33:17.303Z",
+          "invoiceNumber": 3,
+          "orderDetails": [
+            [
+              "2025-09-17T17:33:17.303Z",
+              "117",
+              1,
+              0,
+              0,
+              "Kangaroo"
+            ],
+            [
+              "2025-09-17T17:33:17.303Z",
+              "118",
+              1,
+              0,
+              0,
+              "Ahirue (eend)"
+            ],
+            [
+              "2025-09-17T17:33:17.303Z",
+              "120",
+              1,
+              0,
+              0,
+              "Usuyaki cheese"
+            ],
+            [
+              "2025-09-17T17:33:17.303Z",
+              "121",
+              1,
+              0,
+              0,
+              "Lamb Rack"
+            ],
+            [
+              "2025-09-17T17:33:17.303Z",
+              "126",
+              1,
+              0,
+              0,
+              "Sake tobiko"
+            ],
+            [
+              "2025-09-17T17:33:17.303Z",
+              "128",
+              1,
+              0,
+              0,
+              "Tuna maki"
+            ],
+            [
+              "2025-09-17T17:33:17.303Z",
+              "84",
+              1,
+              0,
+              0,
+              "Ebi tempura"
+            ],
+            [
+              "2025-09-17T17:33:17.303Z",
+              "95",
+              1,
+              0,
+              0,
+              "Fried banana"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 0
+            }
+          ],
+          "timestamp": 1758130397967,
+          "totalItems": 8
+        },
+        {
+          "date": "2025-09-17T17:55:45.268Z",
+          "invoiceNumber": 4,
+          "orderDetails": [
+            [
+              "2025-09-17T17:55:45.268Z",
+              "100",
+              1,
+              0,
+              0,
+              "Fried bun"
+            ],
+            [
+              "2025-09-17T17:55:45.268Z",
+              "101",
+              1,
+              0,
+              0,
+              "Kip spies"
+            ],
+            [
+              "2025-09-17T17:55:45.268Z",
+              "118",
+              1,
+              0,
+              0,
+              "Ahirue (eend)"
+            ],
+            [
+              "2025-09-17T17:55:45.268Z",
+              "122",
+              1,
+              0,
+              0,
+              "Kiploempia"
+            ],
+            [
+              "2025-09-17T17:55:45.268Z",
+              "53",
+              1,
+              0,
+              0,
+              "Sake temaki"
+            ],
+            [
+              "2025-09-17T17:55:45.268Z",
+              "54",
+              1,
+              0,
+              0,
+              "Maguro temaki"
+            ],
+            [
+              "2025-09-17T17:55:45.268Z",
+              "61",
+              1,
+              0,
+              0,
+              "Sashimi salade"
+            ],
+            [
+              "2025-09-17T17:55:45.268Z",
+              "84",
+              1,
+              0,
+              0,
+              "Ebi tempura"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 0
+            }
+          ],
+          "timestamp": 1758131745767,
+          "totalItems": 8
+        },
+        {
+          "date": "2025-09-17T18:19:03.540Z",
+          "invoiceNumber": 5,
+          "orderDetails": [
+            [
+              "2025-09-17T18:19:03.540Z",
+              "137",
+              1,
+              0,
+              0,
+              "Vanille ijs"
+            ],
+            [
+              "2025-09-17T18:19:03.540Z",
+              "140",
+              1,
+              0,
+              0,
+              "Chocolade ijs"
+            ],
+            [
+              "2025-09-17T18:19:03.540Z",
+              "142",
+              2,
+              0,
+              0,
+              "Creme Brulee"
+            ],
+            [
+              "2025-09-17T18:19:03.540Z",
+              "68",
+              1,
+              0,
+              0,
+              "Vers fruit"
+            ],
+            [
+              "2025-09-17T18:19:03.540Z",
+              "95",
+              1,
+              0,
+              0,
+              "Fried banana"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 0
+            }
+          ],
+          "timestamp": 1758133144438,
+          "totalItems": 5
+        },
+        {
+          "date": "2025-09-17T18:38:42.344Z",
+          "invoiceNumber": 6,
+          "orderDetails": [
+            [
+              "2025-09-17T18:38:42.344Z",
+              "289",
+              1,
+              2.9,
+              0,
+              "Earl Grey Thee"
+            ],
+            [
+              "2025-09-17T18:38:42.344Z",
+              "298",
+              1,
+              3.5,
+              0,
+              "Verse Muntthee"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 6.4
+            }
+          ],
+          "timestamp": 1758134322740,
+          "totalItems": 2
+        },
+        {
+          "date": "2025-09-17T18:47:43.412Z",
+          "invoiceNumber": 7,
+          "orderDetails": [
+            [
+              "2025-09-17T18:47:43.412Z",
+              "288",
+              1,
+              0,
+              0,
+              "Rekening graag"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 0
+            }
+          ],
+          "timestamp": 1758134863761,
+          "totalItems": 1
+        },
+        {
+          "date": "2025-09-17T17:06:26.477Z",
+          "invoiceNumber": "Ober-8",
+          "orderDetails": [
+            [
+              "2025-09-17T17:06:26.477Z",
+              "181",
+              2,
+              "37.90",
+              0,
+              "AYCE Ma-Do Volwassene"
+            ],
+            [
+              "2025-09-17T17:06:26.477Z",
+              "202",
+              2,
+              "3.00",
+              0,
+              "Pepsi Cola Max"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 78.8
+            }
+          ],
+          "timestamp": 1758128786938,
+          "totalItems": 2
+        }
+      ],
+      "menu": 2,
+      "orderNumbers": 8
+    },
+    "timer": {
+      "duration": 15,
+      "endTime": 1758134044611,
+      "startTime": 1758133144611
+    }
+  },
+  "Tafel-43": {
+    "Persons": 2,
+    "Pincode": "123",
+    "Status": "open",
+    "TableOrder": 39,
+    "URL": "https://asianboulevard.web.app/?rest=AsianBoulevard&tafel=43",
+    "menuType": "dinner",
+    "orders": {
+      "menu": 0,
+      "orderNumbers": 1
+    },
+    "timer": {
+      "duration": 15,
+      "endTime": 900001,
+      "startTime": 1
+    }
+  },
+  "Tafel-44": {
+    "Persons": 2,
+    "Pincode": "123",
+    "Status": "open",
+    "TableOrder": 40,
+    "URL": "https://asianboulevard.web.app/?rest=AsianBoulevard&tafel=44",
+    "menuType": "dinner",
+    "orders": {
+      "history": [
+        null,
+        null,
+        null,
+        {
+          "date": "2025-09-17T17:36:43.435Z",
+          "invoiceNumber": 3,
+          "orderDetails": [
+            [
+              "2025-09-17T17:36:43.435Z",
+              "35",
+              1,
+              0,
+              0,
+              "Veggie cream maki"
+            ],
+            [
+              "2025-09-17T17:36:43.435Z",
+              "39",
+              1,
+              0,
+              0,
+              "Spicy salmon maki"
+            ],
+            [
+              "2025-09-17T17:36:43.435Z",
+              "42",
+              1,
+              0,
+              0,
+              "Spicy tori"
+            ],
+            [
+              "2025-09-17T17:36:43.435Z",
+              "78",
+              2,
+              0,
+              0,
+              "Tomaten soup"
+            ],
+            [
+              "2025-09-17T17:36:43.435Z",
+              "40",
+              1,
+              0,
+              0,
+              "Dragon roll"
+            ],
+            [
+              "2025-09-17T17:36:43.435Z",
+              "196",
+              1,
+              0,
+              0,
+              "Oshisushi (2st)"
+            ],
+            [
+              "2025-09-17T17:36:43.435Z",
+              "126",
+              1,
+              0,
+              0,
+              "Sake tobiko"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 0
+            }
+          ],
+          "timestamp": 1758130603777,
+          "totalItems": 7
+        },
+        {
+          "date": "2025-09-17T17:49:56.168Z",
+          "invoiceNumber": 4,
+          "orderDetails": [
+            [
+              "2025-09-17T17:49:56.168Z",
+              "125",
+              1,
+              0,
+              0,
+              "Flamed sake maki"
+            ],
+            [
+              "2025-09-17T17:49:56.168Z",
+              "101",
+              1,
+              0,
+              0,
+              "Kip spies"
+            ],
+            [
+              "2025-09-17T17:49:56.168Z",
+              "99",
+              1,
+              0,
+              0,
+              "Shrimp Croquette"
+            ],
+            [
+              "2025-09-17T17:49:56.168Z",
+              "94",
+              1,
+              0,
+              0,
+              "Casava"
+            ],
+            [
+              "2025-09-17T17:49:56.168Z",
+              "119",
+              1,
+              0,
+              0,
+              "Tori teriyaki"
+            ],
+            [
+              "2025-09-17T17:49:56.168Z",
+              "118",
+              1,
+              0,
+              0,
+              "Ahirue (eend)"
+            ],
+            [
+              "2025-09-17T17:49:56.168Z",
+              "115",
+              1,
+              0,
+              0,
+              "Beef teriyaki"
+            ],
+            [
+              "2025-09-17T17:49:56.168Z",
+              "146",
+              1,
+              0,
+              0,
+              "Sake Sashimi"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 0
+            }
+          ],
+          "timestamp": 1758131396602,
+          "totalItems": 8
+        },
+        {
+          "date": "2025-09-17T18:08:10.203Z",
+          "invoiceNumber": 5,
+          "orderDetails": [
+            [
+              "2025-09-17T18:08:10.203Z",
+              "105",
+              2,
+              0,
+              0,
+              "Ebi garlic"
+            ],
+            [
+              "2025-09-17T18:08:10.203Z",
+              "126",
+              1,
+              0,
+              0,
+              "Sake tobiko"
+            ],
+            [
+              "2025-09-17T18:08:10.203Z",
+              "82",
+              1,
+              0,
+              0,
+              "Mini loempia"
+            ],
+            [
+              "2025-09-17T18:08:10.203Z",
+              "107",
+              1,
+              0,
+              0,
+              "Tori peppa"
+            ],
+            [
+              "2025-09-17T18:08:10.203Z",
+              "118",
+              1,
+              0,
+              0,
+              "Ahirue (eend)"
+            ],
+            [
+              "2025-09-17T18:08:10.203Z",
+              "146",
+              1,
+              0,
+              0,
+              "Sake Sashimi"
+            ],
+            [
+              "2025-09-17T18:08:10.203Z",
+              "125",
+              1,
+              0,
+              0,
+              "Flamed sake maki"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 0
+            }
+          ],
+          "timestamp": 1758132490696,
+          "totalItems": 7
+        },
+        {
+          "date": "2025-09-17T18:24:51.606Z",
+          "invoiceNumber": 6,
+          "orderDetails": [
+            [
+              "2025-09-17T18:24:51.606Z",
+              "35",
+              1,
+              0,
+              0,
+              "Veggie cream maki"
+            ],
+            [
+              "2025-09-17T18:24:51.606Z",
+              "39",
+              1,
+              0,
+              0,
+              "Spicy salmon maki"
+            ],
+            [
+              "2025-09-17T18:24:51.606Z",
+              "42",
+              1,
+              0,
+              0,
+              "Spicy tori"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 0
+            }
+          ],
+          "timestamp": 1758133492176,
+          "totalItems": 3
+        },
+        {
+          "date": "2025-09-17T18:38:08.831Z",
+          "invoiceNumber": 7,
+          "orderDetails": [
+            [
+              "2025-09-17T18:38:08.831Z",
+              "1371",
+              1,
+              0,
+              0,
+              "Vanille + slagroom"
+            ],
+            [
+              "2025-09-17T18:38:08.831Z",
+              "69",
+              1,
+              0,
+              0,
+              "Pudding"
+            ],
+            [
+              "2025-09-17T18:38:08.831Z",
+              "142",
+              1,
+              0,
+              0,
+              "Creme Brulee"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 0
+            }
+          ],
+          "timestamp": 1758134289343,
+          "totalItems": 3
+        },
+        null,
+        null,
+        null,
+        {
+          "date": "2025-09-17T17:33:58.158Z",
+          "invoiceNumber": "Ober-11",
+          "orderDetails": [
+            [
+              "2025-09-17T17:33:58.158Z",
+              "181",
+              2,
+              "37.90",
+              0,
+              "AYCE Ma-Do Volwassene"
+            ],
+            [
+              "2025-09-17T17:33:58.158Z",
+              "203",
+              1,
+              "3.00",
+              0,
+              "Sisi"
+            ],
+            [
+              "2025-09-17T17:33:58.158Z",
+              "205",
+              1,
+              "3.20",
+              0,
+              "Liptop Ice Tea"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 82
+            }
+          ],
+          "timestamp": 1758130438605,
+          "totalItems": 3
+        }
+      ],
+      "menu": 2,
+      "orderNumbers": 8
+    },
+    "timer": {
+      "duration": 5,
+      "endTime": 1737825422267,
+      "startTime": 1737825122267
+    }
+  },
+  "Tafel-45": {
+    "Persons": 2,
+    "Pincode": "123",
+    "Status": "open",
+    "TableOrder": 41,
+    "URL": "https://asianboulevard.web.app/?rest=AsianBoulevard&tafel=45",
+    "menuType": "dinner",
+    "orders": {
+      "history": [
+        null,
+        {
+          "date": "2025-09-17T16:54:47.945Z",
+          "invoiceNumber": 1,
+          "orderDetails": [
+            [
+              "2025-09-17T16:54:47.945Z",
+              "101",
+              1,
+              0,
+              0,
+              "Kip spies"
+            ],
+            [
+              "2025-09-17T16:54:47.945Z",
+              "32",
+              1,
+              0,
+              0,
+              "Kappa maki"
+            ],
+            [
+              "2025-09-17T16:54:47.945Z",
+              "33",
+              1,
+              0,
+              0,
+              "Kani maki"
+            ],
+            [
+              "2025-09-17T16:54:47.945Z",
+              "36",
+              1,
+              0,
+              0,
+              "California maki"
+            ],
+            [
+              "2025-09-17T16:54:47.945Z",
+              "51",
+              1,
+              0,
+              0,
+              "California temaki"
+            ],
+            [
+              "2025-09-17T16:54:47.945Z",
+              "84",
+              1,
+              0,
+              0,
+              "Ebi tempura"
+            ],
+            [
+              "2025-09-17T16:54:47.945Z",
+              "91",
+              1,
+              0,
+              0,
+              "Mushrooms"
+            ],
+            [
+              "2025-09-17T16:54:47.945Z",
+              "93",
+              1,
+              0,
+              0,
+              "Chickenwings"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 0
+            }
+          ],
+          "timestamp": 1758128088663,
+          "totalItems": 8
+        },
+        {
+          "date": "2025-09-17T17:09:54.651Z",
+          "invoiceNumber": 2,
+          "orderDetails": [
+            [
+              "2025-09-17T17:09:54.651Z",
+              "102",
+              1,
+              0,
+              0,
+              "Beef spies"
+            ],
+            [
+              "2025-09-17T17:09:54.651Z",
+              "111",
+              1,
+              0,
+              0,
+              "Grilled salmon"
+            ],
+            [
+              "2025-09-17T17:09:54.651Z",
+              "118",
+              1,
+              0,
+              0,
+              "Ahirue (eend)"
+            ],
+            [
+              "2025-09-17T17:09:54.651Z",
+              "31",
+              1,
+              0,
+              0,
+              "Sake maki"
+            ],
+            [
+              "2025-09-17T17:09:54.651Z",
+              "33",
+              1,
+              0,
+              0,
+              "Kani maki"
+            ],
+            [
+              "2025-09-17T17:09:54.651Z",
+              "51",
+              1,
+              0,
+              0,
+              "California temaki"
+            ],
+            [
+              "2025-09-17T17:09:54.651Z",
+              "5",
+              1,
+              0,
+              0,
+              "Flamed sake cheese"
+            ],
+            [
+              "2025-09-17T17:09:54.651Z",
+              "83",
+              1,
+              0,
+              0,
+              "Kerry triangle"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 0
+            }
+          ],
+          "timestamp": 1758128995225,
+          "totalItems": 8
+        },
+        {
+          "date": "2025-09-17T17:26:28.098Z",
+          "invoiceNumber": 3,
+          "orderDetails": [
+            [
+              "2025-09-17T17:26:28.098Z",
+              "110",
+              1,
+              0,
+              0,
+              "Mossel"
+            ],
+            [
+              "2025-09-17T17:26:28.098Z",
+              "118",
+              1,
+              0,
+              0,
+              "Ahirue (eend)"
+            ],
+            [
+              "2025-09-17T17:26:28.098Z",
+              "134",
+              1,
+              0,
+              0,
+              "Kokosball"
+            ],
+            [
+              "2025-09-17T17:26:28.098Z",
+              "43",
+              1,
+              0,
+              0,
+              "Banana maki"
+            ],
+            [
+              "2025-09-17T17:26:28.098Z",
+              "51",
+              1,
+              0,
+              0,
+              "California temaki"
+            ],
+            [
+              "2025-09-17T17:26:28.098Z",
+              "64",
+              1,
+              0,
+              0,
+              "Pickles"
+            ],
+            [
+              "2025-09-17T17:26:28.098Z",
+              "68",
+              2,
+              0,
+              0,
+              "Vers fruit"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 0
+            }
+          ],
+          "timestamp": 1758129988396,
+          "totalItems": 7
+        },
+        {
+          "date": "2025-09-17T17:28:21.909Z",
+          "invoiceNumber": 4,
+          "orderDetails": [
+            [
+              "2025-09-17T17:28:21.909Z",
+              "202",
+              1,
+              3,
+              0,
+              "Pepsi Cola Max"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 3
+            }
+          ],
+          "timestamp": 1758130102110,
+          "totalItems": 1
+        },
+        {
+          "date": "2025-09-17T17:54:10.410Z",
+          "invoiceNumber": 5,
+          "orderDetails": [
+            [
+              "2025-09-17T17:54:10.410Z",
+              "100",
+              1,
+              0,
+              0,
+              "Fried bun"
+            ],
+            [
+              "2025-09-17T17:54:10.410Z",
+              "1371",
+              1,
+              0,
+              0,
+              "Vanille + slagroom"
+            ],
+            [
+              "2025-09-17T17:54:10.410Z",
+              "138",
+              1,
+              0,
+              0,
+              "Citroen ijs"
+            ],
+            [
+              "2025-09-17T17:54:10.410Z",
+              "1401",
+              1,
+              0,
+              0,
+              "Choco + slagroom"
+            ],
+            [
+              "2025-09-17T17:54:10.410Z",
+              "142",
+              1,
+              0,
+              0,
+              "Creme Brulee"
+            ],
+            [
+              "2025-09-17T17:54:10.410Z",
+              "68",
+              1,
+              0,
+              0,
+              "Vers fruit"
+            ],
+            [
+              "2025-09-17T17:54:10.410Z",
+              "69",
+              1,
+              0,
+              0,
+              "Pudding"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 0
+            }
+          ],
+          "timestamp": 1758131650678,
+          "totalItems": 7
+        }
+      ],
+      "orderNumbers": 6
+    },
+    "timer": {
+      "duration": 15,
+      "endTime": 1758132550765,
+      "startTime": 1758131650765
+    }
+  },
+  "Tafel-46": {
+    "Persons": 2,
+    "Pincode": "123",
+    "Status": "open",
+    "TableOrder": 42,
+    "URL": "https://asianboulevard.web.app/?rest=AsianBoulevard&tafel=46",
+    "menuType": "dinner",
+    "orders": {
+      "history": [
+        null,
+        {
+          "date": "2025-09-17T17:02:37.459Z",
+          "invoiceNumber": "Ober-1",
+          "orderDetails": [
+            [
+              "2025-09-17T17:02:37.459Z",
+              "181",
+              2,
+              "37.90",
+              0,
+              "AYCE Ma-Do Volwassene"
+            ],
+            [
+              "2025-09-17T17:02:37.459Z",
+              "202",
+              1,
+              "3.00",
+              0,
+              "Pepsi Cola Max"
+            ],
+            [
+              "2025-09-17T17:02:37.459Z",
+              "215",
+              1,
+              "2.70",
+              0,
+              "Sourcy Blauw (20 cl) + Citroen"
+            ],
+            [
+              "2025-09-17T17:02:37.459Z",
+              "245",
+              1,
+              "4.50",
+              0,
+              "Droge witte wijn (glas)"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 86
+            }
+          ],
+          "timestamp": 1758128557864,
+          "totalItems": 4
+        }
+      ],
+      "menu": 2,
+      "orderNumbers": 2
+    },
+    "timer": {
+      "duration": 15,
+      "endTime": 1758046675156,
+      "startTime": 1758045775156
+    }
+  },
+  "Tafel-47": {
+    "Persons": 3,
+    "Pincode": "123",
+    "Status": "open",
+    "TableOrder": 43,
+    "URL": "https://asianboulevard.web.app/?rest=AsianBoulevard&tafel=47",
+    "menuType": "dinner",
+    "orders": {
+      "history": [
+        null,
+        {
+          "date": "2025-09-17T15:55:10.119Z",
+          "invoiceNumber": "Ober-1",
+          "orderDetails": [
+            [
+              "2025-09-17T15:55:10.119Z",
+              "181",
+              3,
+              "37.90",
+              0,
+              "AYCE Ma-Do Volwassene"
+            ],
+            [
+              "2025-09-17T15:55:10.119Z",
+              "203",
+              1,
+              "3.00",
+              0,
+              "Sisi"
+            ],
+            [
+              "2025-09-17T15:55:10.119Z",
+              "201",
+              1,
+              "3.00",
+              0,
+              "Pepsi Cola"
+            ],
+            [
+              "2025-09-17T15:55:10.119Z",
+              "216",
+              1,
+              "2.70",
+              0,
+              "Sourcy Rood (20 cl) + Citroen"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 122.39999999999999
+            }
+          ],
+          "timestamp": 1758124510525,
+          "totalItems": 4
+        },
+        {
+          "date": "2025-09-17T15:58:58.075Z",
+          "invoiceNumber": 2,
+          "orderDetails": [
+            [
+              "2025-09-17T15:58:58.075Z",
+              "105",
+              2,
+              0,
+              0,
+              "Ebi garlic"
+            ],
+            [
+              "2025-09-17T15:58:58.075Z",
+              "56",
+              2,
+              0,
+              0,
+              "Pokebowl crispy sashimi"
+            ],
+            [
+              "2025-09-17T15:58:58.075Z",
+              "61",
+              1,
+              0,
+              0,
+              "Sashimi salade"
+            ],
+            [
+              "2025-09-17T15:58:58.075Z",
+              "84",
+              1,
+              0,
+              0,
+              "Ebi tempura"
+            ],
+            [
+              "2025-09-17T15:58:58.075Z",
+              "90",
+              1,
+              0,
+              0,
+              "Frikandel"
+            ],
+            [
+              "2025-09-17T15:58:58.075Z",
+              "91",
+              1,
+              0,
+              0,
+              "Mushrooms"
+            ],
+            [
+              "2025-09-17T15:58:58.075Z",
+              "95",
+              1,
+              0,
+              0,
+              "Fried banana"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 0
+            }
+          ],
+          "timestamp": 1758124738420,
+          "totalItems": 7
+        },
+        {
+          "date": "2025-09-17T16:27:22.815Z",
+          "invoiceNumber": 3,
+          "orderDetails": [
+            [
+              "2025-09-17T16:27:22.815Z",
+              "105",
+              5,
+              0,
+              0,
+              "Ebi garlic"
+            ],
+            [
+              "2025-09-17T16:27:22.815Z",
+              "110",
+              1,
+              0,
+              0,
+              "Mossel"
+            ],
+            [
+              "2025-09-17T16:27:22.815Z",
+              "52",
+              1,
+              0,
+              0,
+              "Unagi temaki"
+            ],
+            [
+              "2025-09-17T16:27:22.815Z",
+              "78",
+              1,
+              0,
+              0,
+              "Tomaten soup"
+            ],
+            [
+              "2025-09-17T16:27:22.815Z",
+              "84",
+              1,
+              0,
+              0,
+              "Ebi tempura"
+            ],
+            [
+              "2025-09-17T16:27:22.815Z",
+              "89",
+              1,
+              0,
+              0,
+              "Patat"
+            ],
+            [
+              "2025-09-17T16:27:22.815Z",
+              "99",
+              1,
+              0,
+              0,
+              "Shrimp Croquette"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 0
+            }
+          ],
+          "timestamp": 1758126443381,
+          "totalItems": 7
+        },
+        {
+          "date": "2025-09-17T16:31:11.701Z",
+          "invoiceNumber": 4,
+          "orderDetails": [
+            [
+              "2025-09-17T16:31:11.701Z",
+              "201",
+              1,
+              3,
+              0,
+              "Pepsi Cola"
+            ],
+            [
+              "2025-09-17T16:31:11.701Z",
+              "212",
+              1,
+              3,
+              0,
+              "Jus d'Orange"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 6
+            }
+          ],
+          "timestamp": 1758126672050,
+          "totalItems": 2
+        },
+        {
+          "date": "2025-09-17T16:46:24.952Z",
+          "invoiceNumber": 5,
+          "orderDetails": [
+            [
+              "2025-09-17T16:46:24.952Z",
+              "103",
+              1,
+              0,
+              0,
+              "Mushroom soup"
+            ],
+            [
+              "2025-09-17T16:46:24.952Z",
+              "105",
+              2,
+              0,
+              0,
+              "Ebi garlic"
+            ],
+            [
+              "2025-09-17T16:46:24.952Z",
+              "109",
+              1,
+              0,
+              0,
+              "Korean BBQ fish"
+            ],
+            [
+              "2025-09-17T16:46:24.952Z",
+              "118",
+              1,
+              0,
+              0,
+              "Ahirue (eend)"
+            ],
+            [
+              "2025-09-17T16:46:24.952Z",
+              "124",
+              1,
+              0,
+              0,
+              "Unagi dreams"
+            ],
+            [
+              "2025-09-17T16:46:24.952Z",
+              "65",
+              1,
+              0,
+              0,
+              "Krabsalade"
+            ],
+            [
+              "2025-09-17T16:46:24.952Z",
+              "66",
+              1,
+              0,
+              0,
+              "Gevuld eitje"
+            ],
+            [
+              "2025-09-17T16:46:24.952Z",
+              "82",
+              1,
+              0,
+              0,
+              "Mini loempia"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 0
+            }
+          ],
+          "timestamp": 1758127585338,
+          "totalItems": 8
+        },
+        {
+          "date": "2025-09-17T17:04:39.473Z",
+          "invoiceNumber": 6,
+          "orderDetails": [
+            [
+              "2025-09-17T17:04:39.473Z",
+              "216",
+              1,
+              2.7,
+              0,
+              "Sourcy Rood (20 cl)"
+            ],
+            [
+              "2025-09-17T17:04:39.473Z",
+              "229",
+              1,
+              2,
+              0,
+              "Ranja"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 4.7
+            }
+          ],
+          "timestamp": 1758128679874,
+          "totalItems": 2
+        },
+        {
+          "date": "2025-09-17T17:09:26.879Z",
+          "invoiceNumber": 7,
+          "orderDetails": [
+            [
+              "2025-09-17T17:09:26.879Z",
+              "68",
+              2,
+              0,
+              0,
+              "Vers fruit"
+            ],
+            [
+              "2025-09-17T17:09:26.879Z",
+              "9",
+              1,
+              0,
+              0,
+              "Unagi nigiri"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 0
+            }
+          ],
+          "timestamp": 1758128967192,
+          "totalItems": 2
+        },
+        {
+          "date": "2025-09-17T17:27:03.504Z",
+          "invoiceNumber": 8,
+          "orderDetails": [
+            [
+              "2025-09-17T17:27:03.504Z",
+              "137",
+              2,
+              0,
+              0,
+              "Vanille ijs"
+            ],
+            [
+              "2025-09-17T17:27:03.504Z",
+              "142",
+              1,
+              0,
+              0,
+              "Creme Brulee"
+            ],
+            [
+              "2025-09-17T17:27:03.504Z",
+              "503",
+              1,
+              2.2,
+              0,
+              "Ben & Jerry - Cheesecake"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 2.2
+            }
+          ],
+          "timestamp": 1758130023887,
+          "totalItems": 3
+        }
+      ],
+      "menu": 3,
+      "orderNumbers": 9
+    },
+    "timer": {
+      "duration": 15,
+      "endTime": 1758130924007,
+      "startTime": 1758130024007
+    }
+  },
+  "Tafel-5": {
+    "Persons": 2,
+    "Pincode": "123",
+    "Status": "open",
+    "TableOrder": 5,
+    "URL": "https://asianboulevard.web.app/?rest=AsianBoulevard&tafel=5",
+    "menuType": "dinner",
+    "orders": {
+      "menu": 0,
+      "orderNumbers": 1
+    },
+    "timer": {
+      "duration": 15,
+      "endTime": 1758046295243,
+      "startTime": 1758045395243
+    }
+  },
+  "Tafel-51": {
+    "Persons": 2,
+    "Pincode": "123",
+    "Status": "open",
+    "TableOrder": 44,
+    "URL": "https://asianboulevard.web.app/?rest=AsianBoulevard&tafel=51",
+    "menuType": "dinner",
+    "orders": {
+      "menu": 0,
+      "orderNumbers": 1
+    },
+    "timer": {
+      "duration": 15,
+      "endTime": 1757871400196,
+      "startTime": 1757870500196
+    }
+  },
+  "Tafel-52": {
+    "Persons": 2,
+    "Pincode": "123",
+    "Status": "open",
+    "TableOrder": 45,
+    "URL": "https://asianboulevard.web.app/?rest=AsianBoulevard&tafel=52",
+    "menuType": "dinner",
+    "orders": {
+      "aggregates": {
+        "desserts": 0,
+        "hoofdgerechten": 0,
+        "totaalPrijs": 0,
+        "updatedAt": 1755969349032
+      },
+      "history": [
+        null,
+        {
+          "date": "2025-09-17T16:20:22.736Z",
+          "invoiceNumber": "Ober-1",
+          "orderDetails": [
+            [
+              "2025-09-17T16:20:22.736Z",
+              "181",
+              2,
+              "37.90",
+              0,
+              "AYCE Ma-Do Volwassene"
+            ],
+            [
+              "2025-09-17T16:20:22.736Z",
+              "298",
+              1,
+              "3.50",
+              0,
+              "Verse Muntthee"
+            ],
+            [
+              "2025-09-17T16:20:22.736Z",
+              "227",
+              1,
+              "4.20",
+              0,
+              "Affligem Blond 0,0%"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 83.5
+            }
+          ],
+          "timestamp": 1758126023305,
+          "totalItems": 3
+        },
+        {
+          "date": "2025-09-17T16:32:01.374Z",
+          "invoiceNumber": 2,
+          "orderDetails": [
+            [
+              "2025-09-17T16:32:01.374Z",
+              "101",
+              1,
+              0,
+              0,
+              "Kip spies"
+            ],
+            [
+              "2025-09-17T16:32:01.374Z",
+              "102",
+              1,
+              0,
+              0,
+              "Beef spies"
+            ],
+            [
+              "2025-09-17T16:32:01.374Z",
+              "111",
+              1,
+              0,
+              0,
+              "Grilled salmon"
+            ],
+            [
+              "2025-09-17T16:32:01.374Z",
+              "117",
+              1,
+              0,
+              0,
+              "Kangaroo"
+            ],
+            [
+              "2025-09-17T16:32:01.374Z",
+              "181",
+              1,
+              37.9,
+              0,
+              "AYCE Ma-Do Volwassene"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 37.9
+            }
+          ],
+          "timestamp": 1758126721585,
+          "totalItems": 5
+        },
+        {
+          "date": "2025-09-17T16:52:33.998Z",
+          "invoiceNumber": 3,
+          "orderDetails": [
+            [
+              "2025-09-17T16:52:33.998Z",
+              "118",
+              1,
+              0,
+              0,
+              "Ahirue (eend)"
+            ],
+            [
+              "2025-09-17T16:52:33.998Z",
+              "119",
+              1,
+              0,
+              0,
+              "Tori teriyaki"
+            ],
+            [
+              "2025-09-17T16:52:33.998Z",
+              "126",
+              1,
+              0,
+              0,
+              "Sake tobiko"
+            ],
+            [
+              "2025-09-17T16:52:33.998Z",
+              "133",
+              1,
+              0,
+              0,
+              "Dragon Balls"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 0
+            }
+          ],
+          "timestamp": 1758127954377,
+          "totalItems": 4
+        },
+        {
+          "date": "2025-09-17T17:06:27.491Z",
+          "invoiceNumber": 4,
+          "orderDetails": [
+            [
+              "2025-09-17T17:06:27.491Z",
+              "227",
+              1,
+              4.2,
+              0,
+              "Affligem Blond 0,0%"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 4.2
+            }
+          ],
+          "timestamp": 1758128787768,
+          "totalItems": 1
+        },
+        {
+          "date": "2025-09-17T17:19:54.798Z",
+          "invoiceNumber": 5,
+          "orderDetails": [
+            [
+              "2025-09-17T17:19:54.798Z",
+              "102",
+              1,
+              0,
+              0,
+              "Beef spies"
+            ],
+            [
+              "2025-09-17T17:19:54.798Z",
+              "114",
+              1,
+              0,
+              0,
+              "Crispy beef"
+            ],
+            [
+              "2025-09-17T17:19:54.798Z",
+              "120",
+              1,
+              0,
+              0,
+              "Usuyaki cheese"
+            ],
+            [
+              "2025-09-17T17:19:54.798Z",
+              "79",
+              1,
+              0,
+              0,
+              "Sweet & sour chicken"
+            ]
+          ],
+          "paymentDetails": [
+            {
+              "2": 0
+            }
+          ],
+          "timestamp": 1758129595021,
+          "totalItems": 4
+        }
+      ],
+      "menu": 2,
+      "orderNumbers": 6
+    },
+    "timer": {
+      "duration": 15,
+      "endTime": 1758130495106,
+      "startTime": 1758129595106
+    }
+  },
+  "Tafel-53": {
+    "Persons": 2,
+    "Pincode": "123",
+    "Status": "open",
+    "TableOrder": 46,
+    "URL": "https://asianboulevard.web.app/?rest=AsianBoulevard&tafel=53",
+    "menuType": "dinner",
+    "orders": {
+      "menu": 0,
+      "orderNumbers": 1
+    },
+    "timer": {
+      "duration": 15,
+      "endTime": 1758043833367,
+      "startTime": 1758042933367
+    }
+  },
+  "Tafel-54": {
+    "Persons": 2,
+    "Pincode": "123",
+    "Status": "open",
+    "TableOrder": 47,
+    "URL": "https://asianboulevard.web.app/?rest=AsianBoulevard&tafel=54",
+    "menuType": "dinner",
+    "orders": {
+      "menu": 0,
+      "orderNumbers": 1
+    },
+    "timer": {
+      "duration": 15,
+      "endTime": 1758047858897,
+      "startTime": 1758046958897
+    }
+  },
+  "Tafel-55": {
+    "Persons": 2,
+    "Pincode": "123",
+    "Status": "open",
+    "TableOrder": 48,
+    "URL": "https://asianboulevard.web.app/?rest=AsianBoulevard&tafel=55",
+    "menuType": "dinner",
+    "orders": {
+      "menu": 0,
+      "orderNumbers": 1
+    },
+    "timer": {
+      "duration": 15,
+      "endTime": 1757785246725,
+      "startTime": 1757784346725
+    }
+  },
+  "Tafel-56": {
+    "Persons": 2,
+    "Pincode": "123",
+    "Status": "open",
+    "TableOrder": 49,
+    "URL": "https://asianboulevard.web.app/?rest=AsianBoulevard&tafel=56",
+    "menuType": "dinner",
+    "orders": {
+      "menu": 0,
+      "orderNumbers": 1
+    },
+    "timer": {
+      "duration": 15,
+      "endTime": 1758045023363,
+      "startTime": 1758044123363
+    }
+  },
+  "Tafel-5A": {
+    "Persons": 2,
+    "Pincode": "123",
+    "Status": "open",
+    "TableOrder": 6,
+    "URL": "https://asianboulevard.web.app/?rest=AsianBoulevard&tafel=5A",
+    "menuType": "dinner",
+    "orders": {
+      "menu": 0,
+      "orderNumbers": 1
+    },
+    "timer": {
+      "duration": 15,
+      "endTime": 900001,
+      "startTime": 1
+    }
+  },
+  "Tafel-6": {
+    "Persons": 2,
+    "Pincode": "123",
+    "Status": "open",
+    "TableOrder": 7,
+    "URL": "https://asianboulevard.web.app/?rest=AsianBoulevard&tafel=6",
+    "menuType": "dinner",
+    "orders": {
+      "menu": 0,
+      "orderNumbers": 1
+    },
+    "timer": {
+      "duration": 15,
+      "endTime": 1757787050206,
+      "startTime": 1757786150206
+    }
+  },
+  "Tafel-61": {
+    "Persons": 4,
+    "Pincode": "123",
+    "Status": "open",
+    "TableOrder": 50,
+    "URL": "https://asianboulevard.web.app/?rest=AsianBoulevard&tafel=61",
+    "menuType": "lunch",
+    "orders": {
+      "aggregates": {
+        "desserts": 0,
+        "hoofdgerechten": 0,
+        "totaalPrijs": 0,
+        "updatedAt": 1756831361893
+      },
+      "menu": 0,
+      "orderNumbers": 1
+    },
+    "timer": {
+      "duration": 15,
+      "endTime": 1757872353795,
+      "startTime": 1757871453795
+    }
+  },
+  "Tafel-62": {
+    "Persons": 3,
+    "Pincode": "123",
+    "Status": "open",
+    "TableOrder": 51,
+    "URL": "https://asianboulevard.web.app/?rest=AsianBoulevard&tafel=62",
+    "menuType": "lunch",
+    "orders": {
+      "aggregates": {
+        "desserts": 0,
+        "hoofdgerechten": 0,
+        "totaalPrijs": 0,
+        "updatedAt": 1756660919090
+      },
+      "menu": 0,
+      "orderNumbers": 1
+    },
+    "timer": {
+      "duration": 15,
+      "endTime": 1757788652962,
+      "startTime": 1757787752962
+    }
+  },
+  "Tafel-63": {
+    "Persons": 3,
+    "Pincode": "123",
+    "Status": "open",
+    "TableOrder": 52,
+    "URL": "https://asianboulevard.web.app/?rest=AsianBoulevard&tafel=63",
+    "menuType": "lunch",
+    "orders": {
+      "menu": 0,
+      "orderNumbers": 1
+    },
+    "timer": {
+      "duration": 15,
+      "endTime": 1757871256972,
+      "startTime": 1757870356972
+    }
+  },
+  "Tafel-64": {
+    "Persons": 2,
+    "Pincode": "123",
+    "Status": "open",
+    "TableOrder": 53,
+    "URL": "https://asianboulevard.web.app/?rest=AsianBoulevard&tafel=64",
+    "menuType": "lunch",
+    "orders": {
+      "aggregates": {
+        "desserts": 0,
+        "hoofdgerechten": 0,
+        "totaalPrijs": 0,
+        "updatedAt": 1757697555950
+      },
+      "menu": 0,
+      "orderNumbers": 1
+    },
+    "timer": {
+      "duration": 15,
+      "endTime": 1757873710991,
+      "startTime": 1757872810991
+    }
+  },
+  "Tafel-65": {
+    "Persons": 2,
+    "Pincode": "123",
+    "Status": "open",
+    "TableOrder": 54,
+    "URL": "https://asianboulevard.web.app/?rest=AsianBoulevard&tafel=65",
+    "menuType": "lunch",
+    "orders": {
+      "menu": 0,
+      "orderNumbers": 1
+    },
+    "timer": {
+      "duration": 15,
+      "endTime": 1757870481700,
+      "startTime": 1757869581700
+    }
+  },
+  "Tafel-65A": {
+    "Persons": 2,
+    "Pincode": "123",
+    "Status": "open",
+    "TableOrder": 55,
+    "URL": "https://asianboulevard.web.app/?rest=AsianBoulevard&tafel=65A",
+    "menuType": "lunch",
+    "orders": {
+      "menu": 0,
+      "orderNumbers": 1
+    },
+    "timer": {
+      "duration": 15,
+      "endTime": 900001,
+      "startTime": 1
+    }
+  },
+  "Tafel-66": {
+    "Persons": 2,
+    "Pincode": "123",
+    "Status": "open",
+    "TableOrder": 56,
+    "URL": "https://asianboulevard.web.app/?rest=AsianBoulevard&tafel=66",
+    "menuType": "lunch",
+    "orders": {
+      "menu": 0,
+      "orderNumbers": 1
+    },
+    "timer": {
+      "duration": 15,
+      "endTime": 1757871487603,
+      "startTime": 1757870587603
+    }
+  },
+  "Tafel-66A": {
+    "Persons": 2,
+    "Pincode": "123",
+    "Status": "open",
+    "TableOrder": 57,
+    "URL": "https://asianboulevard.web.app/?rest=AsianBoulevard&tafel=66A",
+    "menuType": "lunch",
+    "orders": {
+      "menu": 0,
+      "orderNumbers": 1
+    },
+    "timer": {
+      "duration": 15,
+      "endTime": 900001,
+      "startTime": 1
+    }
+  },
+  "Tafel-67": {
+    "Persons": 2,
+    "Pincode": "123",
+    "Status": "open",
+    "TableOrder": 58,
+    "URL": "https://asianboulevard.web.app/?rest=AsianBoulevard&tafel=67",
+    "menuType": "lunch",
+    "orders": {
+      "menu": 0,
+      "orderNumbers": 1
+    },
+    "timer": {
+      "duration": 15,
+      "endTime": 1757869666887,
+      "startTime": 1757868766887
+    }
+  },
+  "Tafel-67A": {
+    "Persons": 2,
+    "Pincode": "123",
+    "Status": "open",
+    "TableOrder": 59,
+    "URL": "https://asianboulevard.web.app/?rest=AsianBoulevard&tafel=67A",
+    "menuType": "lunch",
+    "orders": {
+      "menu": 0,
+      "orderNumbers": 1
+    },
+    "timer": {
+      "duration": 15,
+      "endTime": 1757789684166,
+      "startTime": 1757788784166
+    }
+  },
+  "Tafel-68": {
+    "Persons": 6,
+    "Pincode": "123",
+    "Status": "open",
+    "TableOrder": 60,
+    "URL": "https://asianboulevard.web.app/?rest=AsianBoulevard&tafel=68",
+    "menuType": "lunch",
+    "orders": {
+      "menu": 0,
+      "orderNumbers": 1
+    },
+    "timer": {
+      "duration": 15,
+      "endTime": 1757870647598,
+      "startTime": 1757869747598
+    }
+  },
+  "Tafel-69": {
+    "Persons": 4,
+    "Pincode": "123",
+    "Status": "open",
+    "TableOrder": 61,
+    "URL": "https://asianboulevard.web.app/?rest=AsianBoulevard&tafel=69",
+    "menuType": "lunch",
+    "timer": {
+      "duration": 15,
+      "endTime": 900001,
+      "startTime": 1
+    }
+  },
+  "Tafel-7": {
+    "Persons": 2,
+    "Pincode": "123",
+    "Status": "open",
+    "TableOrder": 8,
+    "URL": "https://asianboulevard.web.app/?rest=AsianBoulevard&tafel=7",
+    "menuType": "dinner",
+    "orders": {
+      "aggregates": {
+        "desserts": 0,
+        "hoofdgerechten": 0,
+        "totaalPrijs": 0,
+        "updatedAt": 1756569287656
+      },
+      "menu": 0,
+      "orderNumbers": 1
+    },
+    "timer": {
+      "duration": 15,
+      "endTime": 1758049184042,
+      "startTime": 1758048284042
+    }
+  },
+  "Tafel-71": {
+    "Persons": 2,
+    "Pincode": "123",
+    "Status": "open",
+    "TableOrder": 62,
+    "URL": "https://asianboulevard.web.app/?rest=AsianBoulevard&tafel=71",
+    "menuType": "lunch",
+    "orders": {
+      "menu": 0,
+      "orderNumbers": 1
+    },
+    "timer": {
+      "duration": 15,
+      "endTime": 1757874195981,
+      "startTime": 1757873295981
+    }
+  },
+  "Tafel-72": {
+    "Persons": 2,
+    "Pincode": "123",
+    "Status": "open",
+    "TableOrder": 63,
+    "URL": "https://asianboulevard.web.app/?rest=AsianBoulevard&tafel=72",
+    "menuType": "lunch",
+    "orders": {
+      "menu": 0,
+      "orderNumbers": 1
+    },
+    "timer": {
+      "duration": 15,
+      "endTime": 1757783643688,
+      "startTime": 1757782743688
+    }
+  },
+  "Tafel-73": {
+    "Persons": 3,
+    "Pincode": "123",
+    "Status": "open",
+    "TableOrder": 64,
+    "URL": "https://asianboulevard.web.app/?rest=AsianBoulevard&tafel=73",
+    "menuType": "lunch",
+    "orders": {
+      "menu": 0,
+      "orderNumbers": 1
+    },
+    "timer": {
+      "duration": 15,
+      "endTime": 1757867637065,
+      "startTime": 1757866737065
+    }
+  },
+  "Tafel-74": {
+    "Persons": 2,
+    "Pincode": "123",
+    "Status": "open",
+    "TableOrder": 65,
+    "URL": "https://asianboulevard.web.app/?rest=AsianBoulevard&tafel=74",
+    "menuType": "lunch",
+    "timer": {
+      "duration": 15,
+      "endTime": 900001,
+      "startTime": 1
+    }
+  },
+  "Tafel-75": {
+    "Persons": 2,
+    "Pincode": "123",
+    "Status": "open",
+    "TableOrder": 66,
+    "URL": "https://asianboulevard.web.app/?rest=AsianBoulevard&tafel=75",
+    "menuType": "lunch",
+    "orders": {
+      "menu": 0,
+      "orderNumbers": 1
+    },
+    "timer": {
+      "duration": 15,
+      "endTime": 1757787306079,
+      "startTime": 1757786406079
+    }
+  },
+  "Tafel-76": {
+    "Persons": 5,
+    "Pincode": "123",
+    "Status": "open",
+    "TableOrder": 67,
+    "URL": "https://asianboulevard.web.app/?rest=AsianBoulevard&tafel=76",
+    "menuType": "lunch",
+    "orders": {
+      "menu": 0,
+      "orderNumbers": 1
+    },
+    "timer": {
+      "duration": 15,
+      "endTime": 1757871628659,
+      "startTime": 1757870728659
+    }
+  },
+  "Tafel-76A": {
+    "Persons": 6,
+    "Pincode": "123",
+    "Status": "open",
+    "TableOrder": 68,
+    "URL": "https://asianboulevard.web.app/?rest=AsianBoulevard&tafel=76A",
+    "menuType": "lunch",
+    "orders": {
+      "aggregates": {
+        "desserts": 0,
+        "hoofdgerechten": 0,
+        "totaalPrijs": 0,
+        "updatedAt": 1755969385881
+      },
+      "menu": 0,
+      "orderNumbers": 1,
+      "orderlist": {
+        "101__default": {
+          "allergy": "Kipspies met huisgemaakte teriyaki saus 2st\n<br><font color='orange'><i>Allergenen: bevat gluten, sesam en soja</i></font>",
+          "description": "Kip spies",
+          "group": "groep1",
+          "price": 0,
+          "quantity": 1,
+          "sku": "101",
+          "subtotal": 0,
+          "taxAmount": 0,
+          "taxRate": 0
+        },
+        "107__default": {
+          "allergy": "Gemarineerde kipstukken met uitjes\n<br><font color='orange'><i>Allergenen: bevat gluten, sesam en soja</i></font>",
+          "description": "Tori peppa",
+          "group": "groep1",
+          "price": 0,
+          "quantity": 1,
+          "sku": "107",
+          "subtotal": 0,
+          "taxAmount": 0,
+          "taxRate": 0
+        },
+        "26__default": {
+          "allergy": "Gunkan met rauwe zalm. \n<br><font color='orange'><i>Allergenen: bevat vis en sesam. Niet geschikt voor zwangeren. </i></font>",
+          "description": "Sake gunkan",
+          "group": "groep1",
+          "price": 0,
+          "quantity": 1,
+          "sku": "26",
+          "subtotal": 0,
+          "taxAmount": 0,
+          "taxRate": 0
+        },
+        "39__default": {
+          "allergy": "Spicy zalmrol met gegrilde zalm, avocado, sla en spicy mayo. \n<br><font color='orange'><i>Allergenen: bevat gluten, ei, sesam, vis en selderij</i></font>",
+          "description": "Spicy salmon maki",
+          "group": "groep1",
+          "price": 0,
+          "quantity": 6,
+          "sku": "39",
+          "subtotal": 0,
+          "taxAmount": 0,
+          "taxRate": 0
+        },
+        "40__default": {
+          "allergy": "Maki met gefrituurde garnaal, viskuit met unagisaus en japanse mayo. \n<br><font color='orange'><i>Allergenen: bevat gluten, ei, melk, soja, mosterd selderij en schaaldier.Niet geschikt voor zwangeren. </i></font>",
+          "description": "Dragon roll",
+          "group": "groep1",
+          "price": 0,
+          "quantity": 3,
+          "sku": "40",
+          "subtotal": 0,
+          "taxAmount": 0,
+          "taxRate": 0
+        },
+        "42__default": {
+          "allergy": "Maki met krokante kip, avocado en pittige peperkruiden.\n<br><font color='orange'><i>Allergenen: bevat gluten, ei, melk, sesam en soja.</i></font>",
+          "description": "Spicy tori",
+          "group": "groep1",
+          "price": 0,
+          "quantity": 3,
+          "sku": "42",
+          "subtotal": 0,
+          "taxAmount": 0,
+          "taxRate": 0
+        },
+        "44__default": {
+          "allergy": "Krokante tempura met japanse mayonaise. \n<br><font color='orange'><i>Allergenen: bevat gluten, ei, soja melk en selderij. Is vegetarisch</i></font>",
+          "description": "Tempura maki",
+          "group": "groep1",
+          "price": 0,
+          "quantity": 1,
+          "sku": "44",
+          "subtotal": 0,
+          "taxAmount": 0,
+          "taxRate": 0
+        },
+        "45__default": {
+          "allergy": "Maki met krabstick, avocado, komkommer, viskuit en crispy. \n<br><font color='orange'><i>Allergenen: bevat gluten, ei, melk, soja, vis en schaaldier. Niet geschikt voor zwangeren.</i></font>",
+          "description": "Crispy california",
+          "group": "groep1",
+          "price": 0,
+          "quantity": 1,
+          "sku": "45",
+          "subtotal": 0,
+          "taxAmount": 0,
+          "taxRate": 0
+        },
+        "46__default": {
+          "allergy": "Maki met beef\n<br><font color='orange'><i>Allergenen: bevat gluten, sesam en soja.</i></font>",
+          "description": "Beef maki",
+          "group": "groep1",
+          "price": 0,
+          "quantity": 2,
+          "sku": "46",
+          "subtotal": 0,
+          "taxAmount": 0,
+          "taxRate": 0
+        },
+        "67__default": {
+          "allergy": "Frisse salade met krokante kip en dressing\n<br><font color='orange'><i>Allergenen: bevat gluten, ei, melk, mosterd en soja.</i></font>",
+          "description": "Crispy chicken salade",
+          "group": "groep1",
+          "price": 0,
+          "quantity": 1,
+          "sku": "67",
+          "subtotal": 0,
+          "taxAmount": 0,
+          "taxRate": 0
+        },
+        "79__default": {
+          "allergy": "Krokante kip en groenten in zoetzure saus\n<br><font color='orange'><i>Allergenen: bevat gluten, soja en sesam.</i></font>",
+          "description": "Sweet & sour chicken",
+          "group": "groep1",
+          "price": 0,
+          "quantity": 2,
+          "sku": "79",
+          "subtotal": 0,
+          "taxAmount": 0,
+          "taxRate": 0
+        },
+        "89__default": {
+          "allergy": "Patat / friet met mayonaise\n<br><font color='orange'><i>Allergenen: bevat gluten. Is vegetarisch. </i></font>",
+          "description": "Patat",
+          "group": "groep1",
+          "price": 0,
+          "quantity": 1,
+          "sku": "89",
+          "subtotal": 0,
+          "taxAmount": 0,
+          "taxRate": 0
+        }
+      }
+    },
+    "timer": {
+      "duration": 15,
+      "endTime": 1756837003141,
+      "startTime": 1756836103141
+    }
+  },
+  "Tafel-77": {
+    "Persons": 2,
+    "Pincode": "123",
+    "Status": "open",
+    "TableOrder": 69,
+    "URL": "https://asianboulevard.web.app/?rest=AsianBoulevard&tafel=77",
+    "menuType": "lunch",
+    "orders": {
+      "menu": 0,
+      "orderNumbers": 1
+    },
+    "timer": {
+      "duration": 15,
+      "endTime": 1757781945969,
+      "startTime": 1757781045969
+    }
+  },
+  "Tafel-78": {
+    "Persons": 2,
+    "Pincode": "123",
+    "Status": "open",
+    "TableOrder": 70,
+    "URL": "https://asianboulevard.web.app/?rest=AsianBoulevard&tafel=78",
+    "menuType": "lunch",
+    "orders": {
+      "menu": 0,
+      "orderNumbers": 1
+    },
+    "timer": {
+      "duration": 15,
+      "endTime": 1757781495398,
+      "startTime": 1757780595398
+    }
+  },
+  "Tafel-79": {
+    "Persons": 3,
+    "Pincode": "123",
+    "Status": "open",
+    "TableOrder": 71,
+    "URL": "https://asianboulevard.web.app/?rest=AsianBoulevard&tafel=79",
+    "menuType": "lunch",
+    "orders": {
+      "aggregates": {
+        "desserts": 0,
+        "hoofdgerechten": 0,
+        "totaalPrijs": 0,
+        "updatedAt": 1756572861312
+      },
+      "menu": 0,
+      "orderNumbers": 1
+    },
+    "timer": {
+      "duration": 15,
+      "endTime": 1757873977783,
+      "startTime": 1757873077783
+    }
+  },
+  "Tafel-8": {
+    "Persons": 2,
+    "Pincode": "123",
+    "Status": "open",
+    "TableOrder": 9,
+    "URL": "https://asianboulevard.web.app/?rest=AsianBoulevard&tafel=8",
+    "menuType": "dinner",
+    "orders": {
+      "menu": 0,
+      "orderNumbers": 1
+    },
+    "timer": {
+      "duration": 15,
+      "endTime": 1758045545105,
+      "startTime": 1758044645105
+    }
+  },
+  "Tafel-81": {
+    "Persons": 4,
+    "Pincode": "123",
+    "Status": "open",
+    "TableOrder": 72,
+    "URL": "https://asianboulevard.web.app/?rest=AsianBoulevard&tafel=81",
+    "menuType": "lunch",
+    "orders": {
+      "menu": 0,
+      "orderNumbers": 1
+    },
+    "timer": {
+      "duration": 15,
+      "endTime": 1757267407571,
+      "startTime": 1757266507571
+    }
+  },
+  "Tafel-82": {
+    "Persons": 5,
+    "Pincode": "123",
+    "Status": "open",
+    "TableOrder": 73,
+    "URL": "https://asianboulevard.web.app/?rest=AsianBoulevard&tafel=82",
+    "menuType": "lunch",
+    "orders": {
+      "menu": 0,
+      "orderNumbers": 1,
+      "orderlist": {
+        "137__default": {
+          "allergy": "Vanille ijs\n<br><font color='orange'><i>Allergenen: bevat gluten en melk.</i></font>",
+          "description": "Vanille ijs",
+          "group": "groep3",
+          "price": 0,
+          "quantity": 1,
+          "sku": "137",
+          "subtotal": 0,
+          "taxAmount": 0,
+          "taxRate": 0
+        },
+        "140__default": {
+          "allergy": "Chocolade ijs\n<br><font color='orange'><i>Allergenen: bevat gluten en melk.</i></font>",
+          "description": "Chocolade ijs",
+          "group": "groep3",
+          "price": 0,
+          "quantity": 1,
+          "sku": "140",
+          "subtotal": 0,
+          "taxAmount": 0,
+          "taxRate": 0
+        },
+        "295__default": {
+          "allergy": "",
+          "description": "Ober langskomen",
+          "group": "geen",
+          "price": 0,
+          "quantity": 1,
+          "sku": "295",
+          "subtotal": 0,
+          "taxAmount": 0,
+          "taxRate": 0
+        }
+      }
+    },
+    "timer": {
+      "duration": 15,
+      "endTime": 1757871659069,
+      "startTime": 1757870759069
+    }
+  },
+  "Tafel-83": {
+    "Persons": 5,
+    "Pincode": "123",
+    "Status": "open",
+    "TableOrder": 74,
+    "URL": "https://asianboulevard.web.app/?rest=AsianBoulevard&tafel=83",
+    "menuType": "lunch",
+    "orders": {
+      "aggregates": {
+        "desserts": 0,
+        "hoofdgerechten": 0,
+        "totaalPrijs": 0,
+        "updatedAt": 1756828483458
+      },
+      "menu": 0,
+      "orderNumbers": 1
+    },
+    "timer": {
+      "duration": 15,
+      "endTime": 1757869796290,
+      "startTime": 1757868896290
+    }
+  },
+  "Tafel-84": {
+    "Persons": 2,
+    "Pincode": "123",
+    "Status": "open",
+    "TableOrder": 75,
+    "URL": "https://asianboulevard.web.app/?rest=AsianBoulevard&tafel=84",
+    "menuType": "lunch",
+    "orders": {
+      "menu": 0,
+      "orderNumbers": 1
+    },
+    "timer": {
+      "duration": 15,
+      "endTime": 900001,
+      "startTime": 1
+    }
+  },
+  "Tafel-85": {
+    "Persons": 2,
+    "Pincode": "123",
+    "Status": "open",
+    "TableOrder": 76,
+    "URL": "https://asianboulevard.web.app/?rest=AsianBoulevard&tafel=85",
+    "menuType": "lunch",
+    "orders": {
+      "menu": 0,
+      "orderNumbers": 1
+    },
+    "timer": {
+      "duration": 15,
+      "endTime": 900001,
+      "startTime": 1
+    }
+  },
+  "Tafel-9": {
+    "Persons": 2,
+    "Pincode": "123",
+    "Status": "open",
+    "TableOrder": 10,
+    "URL": "https://asianboulevard.web.app/?rest=AsianBoulevard&tafel=9",
+    "menuType": "dinner",
+    "orders": {
+      "menu": 0,
+      "orderNumbers": 1
+    },
+    "timer": {
+      "duration": 15,
+      "endTime": 1757783027898,
+      "startTime": 1757782127898
+    }
+  },
+  "Tafel-91": {
+    "Persons": 2,
+    "Pincode": "123",
+    "Status": "open",
+    "TableOrder": 77,
+    "URL": "https://asianboulevard.web.app/?rest=AsianBoulevard&tafel=91",
+    "menuType": "lunch",
+    "orders": {
+      "aggregates": {
+        "desserts": 0,
+        "hoofdgerechten": 0,
+        "totaalPrijs": 0,
+        "updatedAt": 1755524551410
+      },
+      "menu": 0,
+      "orderNumbers": 1
+    },
+    "timer": {
+      "duration": 15,
+      "endTime": 1757787390386,
+      "startTime": 1757786490386
+    }
+  },
+  "Tafel-92": {
+    "Persons": 2,
+    "Pincode": "123",
+    "Status": "open",
+    "TableOrder": 78,
+    "URL": "https://asianboulevard.web.app/?rest=AsianBoulevard&tafel=92",
+    "menuType": "lunch",
+    "orders": {
+      "aggregates": {
+        "desserts": 0,
+        "hoofdgerechten": 0,
+        "totaalPrijs": 0,
+        "updatedAt": 1757785221634
+      },
+      "menu": 0,
+      "orderNumbers": 1
+    },
+    "timer": {
+      "duration": 15,
+      "endTime": 1757871874416,
+      "startTime": 1757870974416
+    }
+  }
+}

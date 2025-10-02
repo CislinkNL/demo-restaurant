@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>File Upload to FTP</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif; /* Ensures a more readable typeface */
+            padding: 20px; /* Adds spacing around the content */
+            background-color: #f4f4f4; /* Light grey background for the page */
+        }
+
+        form {
+            background: white; /* White background for the form */
+            padding: 20px; /* Padding inside the form */
+            border-radius: 8px; /* Rounded corners for the form */
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Subtle shadow for 3D effect */
+            max-width: 400px; /* Limits form width */
+            margin: 0 auto; /* Centers the form horizontally */
+        }
+
+        input[type="file"], input[type="submit"] {
+            width: 100%; /* Makes input take full width of the form */
+            padding: 10px; /* Padding inside the input for better touch interaction */
+            margin-top: 10px; /* Adds space between inputs */
+        }
+
+        #uploadStatus {
+            margin-top: 20px; /* Space from form to status message */
+            text-align: center; /* Center-aligns the content */
+            max-width: 400px; /* Limits width of status messages */
+            margin: 20px auto; /* Centers the status box and adds vertical space */
+            padding: 10px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        #fileUrl {
+            border: 1px solid #ccc; /* Subtle border for the URL input */
+            font-family: monospace; /* Makes URL font monospaced */
+            width: 90%; /* Slightly less than full width to fit the button */
+            margin-bottom: 10px; /* Space below the URL input */
+        }
+    </style>
+</head>
+<body>
+    <form action="upload-bluedragon.php" method="post" enctype="multipart/form-data">
+        Selecteer bestand:
+        <input type="file" name="fileToUpload" id="fileToUpload">
+        <input type="submit" value="Uploaden" name="submit">
+    </form>
+    <div id="uploadStatus"></div>
+    <script>
+        function handleFileUploadResponse() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const uploaded = urlParams.get('uploaded');
+            const fileUrl = decodeURIComponent(urlParams.get('url'));
+
+            if (uploaded === 'true' && fileUrl) {
+                let statusDiv = document.getElementById('uploadStatus');
+                statusDiv.innerHTML = `<input type="text" value="${fileUrl}" id="fileUrl">
+                                       <button onclick="copyToClipboard()">Copy URL</button>`;
+            }
+        }
+
+        function copyToClipboard() {
+            const copyText = document.getElementById("fileUrl");
+            copyText.select();
+            document.execCommand("copy");
+            alert("URL copied to clipboard: " + copyText.value);
+        }
+
+        window.onload = handleFileUploadResponse;
+    </script>
+</body>
+</html>
