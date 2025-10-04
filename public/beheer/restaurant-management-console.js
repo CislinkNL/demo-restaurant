@@ -545,8 +545,31 @@ const RestaurantDataOperations = {
                     updates[`${restaurantPath}/tafel/${tableId}/orders`] = tableData.orders;
                 }
             }
+            // 重要：添加timer字段的详细更新支持 - 智能合并timer数据
             if (tableData.timer !== undefined) {
-                updates[`${restaurantPath}/tafel/${tableId}/timer`] = tableData.timer;
+                // 获取当前timer数据作为基础
+                const currentTimerSnapshot = await database.ref(`${restaurantPath}/tafel/${tableId}/timer`).once('value');
+                const currentTimer = currentTimerSnapshot.val() || {};
+                
+                // 智能合并timer数据
+                const newTimer = { ...currentTimer };
+                
+                // 更新duration时，同时更新startTime和endTime为当前时间
+                if (tableData.timer.duration !== undefined) {
+                    const currentTime = Date.now();
+                    newTimer.duration = tableData.timer.duration;
+                    newTimer.startTime = currentTime;
+                    newTimer.endTime = currentTime;
+                }
+                
+                // 保留其他现有字段，只覆盖明确提供的字段
+                Object.keys(tableData.timer).forEach(key => {
+                    if (key !== 'duration' && tableData.timer[key] !== undefined) {
+                        newTimer[key] = tableData.timer[key];
+                    }
+                });
+                
+                updates[`${restaurantPath}/tafel/${tableId}/timer`] = newTimer;
             }
             
             console.log('🔄 保存桌台数据到数据库:', { tableId, updates });

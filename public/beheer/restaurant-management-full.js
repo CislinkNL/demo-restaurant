@@ -5893,7 +5893,9 @@ function TableEditModal({ table, onSave, onClose }) {
             history: {}
         },
         timer: {
-            duration: 15
+            duration: 15,
+            startTime: null,
+            endTime: null
         }
     });
 
@@ -5914,7 +5916,9 @@ function TableEditModal({ table, onSave, onClose }) {
                     history: table.orders?.history || {}
                 },
                 timer: {
-                    duration: table.timer?.duration || 15
+                    duration: table.timer?.duration || 15,
+                    startTime: table.timer?.startTime,
+                    endTime: table.timer?.endTime
                 }
             });
         } else {
@@ -5932,7 +5936,9 @@ function TableEditModal({ table, onSave, onClose }) {
                     history: {}
                 },
                 timer: {
-                    duration: 15
+                    duration: 15,
+                    startTime: null,
+                    endTime: null
                 }
             });
         }
