@@ -1215,11 +1215,12 @@ const cartButton = document.getElementById('toggle-order-list');
 // Function to check and update cart animation based on order items
 function checkAndUpdateCartAnimation() {
     const button = document.getElementById('toggle-order-list');
+    const badge = document.getElementById('order-count-badge');
     if (!button) return;
     
     // 检查实际的订单表格 - 正确的ID是 receipt-details
     const orderTableBody = document.getElementById('receipt-details');
-    let hasValidItems = false;
+    let validItemCount = 0;
     
     if (orderTableBody) {
         const allRows = orderTableBody.querySelectorAll('tr');
@@ -1240,8 +1241,9 @@ function checkAndUpdateCartAnimation() {
                         quantityText && quantityText !== '' && 
                         !productText.includes('dotted-border') && 
                         !productText.includes('empty-border') &&
-                        !row.classList.contains('empty-row')) {
-                        hasValidItems = true;
+                        !row.classList.contains('empty-row') &&
+                        !row.classList.contains('group-header')) {
+                        validItemCount++;
                     }
                 }
             }
@@ -1251,11 +1253,21 @@ function checkAndUpdateCartAnimation() {
     // 也检查传统的orderTableBody（如果存在）
     const legacyOrderRows = document.querySelectorAll('#orderTableBody tr:not(.empty-row)');
     if (legacyOrderRows && legacyOrderRows.length > 0) {
-        hasValidItems = true;
+        validItemCount += legacyOrderRows.length;
+    }
+    
+    // 更新徽章显示
+    if (badge) {
+        if (validItemCount > 0) {
+            badge.textContent = validItemCount;
+            badge.style.display = 'flex';
+        } else {
+            badge.style.display = 'none';
+        }
     }
     
     // 只有当有有效订单项时才显示动画
-    if (hasValidItems) {
+    if (validItemCount > 0) {
         button.classList.add('glow-effect');
         button.classList.add('order-list-not-empty');
     } else {

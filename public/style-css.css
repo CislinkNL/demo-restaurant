@@ -987,7 +987,48 @@ main {
 
 /* 确保动画效果在有订单时保持 */
 #toggle-order-list.glow-effect {
-  animation: glow 1s infinite alternate !important;
+  animation: glow 1.5s infinite alternate !important;
+}
+
+/* 有订单时的基础高亮样式 */
+#toggle-order-list.order-list-not-empty {
+  background: linear-gradient(135deg, #D32F2F 0%, #F44336 50%, #E53935 100%) !important;
+  border: 2px solid #FFD700 !important;
+}
+
+/* 同时有glow-effect类时，增强效果 */
+#toggle-order-list.order-list-not-empty.glow-effect {
+  animation: glow 1.5s infinite alternate !important;
+}
+
+/* 订单数量徽章样式 */
+.order-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: linear-gradient(135deg, #FF1744 0%, #F50057 100%);
+  color: white;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: bold;
+  border: 2px solid white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  z-index: 10;
+  animation: badgePulse 2s infinite;
+}
+
+@keyframes badgePulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
 }
 
 /* 弹窗内表格样式优化 */
@@ -3287,6 +3328,11 @@ button#toggle-order-list {
   /* 购物车按钮 - 左侧 */
 }
 
+/* 确保按钮内部元素可以使用绝对定位 */
+#toggle-order-list {
+  position: relative;
+}
+
 button#toggle-footer-btn {
   left: 14% !important;
   right: auto !important;
@@ -3295,24 +3341,31 @@ button#toggle-footer-btn {
 }
 
 .order-list-not-empty {
-  background-color: blue;
+  background: linear-gradient(135deg, #D32F2F 0%, #F44336 50%, #E53935 100%) !important;
   animation: fadeIn 0.5s ease-in;
 }
 
-/* Define the glow effect */
+/* Define the glow effect - 高亮闪烁效果 */
 .glow-effect {
-  animation: glow 1s infinite alternate;
+  animation: glow 1.5s infinite alternate !important;
   /* Make it glow continuously */
 }
 
-/* Keyframes for the glow animation */
+/* Keyframes for the glow animation - 增强的发光效果 */
 @keyframes glow {
-  from {
-    box-shadow: 0 0 5px goldenrod, 0 0 10px goldenrod, 0 0 15px goldenrod;
+  0% {
+    box-shadow: 0 0 10px #FFD700, 0 0 20px #FFD700, 0 0 30px #FFD700;
+    transform: scale(1);
+  }
+  
+  50% {
+    box-shadow: 0 0 20px #FFA500, 0 0 30px #FFA500, 0 0 40px #FFA500, 0 0 50px #FF8C00;
+    transform: scale(1.05);
   }
 
-  to {
-    box-shadow: 0 0 10px orange, 0 0 20px orange, 0 0 30px orange;
+  100% {
+    box-shadow: 0 0 10px #FFD700, 0 0 20px #FFD700, 0 0 30px #FFD700;
+    transform: scale(1);
   }
 }
 
