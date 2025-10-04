@@ -2182,6 +2182,14 @@ function loadLastOrderInfo() {
         document.getElementById('lastOrderPage').innerHTML = orderData;
         document.getElementById('confirm-close').scrollIntoView({ block: 'start', behavior: 'smooth' });
 
+        // 强制恢复header位置（防止被顶出屏幕）
+        setTimeout(() => {
+            const header = document.querySelector('header');
+            if (header) {
+                header.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }, 1000);
+
         document.querySelectorAll('.quantityLabel').forEach(label => {
             label.style.display = 'none';
         });

@@ -22,6 +22,14 @@ function askQuestion(dishName, copyImgData, capturedAllergy) {
 
     // Scroll to bottom of answerDiv
     answerDiv.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    
+    // 强制恢复header位置（防止被顶出屏幕）
+    setTimeout(() => {
+        const header = document.querySelector('header');
+        if (header) {
+            header.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    }, 1000);
 }
 
 
@@ -35,6 +43,14 @@ function callChatGPTWithPrompt(prompt, dishName) {
         answerDiv.appendChild(responseText);
         hideOverlay();
         answerDiv.scrollIntoView({ behavior: 'smooth', block: 'end' });
+        
+        // 强制恢复header位置（防止被顶出屏幕）
+        setTimeout(() => {
+            const header = document.querySelector('header');
+            if (header) {
+                header.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }, 1000);
     }).callChatGPT(prompt, dishName);
 }
 
@@ -454,6 +470,14 @@ function searchItems(query) {
             if (element) {
                 setTimeout(() => { // Delay to ensure that any CSS transitions don't interfere
                     element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+                    // 强制恢复header位置（防止被顶出屏幕）
+                    setTimeout(() => {
+                        const header = document.querySelector('header');
+                        if (header) {
+                            header.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }
+                    }, 1000);
 
                     // Clear and hide search results
                     document.getElementById('searchResults').innerHTML = '';

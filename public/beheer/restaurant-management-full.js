@@ -197,6 +197,12 @@ function RestaurantManagementConsoleFull() {
             try {
                 setLoading(true);
                 await loadData();
+                
+                // 设置实时监听
+                const cleanupListener = setupTablesListener();
+                
+                // 保存清理函数，以便在用户注销或组件卸载时清理
+                return cleanupListener;
             } catch (e) {
                 console.error('Initial load failed:', e);
                 setError(`Failed to load data: ${e.message}`);
@@ -593,6 +599,61 @@ function RestaurantManagementConsoleFull() {
         }
     };
 
+    // 设置桌台数据实时监听
+    const setupTablesListener = () => {
+        try {
+            if (!firebase?.database) {
+                console.warn('Firebase database not available for real-time listening');
+                return;
+            }
+
+            const database = firebase.database();
+            const restaurantPath = getRestaurantPath();
+            const tablesRef = database.ref(`${restaurantPath}/tafel`);
+
+            console.log('🔔 设置桌台数据实时监听...');
+
+            // 监听桌台数据变化
+            tablesRef.on('value', (snapshot) => {
+                const rawTablesData = snapshot.val() || {};
+                
+                // 转换数据结构，确保每个桌台对象都有id字段
+                const processedTables = {};
+                Object.entries(rawTablesData).forEach(([key, data]) => {
+                    processedTables[key] = {
+                        id: key,
+                        TableOrder: data.TableOrder || 999,
+                        Status: data.Status || 'closed',
+                        Persons: data.Persons || 0,
+                        Pincode: data.Pincode || '',
+                        URL: data.URL || '',
+                        menuType: data.menuType || 'dinner',
+                        orders: data.orders || {
+                            menu: '',
+                            totaalPrijs: 0,
+                            history: {}
+                        },
+                        timer: data.timer || {
+                            duration: 15
+                        }
+                    };
+                });
+
+                console.log('🔔 桌台数据实时更新:', Object.keys(processedTables));
+                setTables(processedTables);
+            });
+
+            // 返回清理函数
+            return () => {
+                console.log('🔇 清理桌台数据监听...');
+                tablesRef.off();
+            };
+        } catch (error) {
+            console.error('❌ 设置桌台监听失败:', error);
+            return null;
+        }
+    };
+
     const handleLogin = async (e) => {
         e && e.preventDefault();
         if (!authEmail || !authPassword) {
@@ -783,7 +844,7 @@ function RestaurantManagementConsoleFull() {
             console.log('- tableData?.id:', tableData?.id);
             
             if (editingTable) {
-                // 编辑现有桌台 - 优先使用传递的tableData中的id，其次使用editingTable.id
+                // 编辑现有桌台 - 直接使用RestaurantDataOperations.saveTable
                 const tableKey = tableData.id || editingTable.id;
                 
                 console.log('🔧 计算出的tableKey:', tableKey);
@@ -792,50 +853,26 @@ function RestaurantManagementConsoleFull() {
                     console.error('❌ 桌台键名不能为空:');
                     console.error('- editingTable?.id:', editingTable?.id);
                     console.error('- tableData?.id:', tableData?.id);
-                    console.error('editingTable详细信息:', JSON.stringify(editingTable, null, 2));
-                    console.error('tableData详细信息:', JSON.stringify(tableData, null, 2));
                     throw new Error(t('tableIdentifierMissing'));
                 }
                 
-                console.log('🔧 正在更新桌台:');
+                console.log('🔧 使用RestaurantDataOperations.saveTable保存:');
                 console.log('- tableKey:', tableKey);
-                console.log('- editingTable:', editingTable);
                 console.log('- tableData:', tableData);
-                console.log('- 当前所有桌台键名:', Object.keys(tables));
                 
-                // 使用restaurant-management-console.js中相同的保存逻辑
+                // 直接使用RestaurantDataOperations.saveTable方法
+                await window.RestaurantDataOperations.saveTable(tableKey, tableData);
+                
+                console.log('✅ RestaurantDataOperations.saveTable 完成');
+                
+                // 验证数据是否真的写入
                 const database = window.firebase.database();
                 const restaurantPath = getRestaurantPath();
-                const updates = {};
-                
-                if (tableData.TableOrder !== undefined) {
-                    updates[`${restaurantPath}/tafel/${tableKey}/TableOrder`] = tableData.TableOrder;
-                }
-                if (tableData.Status !== undefined) {
-                    updates[`${restaurantPath}/tafel/${tableKey}/Status`] = tableData.Status;
-                }
-                if (tableData.Persons !== undefined) {
-                    updates[`${restaurantPath}/tafel/${tableKey}/Persons`] = tableData.Persons;
-                }
-                if (tableData.Pincode !== undefined) {
-                    updates[`${restaurantPath}/tafel/${tableKey}/Pincode`] = tableData.Pincode;
-                }
-                if (tableData.URL !== undefined) {
-                    updates[`${restaurantPath}/tafel/${tableKey}/URL`] = tableData.URL;
-                }
-                if (tableData.menuType !== undefined) {
-                    updates[`${restaurantPath}/tafel/${tableKey}/menuType`] = tableData.menuType;
-                }
-                if (tableData.orders !== undefined) {
-                    updates[`${restaurantPath}/tafel/${tableKey}/orders`] = tableData.orders;
-                }
-                if (tableData.timer !== undefined) {
-                    updates[`${restaurantPath}/tafel/${tableKey}/timer`] = tableData.timer;
-                }
-                
-                await database.ref().update(updates);
-                
-                console.log('✅ 数据库更新完成，更新的路径:', Object.keys(updates));
+                const verifyRef = database.ref(`${restaurantPath}/tafel/${tableKey}`);
+                const snapshot = await verifyRef.once('value');
+                const updatedData = snapshot.val();
+                console.log('🔎 验证数据库中的数据:', updatedData);
+                console.log('🔎 验证orders.menu:', updatedData?.orders?.menu);
                 
                 // 更新本地数据
                 setTables(prev => ({

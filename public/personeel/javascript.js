@@ -622,6 +622,14 @@ $(document).ready(function() {
               block: 'start' 
             });
             
+            // 强制恢复header位置（防止被顶出屏幕）
+            setTimeout(() => {
+              const header = document.querySelector('header');
+              if (header) {
+                header.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              }
+            }, 1000);
+            
             // 高亮显示目标元素
             $(targetElement).addClass('highlight-flash');
             setTimeout(() => {
@@ -1312,6 +1320,14 @@ if(receiptDetailsEl && window.MutationObserver){
 function scrollToElement(id) {
     var element = document.getElementById(id);
     element.scrollIntoView({ block: 'start', behavior: 'smooth' });
+    
+    // 强制恢复header位置（防止被顶出屏幕）
+    setTimeout(() => {
+        const header = document.querySelector('header');
+        if (header) {
+            header.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    }, 1000);
 }
 
 

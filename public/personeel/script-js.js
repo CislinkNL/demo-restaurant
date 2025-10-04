@@ -552,6 +552,14 @@ function showConform2() {
         document.getElementById('close-btn').style.display = 'block';
         // reload();
         document.getElementById('confirm-close').scrollIntoView({ block: 'start', behavior: 'smooth' }); //自动滚动到关闭窗口的按钮位置
+        
+        // 强制恢复header位置（防止被顶出屏幕）
+        setTimeout(() => {
+            const header = document.querySelector('header');
+            if (header) {
+                header.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }, 1000);
     }).lastOrderInfo();
     google.script.run.createRecordHistory();
 
@@ -1009,6 +1017,15 @@ function onDocumentLoad() {
         
         if (targetElement) {
             targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            
+            // 强制恢复header位置（防止被顶出屏幕）
+            setTimeout(() => {
+                const header = document.querySelector('header');
+                if (header) {
+                    header.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }, 1000);
+            
             animateHighlight(targetElement);
         } else {
             console.warn(`未找到目标元素: ${targetId}`);
