@@ -2924,84 +2924,52 @@ a.btn.btn-lvl1 i {
 
 
 
-/* Boss 主题 - 现代化立体Toggle按钮 - 深色版本 */
-.theme-boss #toggle-order-list,
-.theme-boss #toggle-footer-btn {
-  background: linear-gradient(145deg, 
-    var(--boss-primary, #8B1538) 0%, 
-    var(--boss-secondary, #6B1028) 100%) !important;
-  color: #fff !important;
-  border: 2px solid rgba(166, 30, 60, 0.3) !important;
-  border-radius: 50% !important;
-  box-shadow: 
-    0 8px 20px rgba(0, 0, 0, 0.5),
-    0 4px 10px rgba(166, 30, 60, 0.25),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
-  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
-  backdrop-filter: blur(10px) !important;
-}
+/* Boss 主题 - Toggle按钮样式已移至通用样式 (见下方) */
 
-.theme-boss #toggle-order-list:hover,
-.theme-boss #toggle-footer-btn:hover {
-  background: linear-gradient(145deg, 
-    var(--boss-accent, #A61E3C) 0%, 
-    var(--boss-primary, #8B1538) 100%) !important;
-  transform: translateY(-2px) scale(1.05) !important;
-  box-shadow: 
-    0 12px 30px rgba(0, 0, 0, 0.6),
-    0 6px 15px rgba(166, 30, 60, 0.35),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
-  border-color: rgba(166, 30, 60, 0.5) !important;
-}
-
-.theme-boss #toggle-order-list:active,
-.theme-boss #toggle-footer-btn:active {
-  transform: translateY(0) scale(0.98) !important;
-  box-shadow: 
-    0 4px 15px rgba(204, 51, 102, 0.3),
-    0 2px 8px rgba(0, 0, 0, 0.2),
-    inset 0 2px 4px rgba(0, 0, 0, 0.1) !important;
-}
-
-/* Apply same styles to both buttons */
+/* Apply same styles to both buttons - 深色立体效果 */
 #toggle-order-list,
 #toggle-footer-btn {
   position: fixed;
-  bottom: 5px;
-  right: 10%;
-  background: linear-gradient(135deg, #3d1a1a, #5c2e2e, #4a2424) !important;
-  /* 深褐色/深玫瑰色渐变背景 */
+  bottom: 15px;
+  /* 更深的褐色渐变 + 立体效果 */
+  background: linear-gradient(145deg, #2d1010, #3d1a1a, #2d1010) !important;
   color: var(--blue-dragon-gold, #ffca4b) !important;
-  border: 2px solid var(--blue-dragon-gold, #ffca4b) !important;
-  border-radius: 80%;
-  width: 2.5em;
-  /* Increase width */
-  height: 2.5em;
-  /* Increase height */
-  font-size: 1.5em;
-  /* Increase font size */
+  border: 2.5px solid var(--blue-dragon-gold, #ffca4b) !important;
+  border-radius: 50% !important;
+  width: 3em;
+  height: 3em;
+  font-size: 1.4em;
   cursor: pointer;
-  box-shadow: 0px 4px 12px rgba(61, 26, 26, 0.6), 0 0 15px rgba(255, 202, 75, 0.2) !important;
-  /* 深褐色阴影和金色发光 */
+  /* 立体阴影效果 */
+  box-shadow: 
+    0 6px 15px rgba(29, 8, 8, 0.9),
+    0 3px 8px rgba(45, 16, 16, 0.7),
+    0 0 25px rgba(255, 202, 75, 0.2),
+    inset 0 2px 3px rgba(255, 202, 75, 0.15),
+    inset 0 -2px 3px rgba(0, 0, 0, 0.4) !important;
   z-index: 108;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 0;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Boss 主题 - SVG图标样式 */
-.theme-boss #toggle-order-list svg,
-.theme-boss #toggle-footer-btn svg {
+/* SVG图标样式 - 统一样式 */
+#toggle-order-list svg,
+#toggle-footer-btn svg {
   fill: var(--blue-dragon-gold, #ffca4b) !important;
   stroke: var(--blue-dragon-gold, #ffca4b) !important;
   filter: drop-shadow(0 2px 4px rgba(255, 202, 75, 0.4)) !important;
   transition: all 0.2s ease !important;
+  width: 1.2em !important;
+  height: 1.2em !important;
+  display: block !important;
+  flex-shrink: 0 !important;
 }
 
-.theme-boss #toggle-order-list:hover svg,
-.theme-boss #toggle-footer-btn:hover svg {
+#toggle-order-list:hover svg,
+#toggle-footer-btn:hover svg {
   fill: white !important;
   stroke: white !important;
   transform: scale(1.1) !important;
@@ -3011,20 +2979,40 @@ a.btn.btn-lvl1 i {
 /* Hover effect for both buttons */
 #toggle-order-list:hover,
 #toggle-footer-btn:hover {
-  background: linear-gradient(135deg, #5c2e2e, #7a3f3f, #6b3636) !important;
-  /* 悬停时更亮的深褐/玫瑰色渐变 */
+  background: linear-gradient(145deg, #4a2424, #5c2e2e, #4a2424) !important;
   color: #ffffff !important;
-  transform: translateY(-2px) scale(1.05) !important;
-  box-shadow: 0 6px 20px rgba(92, 46, 46, 0.7), 0 0 25px rgba(255, 202, 75, 0.4) !important;
+  border-color: #ffd700 !important;
+  transform: translateY(-3px) scale(1.05) !important;
+  box-shadow: 
+    0 9px 20px rgba(74, 36, 36, 0.9),
+    0 5px 12px rgba(92, 46, 46, 0.7),
+    0 0 35px rgba(255, 202, 75, 0.4),
+    inset 0 2px 4px rgba(255, 215, 0, 0.2),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.5) !important;
 }
 
-/* Center SVG icons in both buttons */
-#toggle-order-list svg,
-#toggle-footer-btn svg {
-  width: 1.2em !important;
-  height: 1.2em !important;
-  display: block !important;
-  flex-shrink: 0 !important;
+/* Active/Pressed effect - 按下时的凹陷效果 */
+#toggle-order-list:active,
+#toggle-footer-btn:active {
+  transform: translateY(1px) scale(0.98) !important;
+  box-shadow: 
+    0 2px 6px rgba(29, 8, 8, 0.95),
+    0 1px 3px rgba(45, 16, 16, 0.85),
+    inset 0 3px 6px rgba(0, 0, 0, 0.6),
+    inset 0 -1px 3px rgba(255, 202, 75, 0.1) !important;
+}
+
+/* 分别设置两个按钮的位置 - 对称布局 */
+#toggle-order-list {
+  right: 15px !important;
+  bottom: 85px !important;
+  /* 购物车按钮 - 上方 */
+}
+
+#toggle-footer-btn {
+  right: 15px !important;
+  bottom: 15px !important;
+  /* Footer切换按钮 - 下方 */
 }
 
 .order-list-not-empty {
