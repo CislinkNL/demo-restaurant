@@ -15,6 +15,12 @@ function updateSendBadgeFromOrder(orderArray) {
     } else {
         badge.style.display = 'none';
     }
+    
+    // 同步更新toggle按钮徽章
+    if (typeof checkAndUpdateCartAnimation === 'function') {
+        // 使用setTimeout确保DOM更新后再调用
+        setTimeout(checkAndUpdateCartAnimation, 0);
+    }
 }
 class Ui {
     static menu(orderInstance) {
@@ -278,6 +284,11 @@ class Ui {
         Ui.summary(orderInstance); // summary will be refreshed again by listener updates
         updateQuantityLabels(orderInstance._order);
         updateSendBadgeFromOrder(orderInstance._order);
+        
+        // 同步更新toggle按钮徽章和动画
+        if (typeof checkAndUpdateCartAnimation === 'function') {
+            checkAndUpdateCartAnimation();
+        }
     }
 
 

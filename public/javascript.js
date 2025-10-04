@@ -1216,58 +1216,65 @@ const cartButton = document.getElementById('toggle-order-list');
 function checkAndUpdateCartAnimation() {
     const button = document.getElementById('toggle-order-list');
     const badge = document.getElementById('order-count-badge');
+    const fabSendBadge = document.getElementById('fab-send-badge');
+    
     if (!button) return;
     
-    // 检查实际的订单表格 - 正确的ID是 receipt-details
-    const orderTableBody = document.getElementById('receipt-details');
-    let validItemCount = 0;
+    // 直接从发送按钮的徽章读取总数量，确保数字一致
+    let totalQuantity = 0;
     
-    if (orderTableBody) {
-        const allRows = orderTableBody.querySelectorAll('tr');
-        
-        allRows.forEach(row => {
-            // 检查行是否包含实际数据（不是空行或占位行）
-            const cells = row.querySelectorAll('td');
-            if (cells.length >= 3) { // 至少需要3列：产品、数量、价格
-                const productCell = cells[1]; // 产品名称列
-                const quantityCell = cells[2]; // 数量列
-                
-                if (productCell && quantityCell) {
-                    const productText = productCell.textContent.trim();
-                    const quantityText = quantityCell.textContent.trim();
-                    
-                    // 检查是否有有效的产品名称和数量
-                    if (productText && productText !== '' && 
-                        quantityText && quantityText !== '' && 
-                        !productText.includes('dotted-border') && 
-                        !productText.includes('empty-border') &&
-                        !row.classList.contains('empty-row') &&
-                        !row.classList.contains('group-header')) {
-                        validItemCount++;
-                    }
-                }
-            }
-        });
+    if (fabSendBadge && fabSendBadge.style.display !== 'none') {
+        totalQuantity = parseInt(fabSendBadge.textContent) || 0;
     }
     
-    // 也检查传统的orderTableBody（如果存在）
-    const legacyOrderRows = document.querySelectorAll('#orderTableBody tr:not(.empty-row)');
-    if (legacyOrderRows && legacyOrderRows.length > 0) {
-        validItemCount += legacyOrderRows.length;
+    // 如果fab-send-badge不可用，则从订单表格计算
+    if (totalQuantity === 0) {
+        const orderTableBody = document.getElementById('receipt-details');
+        
+        if (orderTableBody) {
+            const allRows = orderTableBody.querySelectorAll('tr');
+            
+            allRows.forEach(row => {
+                // 检查行是否包含实际数据（不是空行或占位行）
+                const cells = row.querySelectorAll('td');
+                if (cells.length >= 3) { // 至少需要3列：产品、数量、价格
+                    const productCell = cells[1]; // 产品名称列
+                    const quantityCell = cells[2]; // 数量列
+                    
+                    if (productCell && quantityCell) {
+                        const productText = productCell.textContent.trim();
+                        const quantityText = quantityCell.textContent.trim();
+                        
+                        // 检查是否有有效的产品名称和数量
+                        if (productText && productText !== '' && 
+                            quantityText && quantityText !== '' && 
+                            !productText.includes('dotted-border') && 
+                            !productText.includes('empty-border') &&
+                            !row.classList.contains('empty-row') &&
+                            !row.classList.contains('group-header')) {
+                            
+                            // 解析数量值（可能是纯数字或带有其他字符）
+                            const quantity = parseInt(quantityText.replace(/[^\d]/g, '')) || 0;
+                            totalQuantity += quantity;
+                        }
+                    }
+                }
+            });
+        }
     }
     
     // 更新徽章显示
     if (badge) {
-        if (validItemCount > 0) {
-            badge.textContent = validItemCount;
-            badge.style.display = 'flex';
+        if (totalQuantity > 0) {
+            badge.textContent = totalQuantity;
+            badge.classList.add('show');
         } else {
-            badge.style.display = 'none';
+            badge.classList.remove('show');
         }
     }
     
     // 只有当有有效订单项时才显示动画
-    if (validItemCount > 0) {
+    if (totalQuantity > 0) {
         button.classList.add('glow-effect');
         button.classList.add('order-list-not-empty');
     } else {

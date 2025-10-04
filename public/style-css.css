@@ -1001,25 +1001,30 @@ main {
   animation: glow 1.5s infinite alternate !important;
 }
 
-/* 订单数量徽章样式 */
-.order-badge {
+/* 订单数量徽章样式 - 徽章在按钮内部，使用absolute相对于按钮定位 */
+#toggle-order-list .order-badge {
   position: absolute;
-  top: -5px;
-  right: -5px;
+  top: -8px;
+  right: -8px;
   background: linear-gradient(135deg, #FF1744 0%, #F50057 100%);
   color: white;
   border-radius: 50%;
   width: 24px;
   height: 24px;
-  display: flex;
+  display: none; /* 默认隐藏，通过JS控制显示 */
   align-items: center;
   justify-content: center;
   font-size: 12px;
   font-weight: bold;
   border: 2px solid white;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-  z-index: 10;
+  box-shadow: 0 2px 8px rgba(255, 0, 0, 0.5);
+  z-index: 1;
   animation: badgePulse 2s infinite;
+}
+
+/* 显示徽章 */
+#toggle-order-list .order-badge.show {
+  display: flex;
 }
 
 @keyframes badgePulse {
@@ -3328,10 +3333,6 @@ button#toggle-order-list {
   /* 购物车按钮 - 左侧 */
 }
 
-/* 确保按钮内部元素可以使用绝对定位 */
-#toggle-order-list {
-  position: relative;
-}
 
 button#toggle-footer-btn {
   left: 14% !important;
