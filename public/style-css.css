@@ -2931,6 +2931,7 @@ a.btn.btn-lvl1 i {
 #toggle-footer-btn {
   position: fixed;
   bottom: 15px;
+  /* 注意：left 和 right 在下方单独设置 */
   /* 更深的褐色渐变 + 立体效果 */
   background: linear-gradient(145deg, #2d1010, #3d1a1a, #2d1010) !important;
   color: var(--blue-dragon-gold, #ffca4b) !important;
@@ -3003,14 +3004,16 @@ a.btn.btn-lvl1 i {
 }
 
 /* 分别设置两个按钮的位置 - 以屏幕中心为基准的水平对称布局 */
-#toggle-order-list {
+button#toggle-order-list {
   left: 20% !important;
+  right: auto !important;
   bottom: 15px !important;
   /* 购物车按钮 - 左侧 */
 }
 
-#toggle-footer-btn {
+button#toggle-footer-btn {
   right: 20% !important;
+  left: auto !important;
   bottom: 15px !important;
   /* Footer切换按钮 - 右侧 */
 }
