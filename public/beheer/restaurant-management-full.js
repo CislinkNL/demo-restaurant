@@ -2,6 +2,7 @@
 function RestaurantManagementConsoleFull() {
     const useState = window.useState || React.useState;
     const useEffect = window.useEffect || React.useEffect;
+    const useRef = window.useRef || React.useRef;
     const useLanguage = window.useLanguage;
     
     // 配置管理状态
@@ -859,6 +860,19 @@ function RestaurantManagementConsoleFull() {
                 console.log('🔧 使用RestaurantDataOperations.saveTable保存:');
                 console.log('- tableKey:', tableKey);
                 console.log('- tableData:', tableData);
+                console.log('- window.RestaurantDataOperations:', window.RestaurantDataOperations);
+                console.log('- window.RestaurantDataOperations.saveTable:', typeof window.RestaurantDataOperations?.saveTable);
+                
+                // 检查RestaurantDataOperations是否可用
+                if (!window.RestaurantDataOperations) {
+                    console.error('❌ window.RestaurantDataOperations 不可用');
+                    throw new Error('RestaurantDataOperations not available');
+                }
+                
+                if (!window.RestaurantDataOperations.saveTable) {
+                    console.error('❌ window.RestaurantDataOperations.saveTable 不可用');
+                    throw new Error('RestaurantDataOperations.saveTable not available');
+                }
                 
                 // 直接使用RestaurantDataOperations.saveTable方法
                 await window.RestaurantDataOperations.saveTable(tableKey, tableData);
@@ -5418,7 +5432,10 @@ function RestaurantManagementConsoleFull() {
 
 // 二维码显示模态组件
 function QRCodeModal({ qrData, onClose }) {
-    const { t } = useLanguage();
+    const useEffect = window.useEffect || React.useEffect;
+    const useRef = window.useRef || React.useRef;
+    const useLanguage = window.useLanguage;
+    const { t } = useLanguage ? useLanguage() : { t: (key) => key };
     const qrCodeRef = useRef(null);
     
     useEffect(() => {
@@ -5562,7 +5579,8 @@ function QRCodeModal({ qrData, onClose }) {
 
 // 订单历史查看模态组件
 function OrderHistoryModal({ orderHistory, tableName, onClose }) {
-    const { t } = useLanguage();
+    const useLanguage = window.useLanguage;
+    const { t } = useLanguage ? useLanguage() : { t: (key) => key };
     
     return React.createElement('div', {
         style: {
@@ -5859,7 +5877,9 @@ function OrderHistoryModal({ orderHistory, tableName, onClose }) {
 
 // 桌子编辑模态组件
 function TableEditModal({ table, onSave, onClose }) {
-    const { t } = useLanguage();
+    const useState = window.useState || React.useState;
+    const useLanguage = window.useLanguage;
+    const { t } = useLanguage ? useLanguage() : { t: (key) => key };
     const [formData, setFormData] = useState({
         TableOrder: '',
         Status: 'open',
@@ -5868,7 +5888,7 @@ function TableEditModal({ table, onSave, onClose }) {
         URL: '',
         menuType: 'dinner',
         orders: {
-            menu: '',
+            menu: 0,
             totaalPrijs: 0,
             history: {}
         },
@@ -5889,7 +5909,7 @@ function TableEditModal({ table, onSave, onClose }) {
                 URL: table.URL || '',
                 menuType: table.menuType || 'dinner',
                 orders: {
-                    menu: table.orders?.menu || '',
+                    menu: table.orders?.menu || 0,
                     totaalPrijs: table.orders?.totaalPrijs || 0,
                     history: table.orders?.history || {}
                 },
@@ -5907,7 +5927,7 @@ function TableEditModal({ table, onSave, onClose }) {
                 URL: '',
                 menuType: 'dinner',
                 orders: {
-                    menu: '',
+                    menu: 0,
                     totaalPrijs: 0,
                     history: {}
                 },

@@ -1,0 +1,15 @@
+{
+  "chat.experimental.shell.autoApprove": true,
+  "chat.experimental.shell.commandsAllowlist": [
+    "git diff",
+    "git status",
+    "Get-ChildItem",
+    "Get-Content"
+  ],
+  "chat.tools.terminal.autoApprove": {
+    "git diff": true,
+    "git status": true,
+    "Get-ChildItem": true,
+    "Get-Content": true
+  }
+}
