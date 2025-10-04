@@ -4947,8 +4947,7 @@ textarea {
    Blue Dragon 信息面板主题样式覆盖
    ========================================== */
 
-/* 覆盖所有可能的紫色背景面板，改为Blue Dragon主题 */
-[style*="background: linear-gradient"],
+/* 覆盖所有可能的紫色背景面板，改为深褐/玫瑰色主题 */
 [style*="background-color: #8b5cf6"],
 [style*="background-color: #a855f7"],
 [style*="background: rgba(139, 92, 246"],
@@ -4956,13 +4955,13 @@ textarea {
 .loading-panel,
 .setup-panel {
   background: linear-gradient(135deg, 
-              var(--blue-dragon-primary, #000119) 0%, 
-              var(--blue-dragon-secondary, #1a237e) 40%,
-              rgba(26, 35, 126, 0.95) 70%,
-              var(--blue-dragon-primary, #000119) 100%) !important;
+              #3d1a1a 0%,
+              #5c2e2e 40%,
+              rgba(92, 46, 46, 0.95) 70%,
+              #3d1a1a 100%) !important;
   border: 3px solid var(--blue-dragon-gold, #ffca4b) !important;
   border-radius: 16px !important;
-  box-shadow: 0 12px 40px rgba(0, 1, 25, 0.8), 
+  box-shadow: 0 12px 40px rgba(61, 26, 26, 0.8), 
               0 0 60px rgba(255, 202, 75, 0.3),
               inset 0 1px 0 rgba(255, 202, 75, 0.2) !important;
   backdrop-filter: blur(10px) !important;
@@ -5009,34 +5008,31 @@ textarea {
 }
 
 /* 面板内的按钮样式 */
-[style*="background: linear-gradient"] button,
 .info-panel button {
-  background: linear-gradient(135deg, var(--blue-dragon-accent, #0089f7), var(--blue-dragon-secondary, #1a237e)) !important;
-  color: var(--blue-dragon-text-light, #ffffff) !important;
-  border: 1px solid var(--blue-dragon-gold, #ffca4b) !important;
+  background: linear-gradient(135deg, #6b3636, #8a4f4f) !important;
+  color: var(--blue-dragon-gold, #ffca4b) !important;
+  border: 2px solid var(--blue-dragon-gold, #ffca4b) !important;
   border-radius: 8px !important;
   padding: 10px 20px !important;
   font-weight: 600 !important;
   transition: all 0.3s ease !important;
-  box-shadow: 0 4px 12px rgba(0, 137, 247, 0.3) !important;
+  box-shadow: 0 4px 12px rgba(107, 54, 54, 0.5) !important;
 }
 
-[style*="background: linear-gradient"] button:hover,
 .info-panel button:hover {
-  background: linear-gradient(135deg, var(--blue-dragon-secondary, #1a237e), var(--blue-dragon-accent, #0089f7)) !important;
+  background: linear-gradient(135deg, #8a4f4f, #a56565) !important;
+  color: #ffffff !important;
   transform: translateY(-2px) !important;
-  box-shadow: 0 6px 16px rgba(0, 137, 247, 0.4) !important;
+  box-shadow: 0 6px 16px rgba(138, 79, 79, 0.6), 0 0 20px rgba(255, 202, 75, 0.3) !important;
 }
 
 /* 特殊的黄色提示框 */
-[style*="background: linear-gradient"] .warning,
-[style*="background: linear-gradient"] [style*="background-color: #fbbf24"],
 .info-panel .warning {
   background: linear-gradient(135deg, var(--blue-dragon-gold, #ffca4b), #ffd700) !important;
-  color: var(--blue-dragon-primary, #000119) !important;
+  color: #3d1a1a !important;
   border-radius: 8px !important;
   padding: 12px !important;
-  border-left: 4px solid var(--blue-dragon-primary, #000119) !important;
+  border-left: 4px solid #3d1a1a !important;
 }
 
 /* 🍷 Drinks Only Modal - 确认按钮样式 */
