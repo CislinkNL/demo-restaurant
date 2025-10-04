@@ -367,6 +367,9 @@
 
     </main>
 
+    <!-- 订单列表弹窗背景遮罩 -->
+    <div id="order-modal-overlay" class="order-modal-overlay"></div>
+
     <!-- ///////////////////////////////////////////////////////////////////////////////// -->
 
     <div class="container" id="historyContainer">
@@ -534,11 +537,20 @@ document.addEventListener('DOMContentLoaded', function() {
     // 延迟执行以确保其他脚本完成
     setTimeout(function() {
         addMenuIcons();
-        // 监听DOM变化，如果按钮被重写则重新添加图标
+        // 初始化购物车动画检查
+        if (typeof checkAndUpdateCartAnimation === 'function') {
+            checkAndUpdateCartAnimation();
+        }
+        
+        // 监听DOM变化，如果按钮被重写则重新添加图标和检查购物车状态
         const observer = new MutationObserver(function(mutations) {
             mutations.forEach(function(mutation) {
                 if (mutation.type === 'childList' || mutation.type === 'characterData') {
                     addMenuIcons();
+                    // 当订单表格发生变化时，更新购物车动画
+                    if (typeof checkAndUpdateCartAnimation === 'function') {
+                        checkAndUpdateCartAnimation();
+                    }
                 }
             });
         });
@@ -550,6 +562,24 @@ document.addEventListener('DOMContentLoaded', function() {
                 childList: true,
                 subtree: true,
                 characterData: true
+            });
+        }
+        
+        // 专门监听订单表格的变化
+        const orderTableBody = document.getElementById('orderTableBody');
+        if (orderTableBody) {
+            const orderObserver = new MutationObserver(function(mutations) {
+                // 当订单表格内容变化时，更新购物车按钮状态
+                if (typeof checkAndUpdateCartAnimation === 'function') {
+                    setTimeout(checkAndUpdateCartAnimation, 100);
+                }
+            });
+            
+            orderObserver.observe(orderTableBody, {
+                childList: true,
+                subtree: true,
+                characterData: true,
+                attributes: true
             });
         }
     }, 1000);

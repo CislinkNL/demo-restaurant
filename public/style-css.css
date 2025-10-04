@@ -912,40 +912,77 @@ main {
 
 }
 
+/* 订单列表弹窗的背景遮罩 */
+.order-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 997;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.order-modal-overlay.show {
+  opacity: 1;
+  visibility: visible;
+}
+
 /* Adjust styles for the mainBody when it is toggled to appear */
 #mainBody {
   /* 默认隐藏 */
   display: none;
-  position: relative;
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%) translateY(-100%);
   
-  /* 确保占用完整的分配空间 */
-  flex: 0 0 350px; /* 增加宽度 */
-  min-width: 320px;
-  max-width: 400px;
-  width: 100%;
-  height: 100%;
+  /* 弹窗样式 */
+  width: 90%;
+  max-width: 500px;
+  height: auto;
+  max-height: 70vh;
   
-  background-color: rgba(0, 0, 0, 0.8);
+  background: linear-gradient(135deg, #5D4037 0%, #8D6E63 25%, #A1887F 50%, #6D4C41 75%, #5D4037 100%);
   color: #FFF;
-  z-index: 1;
+  border-radius: 0 0 15px 15px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  
+  /* z-index 高于logo但低于toggle按钮 */
+  z-index: 998;
   
   /* 内容溢出时滚动 */
   overflow-y: auto;
   overflow-x: hidden;
+  
+  /* 动画效果 */
+  transition: transform 0.4s cubic-bezier(0.4, 0.0, 0.2, 1);
 }
 
-/* 当 mainBody 显示时，隐藏菜单面板 */
-#mainBody:not([style*="display: none"]) ~ .menu-payment,
-#mainBody.show ~ .menu-payment {
-  display: none !important;
+/* 当 mainBody 显示时的动画效果 */
+#mainBody.show {
+  display: block !important;
+  transform: translateX(-50%) translateY(0);
 }
 
-/* 当 mainBody 显示时，让它占满整个容器 */
-.main-container:has(#mainBody:not([style*="display: none"])) #mainBody,
-.main-container:has(#mainBody.show) #mainBody {
-  flex: 1 !important;
-  max-width: none !important;
-  width: 100% !important;
+/* 确保toggle按钮有更高的z-index */
+#toggle-order-list {
+  z-index: 999 !important;
+}
+
+/* 订单列表打开时的按钮状态 */
+#toggle-order-list.order-list-open {
+  background: linear-gradient(135deg, #D32F2F 0%, #F44336 50%, #E53935 100%) !important;
+  box-shadow: 0 0 20px rgba(211, 47, 47, 0.6), 0 0 40px rgba(244, 67, 54, 0.4) !important;
+  transform: scale(1.1) !important;
+}
+
+/* 确保动画效果在有订单时保持 */
+#toggle-order-list.glow-effect {
+  animation: glow 1s infinite alternate !important;
 }
 
 /* Adjust styles for the toggle-order-list button */

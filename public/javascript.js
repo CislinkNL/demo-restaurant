@@ -1091,9 +1091,14 @@ function closeFabActions(){
 }
 
 $('#toggle-order-list').click(function() {
-  const wasHidden = $('#mainBody').is(':hidden');
+  const mainBody = document.getElementById('mainBody');
+  const isVisible = mainBody && mainBody.classList.contains('show');
   
-  if (wasHidden) {
+  if (isVisible) {
+    // 关闭订单面板
+    hideOrderPanel();
+    closeFabActions(); // auto collapse when closing
+  } else {
     // 显示订单面板
     showOrderPanel();
     scrollToElement('order-verzend');
@@ -1105,10 +1110,6 @@ $('#toggle-order-list').click(function() {
       fab.setAttribute('aria-expanded','true');
       positionFabActions();
     }
-  } else {
-    // 隐藏订单面板
-    hideOrderPanel();
-    closeFabActions(); // auto collapse when closing
   }
 });
 
@@ -1211,6 +1212,23 @@ function scrollToElement(id) {
 // Get a reference to the button
 const cartButton = document.getElementById('toggle-order-list');
 
+// Function to check and update cart animation based on order items
+function checkAndUpdateCartAnimation() {
+    const button = document.getElementById('toggle-order-list');
+    if (!button) return;
+    
+    // Check if there are any order items
+    const orderRows = document.querySelectorAll('#orderTableBody tr:not(.empty-row)');
+    const hasItems = orderRows && orderRows.length > 0;
+    
+    if (hasItems) {
+        button.classList.add('glow-effect');
+        button.classList.add('order-list-not-empty');
+    } else {
+        button.classList.remove('glow-effect');
+        button.classList.remove('order-list-not-empty');
+    }
+}
 
 // Function to update the button styling based on the order list state
 function updateButtonStyle() {
@@ -1249,45 +1267,66 @@ document.addEventListener('touchend', (e) => {
   }
 });
 
-// 显示订单面板的函数
+// 显示订单面板的函数 - 弹窗模式
 function showOrderPanel() {
   const mainBody = document.getElementById('mainBody');
-  const menuPayment = document.querySelector('.menu-payment');
+  const overlay = document.getElementById('order-modal-overlay');
   
   if (mainBody) {
-    mainBody.style.display = 'flex';
-    mainBody.classList.add('show');
-    
-    // 隐藏菜单面板，让订单面板占满空间
-    if (menuPayment) {
-      menuPayment.style.display = 'none';
+    // 显示遮罩层
+    if (overlay) {
+      overlay.style.display = 'block';
+      setTimeout(() => overlay.classList.add('show'), 10);
     }
     
-    // 让订单面板占满整个容器
-    mainBody.style.flex = '1';
-    mainBody.style.maxWidth = 'none';
-    mainBody.style.width = '100%';
+    mainBody.style.display = 'block';
+    // 使用 setTimeout 确保动画效果
+    setTimeout(() => {
+      mainBody.classList.add('show');
+    }, 10);
+    
+    // 更新按钮状态
+    updateToggleButtonState(true);
   }
 }
 
-// 隐藏订单面板的函数
+// 隐藏订单面板的函数 - 弹窗模式
 function hideOrderPanel() {
   const mainBody = document.getElementById('mainBody');
-  const menuPayment = document.querySelector('.menu-payment');
+  const overlay = document.getElementById('order-modal-overlay');
   
   if (mainBody) {
-    mainBody.style.display = 'none';
     mainBody.classList.remove('show');
     
-    // 显示菜单面板
-    if (menuPayment) {
-      menuPayment.style.display = 'flex';
+    // 隐藏遮罩层
+    if (overlay) {
+      overlay.classList.remove('show');
+      setTimeout(() => overlay.style.display = 'none', 300);
     }
     
-    // 恢复订单面板的原始样式
-    mainBody.style.flex = '0 0 350px';
-    mainBody.style.maxWidth = '400px';
-    mainBody.style.width = '100%';
+    // 等待动画完成后隐藏
+    setTimeout(() => {
+      mainBody.style.display = 'none';
+    }, 300);
+    
+    // 更新按钮状态
+    updateToggleButtonState(false);
+  }
+}
+
+// 更新toggle按钮状态
+function updateToggleButtonState(isOpen) {
+  const button = document.getElementById('toggle-order-list');
+  if (button) {
+    if (isOpen) {
+      button.classList.add('order-list-open');
+      // 确保动画效果保持
+      button.classList.add('glow-effect');
+    } else {
+      button.classList.remove('order-list-open');
+      // 检查是否还有订单项，如果有则保持动画
+      checkAndUpdateCartAnimation();
+    }
   }
 }
 
@@ -1306,9 +1345,17 @@ document.addEventListener('touchmove', (e) => {
 document.addEventListener('click', (e) => {
   const mainBody = document.getElementById('mainBody');
   const toggleOrderListButton = document.getElementById('toggle-order-list');
+  const overlay = document.getElementById('order-modal-overlay');
 
   // Check if the clicked element or any of its ancestors has the class 'quantity-adjust'
   const isQuantityAdjustButton = e.target.closest('.quantity-adjust, .modify-quantity, .delete, .increase-quantity, .decrease-quantity');
+
+  // 点击遮罩层关闭弹窗
+  if (overlay && e.target === overlay) {
+    hideOrderPanel();
+    if (typeof closeFabActions === 'function') closeFabActions();
+    return;
+  }
 
   if (
     mainBody && 
