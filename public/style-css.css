@@ -3002,17 +3002,17 @@ a.btn.btn-lvl1 i {
     inset 0 -1px 3px rgba(255, 202, 75, 0.1) !important;
 }
 
-/* 分别设置两个按钮的位置 - 对称布局 */
+/* 分别设置两个按钮的位置 - 以屏幕中心为基准的水平对称布局 */
 #toggle-order-list {
-  right: 15px !important;
-  bottom: 85px !important;
-  /* 购物车按钮 - 上方 */
+  left: 20% !important;
+  bottom: 15px !important;
+  /* 购物车按钮 - 左侧 */
 }
 
 #toggle-footer-btn {
-  right: 15px !important;
+  right: 20% !important;
   bottom: 15px !important;
-  /* Footer切换按钮 - 下方 */
+  /* Footer切换按钮 - 右侧 */
 }
 
 .order-list-not-empty {
