@@ -940,11 +940,12 @@ main {
   left: 50%;
   transform: translateX(-50%) translateY(-100%);
   
-  /* 弹窗样式 */
-  width: 90%;
-  max-width: 500px;
+  /* 弹窗样式 - 增加宽度以显示完整数据 */
+  width: 95%;
+  max-width: 600px;
+  min-width: 350px;
   height: auto;
-  max-height: 70vh;
+  max-height: 80vh;
   
   background: linear-gradient(135deg, #5D4037 0%, #8D6E63 25%, #A1887F 50%, #6D4C41 75%, #5D4037 100%);
   color: #FFF;
@@ -983,6 +984,57 @@ main {
 /* 确保动画效果在有订单时保持 */
 #toggle-order-list.glow-effect {
   animation: glow 1s infinite alternate !important;
+}
+
+/* 弹窗内表格样式优化 */
+#mainBody table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9em;
+}
+
+#mainBody table th,
+#mainBody table td {
+  padding: 8px 4px;
+  text-align: left;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  word-wrap: break-word;
+  max-width: none;
+}
+
+#mainBody table th {
+  background: rgba(0, 0, 0, 0.3);
+  font-weight: bold;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+/* 确保数字列右对齐 */
+#mainBody table td:nth-child(2),
+#mainBody table td:nth-child(3),
+#mainBody table th:nth-child(2),
+#mainBody table th:nth-child(3) {
+  text-align: right;
+}
+
+/* 产品名称列可以更宽 */
+#mainBody table td:first-child,
+#mainBody table th:first-child {
+  max-width: 150px;
+  min-width: 100px;
+}
+
+/* 响应式表格 */
+@media (max-width: 480px) {
+  #mainBody table {
+    font-size: 0.8em;
+  }
+  
+  #mainBody table th,
+  #mainBody table td {
+    padding: 6px 2px;
+  }
 }
 
 /* Adjust styles for the toggle-order-list button */

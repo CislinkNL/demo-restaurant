@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>订单弹窗测试</title>
+    <link rel="stylesheet" href="public/style-css.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #8D6E63, #5D4037);
+            font-family: Arial, sans-serif;
+        }
+        
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .demo-content {
+            height: 200px;
+            background: #f5f5f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        
+        #test-orderTableBody tr {
+            background: #f9f9f9;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        #test-orderTableBody tr td {
+            padding: 8px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>订单弹窗功能测试</h1>
+        <p>点击下面的按钮测试订单列表弹窗功能：</p>
+        
+        <div class="demo-content">
+            <p>这里是模拟的菜单内容区域</p>
+        </div>
+        
+        <!-- 模拟的Logo容器 -->
+        <div style="position: fixed; top: 20px; left: 20px; z-index: 100; background: white; padding: 10px; border-radius: 5px;">
+            Logo (z-index: 100)
+        </div>
+    </div>
+
+    <!-- 订单列表弹窗背景遮罩 -->
+    <div id="order-modal-overlay" class="order-modal-overlay"></div>
+
+    <!-- 订单列表弹窗 -->
+    <section class="order flex-column" id="mainBody">
+        <div style="padding: 20px;">
+            <h2 style="margin-top: 0; text-align: center;">订单列表</h2>
+            
+            <table style="width: 100%; color: white;">
+                <thead>
+                    <tr>
+                        <th>商品</th>
+                        <th>数量</th>
+                        <th>价格</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody id="test-orderTableBody">
+                    <tr>
+                        <td>测试商品1</td>
+                        <td>2</td>
+                        <td>€10.00</td>
+                        <td>
+                            <button onclick="removeTestItem(this)" style="background: #D32F2F; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer;">删除</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>测试商品2</td>
+                        <td>1</td>
+                        <td>€5.50</td>
+                        <td>
+                            <button onclick="removeTestItem(this)" style="background: #D32F2F; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer;">删除</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div style="margin-top: 20px; text-align: center;">
+                <button onclick="addTestItem()" style="background: #4CAF50; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-right: 10px;">添加商品</button>
+                <button onclick="clearAllItems()" style="background: #FF9800; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">清空订单</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Toggle按钮 -->
+    <button id="toggle-order-list" class="custom-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+            class="bi bi-cart-check-fill" viewBox="0 0 16 16">
+            <path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0m7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0m-1.646-7.646-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L8 8.293l2.646-2.647a.5.5 0 0 1 .708.708" />
+        </svg>
+    </button>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // 测试用的简化版函数
+        function showOrderPanel() {
+            const mainBody = document.getElementById('mainBody');
+            const overlay = document.getElementById('order-modal-overlay');
+            
+            if (mainBody) {
+                if (overlay) {
+                    overlay.style.display = 'block';
+                    setTimeout(() => overlay.classList.add('show'), 10);
+                }
+                
+                mainBody.style.display = 'block';
+                setTimeout(() => {
+                    mainBody.classList.add('show');
+                }, 10);
+                
+                updateToggleButtonState(true);
+            }
+        }
+
+        function hideOrderPanel() {
+            const mainBody = document.getElementById('mainBody');
+            const overlay = document.getElementById('order-modal-overlay');
+            
+            if (mainBody) {
+                mainBody.classList.remove('show');
+                
+                if (overlay) {
+                    overlay.classList.remove('show');
+                    setTimeout(() => overlay.style.display = 'none', 300);
+                }
+                
+                setTimeout(() => {
+                    mainBody.style.display = 'none';
+                }, 300);
+                
+                updateToggleButtonState(false);
+            }
+        }
+
+        function updateToggleButtonState(isOpen) {
+            const button = document.getElementById('toggle-order-list');
+            if (button) {
+                if (isOpen) {
+                    button.classList.add('order-list-open');
+                    button.classList.add('glow-effect');
+                } else {
+                    button.classList.remove('order-list-open');
+                    checkAndUpdateCartAnimation();
+                }
+            }
+        }
+
+        function checkAndUpdateCartAnimation() {
+            const button = document.getElementById('toggle-order-list');
+            if (!button) return;
+            
+            const orderRows = document.querySelectorAll('#test-orderTableBody tr:not(.empty-row)');
+            const hasItems = orderRows && orderRows.length > 0;
+            
+            if (hasItems) {
+                button.classList.add('glow-effect');
+                button.classList.add('order-list-not-empty');
+            } else {
+                button.classList.remove('glow-effect');
+                button.classList.remove('order-list-not-empty');
+            }
+        }
+
+        // 测试功能
+        function addTestItem() {
+            const tbody = document.getElementById('test-orderTableBody');
+            const newRow = document.createElement('tr');
+            const itemCount = tbody.children.length + 1;
+            
+            newRow.innerHTML = `
+                <td>新商品${itemCount}</td>
+                <td>1</td>
+                <td>€${(Math.random() * 20 + 5).toFixed(2)}</td>
+                <td>
+                    <button onclick="removeTestItem(this)" style="background: #D32F2F; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer;">删除</button>
+                </td>
+            `;
+            
+            tbody.appendChild(newRow);
+            checkAndUpdateCartAnimation();
+        }
+
+        function removeTestItem(button) {
+            button.closest('tr').remove();
+            checkAndUpdateCartAnimation();
+        }
+
+        function clearAllItems() {
+            document.getElementById('test-orderTableBody').innerHTML = '';
+            checkAndUpdateCartAnimation();
+        }
+
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAndUpdateCartAnimation();
+            
+            // Toggle按钮点击事件
+            $('#toggle-order-list').click(function() {
+                const mainBody = document.getElementById('mainBody');
+                const isVisible = mainBody && mainBody.classList.contains('show');
+                
+                if (isVisible) {
+                    hideOrderPanel();
+                } else {
+                    showOrderPanel();
+                }
+            });
+
+            // 点击遮罩或外部区域关闭
+            document.addEventListener('click', (e) => {
+                const mainBody = document.getElementById('mainBody');
+                const toggleOrderListButton = document.getElementById('toggle-order-list');
+                const overlay = document.getElementById('order-modal-overlay');
+
+                if (overlay && e.target === overlay) {
+                    hideOrderPanel();
+                    return;
+                }
+
+                if (
+                    mainBody && 
+                    !mainBody.contains(e.target) && 
+                    (!toggleOrderListButton || !toggleOrderListButton.contains(e.target))
+                ) {
+                    hideOrderPanel();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

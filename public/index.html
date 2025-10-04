@@ -565,8 +565,8 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
         
-        // 专门监听订单表格的变化
-        const orderTableBody = document.getElementById('orderTableBody');
+        // 专门监听订单表格的变化 - 更新为正确的ID
+        const orderTableBody = document.getElementById('receipt-details');
         if (orderTableBody) {
             const orderObserver = new MutationObserver(function(mutations) {
                 // 当订单表格内容变化时，更新购物车按钮状态
@@ -576,6 +576,23 @@ document.addEventListener('DOMContentLoaded', function() {
             });
             
             orderObserver.observe(orderTableBody, {
+                childList: true,
+                subtree: true,
+                characterData: true,
+                attributes: true
+            });
+        }
+        
+        // 也监听传统的orderTableBody（如果存在）
+        const legacyOrderTableBody = document.getElementById('orderTableBody');
+        if (legacyOrderTableBody) {
+            const legacyOrderObserver = new MutationObserver(function(mutations) {
+                if (typeof checkAndUpdateCartAnimation === 'function') {
+                    setTimeout(checkAndUpdateCartAnimation, 100);
+                }
+            });
+            
+            legacyOrderObserver.observe(legacyOrderTableBody, {
                 childList: true,
                 subtree: true,
                 characterData: true,

@@ -1217,11 +1217,45 @@ function checkAndUpdateCartAnimation() {
     const button = document.getElementById('toggle-order-list');
     if (!button) return;
     
-    // Check if there are any order items
-    const orderRows = document.querySelectorAll('#orderTableBody tr:not(.empty-row)');
-    const hasItems = orderRows && orderRows.length > 0;
+    // 检查实际的订单表格 - 正确的ID是 receipt-details
+    const orderTableBody = document.getElementById('receipt-details');
+    let hasValidItems = false;
     
-    if (hasItems) {
+    if (orderTableBody) {
+        const allRows = orderTableBody.querySelectorAll('tr');
+        
+        allRows.forEach(row => {
+            // 检查行是否包含实际数据（不是空行或占位行）
+            const cells = row.querySelectorAll('td');
+            if (cells.length >= 3) { // 至少需要3列：产品、数量、价格
+                const productCell = cells[1]; // 产品名称列
+                const quantityCell = cells[2]; // 数量列
+                
+                if (productCell && quantityCell) {
+                    const productText = productCell.textContent.trim();
+                    const quantityText = quantityCell.textContent.trim();
+                    
+                    // 检查是否有有效的产品名称和数量
+                    if (productText && productText !== '' && 
+                        quantityText && quantityText !== '' && 
+                        !productText.includes('dotted-border') && 
+                        !productText.includes('empty-border') &&
+                        !row.classList.contains('empty-row')) {
+                        hasValidItems = true;
+                    }
+                }
+            }
+        });
+    }
+    
+    // 也检查传统的orderTableBody（如果存在）
+    const legacyOrderRows = document.querySelectorAll('#orderTableBody tr:not(.empty-row)');
+    if (legacyOrderRows && legacyOrderRows.length > 0) {
+        hasValidItems = true;
+    }
+    
+    // 只有当有有效订单项时才显示动画
+    if (hasValidItems) {
         button.classList.add('glow-effect');
         button.classList.add('order-list-not-empty');
     } else {
@@ -1320,12 +1354,14 @@ function updateToggleButtonState(isOpen) {
   if (button) {
     if (isOpen) {
       button.classList.add('order-list-open');
-      // 确保动画效果保持
-      button.classList.add('glow-effect');
+      // 弹窗打开时不显示动画，显示打开状态
+      button.classList.remove('glow-effect');
     } else {
       button.classList.remove('order-list-open');
-      // 检查是否还有订单项，如果有则保持动画
-      checkAndUpdateCartAnimation();
+      // 弹窗关闭时，检查是否还有订单项，如果有则恢复动画
+      setTimeout(() => {
+        checkAndUpdateCartAnimation();
+      }, 100);
     }
   }
 }
