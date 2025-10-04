@@ -940,12 +940,12 @@ main {
   left: 50%;
   transform: translateX(-50%) translateY(-100%);
   
-  /* 弹窗样式 - 增加宽度以显示完整数据 */
-  width: 95%;
-  max-width: 600px;
-  min-width: 350px;
+  /* 弹窗样式 - 大幅增加宽度以显示完整数据 */
+  width: 98%;
+  max-width: 800px;
+  min-width: 380px;
   height: auto;
-  max-height: 80vh;
+  max-height: 85vh;
   
   background: linear-gradient(135deg, #5D4037 0%, #8D6E63 25%, #A1887F 50%, #6D4C41 75%, #5D4037 100%);
   color: #FFF;
@@ -957,10 +957,14 @@ main {
   
   /* 内容溢出时滚动 */
   overflow-y: auto;
-  overflow-x: hidden;
+  overflow-x: auto; /* 允许横向滚动以防内容过宽 */
   
   /* 动画效果 */
   transition: transform 0.4s cubic-bezier(0.4, 0.0, 0.2, 1);
+  
+  /* 添加内边距确保内容不贴边 */
+  padding: 10px 15px 15px;
+  box-sizing: border-box;
 }
 
 /* 当 mainBody 显示时的动画效果 */
@@ -989,17 +993,20 @@ main {
 /* 弹窗内表格样式优化 */
 #mainBody table {
   width: 100%;
+  min-width: 100%;
   border-collapse: collapse;
-  font-size: 0.9em;
+  font-size: 0.95em;
+  table-layout: auto; /* 让表格自动调整列宽 */
 }
 
 #mainBody table th,
 #mainBody table td {
-  padding: 8px 4px;
+  padding: 10px 8px;
   text-align: left;
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
   word-wrap: break-word;
-  max-width: none;
+  white-space: normal;
+  overflow: visible;
 }
 
 #mainBody table th {
@@ -1010,30 +1017,200 @@ main {
   z-index: 1;
 }
 
-/* 确保数字列右对齐 */
-#mainBody table td:nth-child(2),
-#mainBody table td:nth-child(3),
-#mainBody table th:nth-child(2),
-#mainBody table th:nth-child(3) {
-  text-align: right;
+/* SKU列 - 较窄 */
+#mainBody table th.sku,
+#mainBody table td.sku {
+  width: 60px;
+  min-width: 50px;
+  font-size: 0.85em;
 }
 
-/* 产品名称列可以更宽 */
-#mainBody table td:first-child,
-#mainBody table th:first-child {
-  max-width: 150px;
+/* 产品名称列 - 自适应 */
+#mainBody table th.description,
+#mainBody table td.description {
+  min-width: 120px;
+  max-width: 250px;
+}
+
+/* 数量列 - 较窄且右对齐 */
+#mainBody table th.quantity,
+#mainBody table td.quantity {
+  width: 70px;
+  text-align: center;
+}
+
+/* 价格列 - 右对齐 */
+#mainBody table th.price,
+#mainBody table td.price {
+  width: 80px;
+  text-align: right;
+  white-space: nowrap;
+}
+
+/* 操作列 */
+#mainBody table th.delete,
+#mainBody table td.delete {
+  width: 80px;
+  text-align: center;
+}
+
+/* 弹窗内的receipt样式优化 */
+#mainBody .receipt {
+  padding: 15px;
+  margin: 0;
+  background: transparent;
+  box-shadow: none;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+}
+
+#mainBody .receipt-header {
+  text-align: center;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+#mainBody .receipt-header p {
+  margin: 5px 0;
+  font-size: 1em;
+}
+
+#mainBody #tafel-nummer {
+  font-size: 1.1em;
+  font-weight: bold;
+  color: #FFD700;
+}
+
+/* 弹窗内的表格容器 */
+#mainBody .receipt-details {
+  margin: 0;
+  padding: 0;
+  overflow-x: auto;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+#mainBody .receipt-details .details-table {
+  width: 100% !important;
+  table-layout: auto;
+  border-collapse: collapse;
+}
+
+/* Mijn bestellingen 区域样式 */
+#mainBody #Mijn_bestellingen {
+  padding: 10px;
+  margin: 10px 0;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+}
+
+/* 弹窗内按钮样式 */
+#mainBody .modify-quantity button {
+  min-width: 30px;
+  padding: 4px 8px;
+  margin: 0 2px;
+  font-size: 0.9em;
+}
+
+/* Group header 样式 */
+#mainBody .group-header {
+  background: rgba(0, 0, 0, 0.3) !important;
+}
+
+#mainBody .group-title {
+  font-size: 1em;
+  padding: 10px !important;
+  color: #FFD700;
+}
+
+#mainBody .details-table {
+  width: 100%;
+  min-width: 100%;
+}
+
+/* 表格列宽度优化 */
+#mainBody .details-table th.sku,
+#mainBody .details-table td.sku {
+  width: 10%;
+  min-width: 40px;
+  text-align: center;
+}
+
+#mainBody .details-table th.description,
+#mainBody .details-table td.description {
+  width: 40%;
   min-width: 100px;
+  text-align: left;
+  word-wrap: break-word;
+}
+
+#mainBody .details-table th.quantity,
+#mainBody .details-table td.quantity {
+  width: 10%;
+  min-width: 50px;
+  text-align: center;
+}
+
+#mainBody .details-table th.price,
+#mainBody .details-table td.price {
+  width: 20%;
+  min-width: 70px;
+  text-align: right;
+  white-space: nowrap;
+}
+
+#mainBody .details-table th.delete,
+#mainBody .details-table td.modify-quantity {
+  width: 20%;
+  min-width: 80px;
+  text-align: center;
 }
 
 /* 响应式表格 */
 @media (max-width: 480px) {
+  #mainBody {
+    width: 98vw !important;
+    max-width: 98vw !important;
+    min-width: 300px !important;
+    border-radius: 0 0 10px 10px;
+    padding: 8px 10px 12px;
+  }
+  
   #mainBody table {
-    font-size: 0.8em;
+    font-size: 0.85em;
+    width: 100%;
+    table-layout: auto;
   }
   
   #mainBody table th,
   #mainBody table td {
-    padding: 6px 2px;
+    padding: 6px 3px;
+    white-space: nowrap;
+  }
+  
+  #mainBody table th.sku,
+  #mainBody table td.sku {
+    width: 40px;
+    font-size: 0.75em;
+  }
+  
+  #mainBody table th.description,
+  #mainBody table td.description {
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    word-wrap: break-word;
+  }
+  
+  #mainBody table th.price,
+  #mainBody table td.price,
+  #mainBody table th.quantity,
+  #mainBody table td.quantity {
+    min-width: 50px;
+    text-align: right;
   }
 }
 
@@ -1248,8 +1425,18 @@ main {
     min-width: 0;
   }
   
-  .order, #mainBody {
-    flex: 0 0 250px; /* 移动端订单区域稍窄一些 */
+  /* 移动端 #mainBody 作为弹窗时需要足够的宽度 */
+  #mainBody {
+    width: 95vw !important;
+    max-width: 95vw !important;
+    min-width: 320px !important;
+    /* 移除固定的flex和窄宽度限制 */
+    flex: none !important;
+  }
+  
+  /* 其他.order类元素的移动端样式 */
+  .order:not(#mainBody) {
+    flex: 0 0 250px;
     max-height: 100%;
     min-height: 0;
     width: 250px;
