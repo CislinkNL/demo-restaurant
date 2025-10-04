@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>RestaurantDataOperations Function Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-result { padding: 10px; margin: 10px 0; border-radius: 5px; }
+        .success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .info { background-color: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+        pre { background: #f8f9fa; padding: 10px; border-radius: 3px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h1>RestaurantDataOperations Function Test</h1>
+    <div id="test-results"></div>
+    
+    <button id="test-btn" onclick="runTest()">Run Test</button>
+    
+    <h2>Manual Console Commands:</h2>
+    <pre>
+// Test if RestaurantDataOperations exists
+console.log(typeof window.RestaurantDataOperations);
+
+// Test specific functions
+console.log(typeof window.RestaurantDataOperations?.updateTableStatus);
+console.log(typeof window.RestaurantDataOperations?.generatePincode);
+
+// List all available methods
+console.log(Object.getOwnPropertyNames(window.RestaurantDataOperations || {}));
+    </pre>
+
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+    
+    <script>
+        // Initialize Firebase (basic config)
+        const firebaseConfig = {
+            apiKey: "AIzaSyBWdGKGySM7oInvIkKk7zNk5R0Nh4DwgPY",
+            authDomain: "cislink.firebaseapp.com",
+            databaseURL: "https://cislink-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "cislink",
+            storageBucket: "cislink.appspot.com",
+            messagingSenderId: "820523900995",
+            appId: "1:820523900995:web:6b3b77dc6eccc24a79d8a2"
+        };
+        
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+        
+        let scriptsLoaded = 0;
+        const totalScripts = 4;
+        
+        function updateResults(message, type = 'info') {
+            const results = document.getElementById('test-results');
+            const div = document.createElement('div');
+            div.className = `test-result ${type}`;
+            div.innerHTML = message;
+            results.appendChild(div);
+        }
+        
+        function loadScript(src, name) {
+            return new Promise((resolve, reject) => {
+                const script = document.createElement('script');
+                script.src = src;
+                script.onload = () => {
+                    scriptsLoaded++;
+                    updateResults(`✅ ${name} loaded (${scriptsLoaded}/${totalScripts})`, 'success');
+                    resolve();
+                };
+                script.onerror = () => {
+                    updateResults(`❌ Failed to load ${name}`, 'error');
+                    reject(new Error(`Failed to load ${src}`));
+                };
+                document.head.appendChild(script);
+            });
+        }
+        
+        async function loadScripts() {
+            try {
+                await loadScript('restaurant-config.js', 'Restaurant Config');
+                await loadScript('modules/translations.js', 'Translations');
+                await loadScript('modules/data-operations.js', 'Data Operations');
+                await loadScript('restaurant-management-console.js', 'Management Console');
+                
+                updateResults('✅ All scripts loaded successfully', 'success');
+                runTest();
+            } catch (error) {
+                updateResults(`❌ Script loading failed: ${error.message}`, 'error');
+            }
+        }
+        
+        function runTest() {
+            updateResults('<strong>Running function tests...</strong>', 'info');
+            
+            // Test 1: Check if RestaurantDataOperations exists
+            if (typeof window.RestaurantDataOperations === 'object' && window.RestaurantDataOperations !== null) {
+                updateResults('✅ window.RestaurantDataOperations exists', 'success');
+                
+                // List all available methods
+                const methods = Object.getOwnPropertyNames(window.RestaurantDataOperations);
+                updateResults(`📋 Available methods: ${methods.join(', ')}`, 'info');
+                
+                // Test 2: Check updateTableStatus
+                if (typeof window.RestaurantDataOperations.updateTableStatus === 'function') {
+                    updateResults('✅ updateTableStatus function exists', 'success');
+                } else {
+                    updateResults('❌ updateTableStatus function does NOT exist', 'error');
+                    updateResults(`Type: ${typeof window.RestaurantDataOperations.updateTableStatus}`, 'error');
+                }
+                
+                // Test 3: Check generatePincode
+                if (typeof window.RestaurantDataOperations.generatePincode === 'function') {
+                    updateResults('✅ generatePincode function exists', 'success');
+                    
+                    // Test the function
+                    try {
+                        const pincode = window.RestaurantDataOperations.generatePincode();
+                        updateResults(`✅ generatePincode test: ${pincode}`, 'success');
+                    } catch (error) {
+                        updateResults(`❌ generatePincode test failed: ${error.message}`, 'error');
+                    }
+                } else {
+                    updateResults('❌ generatePincode function does NOT exist', 'error');
+                }
+                
+            } else {
+                updateResults('❌ window.RestaurantDataOperations does NOT exist', 'error');
+                updateResults(`Type: ${typeof window.RestaurantDataOperations}`, 'error');
+            }
+        }
+        
+        // Auto-load scripts when page loads
+        window.addEventListener('load', () => {
+            updateResults('🚀 Starting script loading...', 'info');
+            loadScripts();
+        });
+    </script>
+</body>
+</html>
+</content>
+</invoke>

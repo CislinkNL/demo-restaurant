@@ -1,5 +1,6 @@
 // 完整语言翻译模块 - 支持中英荷三语言
 // Complete Language Translations Module - Support Chinese, English, Dutch
+// Version: 2024-10-04-v2 (React fix)
 
 // 完整的三语言翻译对象
 window.LANGUAGE_TRANSLATIONS = {
@@ -956,11 +957,23 @@ window.LANGUAGE_TRANSLATIONS = {
 };
 
 // 增强的语言上下文系统
-const LanguageContext = React.createContext();
+const LanguageContext = window.React ? window.React.createContext() : null;
 
 // 增强的语言钩子
 function useLanguage() {
-    const context = React.useContext(LanguageContext);
+    if (!window.React || !LanguageContext) {
+        // Fallback when React is not available
+        return {
+            t: (key) => {
+                const lang = localStorage.getItem('restaurant-language') || 'zh';
+                return (window.LANGUAGE_TRANSLATIONS[lang] || window.LANGUAGE_TRANSLATIONS.zh)[key] || key;
+            },
+            language: localStorage.getItem('restaurant-language') || 'zh',
+            setLanguage: (lang) => localStorage.setItem('restaurant-language', lang)
+        };
+    }
+    
+    const context = window.React.useContext(LanguageContext);
     if (!context) {
         return {
             currentLanguage: 'zh',
@@ -973,8 +986,13 @@ function useLanguage() {
 
 // 增强的语言提供者组件
 function LanguageProvider({ children }) {
+    if (!window.React || !LanguageContext) {
+        // Fallback when React is not available
+        return children;
+    }
+    
     // 从localStorage获取保存的语言，如果没有则使用配置文件中的默认语言
-    const [currentLanguage, setCurrentLanguage] = React.useState(() => {
+    const [currentLanguage, setCurrentLanguage] = window.React.useState(() => {
         try {
             const savedLanguage = localStorage.getItem('restaurant-language');
             if (savedLanguage) {
@@ -1009,8 +1027,8 @@ function LanguageProvider({ children }) {
         const translations = window.LANGUAGE_TRANSLATIONS[currentLanguage] || window.LANGUAGE_TRANSLATIONS.zh;
         return translations[key] || key;
     };
-    
-    return React.createElement(LanguageContext.Provider, {
+
+    return window.React.createElement(LanguageContext.Provider, {
         value: { currentLanguage, changeLanguage, t }
     }, children);
 }
@@ -1019,13 +1037,17 @@ function LanguageProvider({ children }) {
 function LanguageSelector() {
     const { currentLanguage, changeLanguage, t } = useLanguage();
     
+    if (!window.React) {
+        return null; // No React, no component
+    }
+    
     const languages = [
         { code: 'zh', name: '中文' },
         { code: 'en', name: 'English' },
         { code: 'nl', name: 'Nederlands' }
     ];
     
-    return React.createElement('div', {
+    return window.React.createElement('div', {
         className: 'language-selector',
         style: {
             position: 'fixed',
@@ -1039,7 +1061,7 @@ function LanguageSelector() {
             border: '1px solid #e0e0e0'
         }
     }, [
-        React.createElement('label', {
+        window.React.createElement('label', {
             key: 'label',
             style: {
                 fontSize: '12px',
@@ -1048,7 +1070,7 @@ function LanguageSelector() {
                 fontWeight: '500'
             }
         }, t('language')),
-        React.createElement('select', {
+        window.React.createElement('select', {
             key: 'select',
             value: currentLanguage,
             onChange: (e) => changeLanguage(e.target.value),
@@ -1060,7 +1082,7 @@ function LanguageSelector() {
                 background: 'white'
             }
         }, languages.map(lang => 
-            React.createElement('option', {
+            window.React.createElement('option', {
                 key: lang.code,
                 value: lang.code
             }, lang.name)

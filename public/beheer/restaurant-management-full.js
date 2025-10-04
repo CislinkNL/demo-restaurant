@@ -1050,9 +1050,29 @@ function RestaurantManagementConsoleFull() {
         try {
             console.log('handleStatusChange called:', { tableId, status });
             
+            // 检查RestaurantDataOperations是否可用
+            if (!window.RestaurantDataOperations) {
+                console.error('❌ RestaurantDataOperations not available');
+                alert('数据操作模块未加载，请刷新页面重试');
+                return;
+            }
+            
+            // 检查updateTableStatus函数是否存在
+            if (typeof window.RestaurantDataOperations.updateTableStatus !== 'function') {
+                console.error('❌ updateTableStatus function not available');
+                alert('桌台状态更新功能未加载，请刷新页面重试');
+                return;
+            }
+            
             // 根据状态生成或清除PIN码
             let pincode = null;
             if (status === 'occupied') {
+                // 检查generatePincode函数是否存在
+                if (typeof window.RestaurantDataOperations.generatePincode !== 'function') {
+                    console.error('❌ generatePincode function not available');
+                    alert('密码生成功能未加载，请刷新页面重试');
+                    return;
+                }
                 // 生成新的PIN码用于点餐
                 pincode = window.RestaurantDataOperations.generatePincode();
                 console.log('Generated pincode:', pincode);

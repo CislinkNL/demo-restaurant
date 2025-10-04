@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Debug RestaurantDataOperations</title>
+</head>
+<body>
+    <h1>Debug RestaurantDataOperations Functions</h1>
+    <div id="results"></div>
+
+    <script>
+        window.addEventListener('load', () => {
+            const results = document.getElementById('results');
+            
+            setTimeout(() => {
+                console.log('=== Debugging RestaurantDataOperations ===');
+                
+                if (window.RestaurantDataOperations) {
+                    console.log('✅ RestaurantDataOperations found');
+                    console.log('Available methods:', Object.getOwnPropertyNames(window.RestaurantDataOperations));
+                    
+                    if (typeof window.RestaurantDataOperations.updateTableStatus === 'function') {
+                        console.log('✅ updateTableStatus function found');
+                        results.innerHTML += '<p>✅ updateTableStatus function is available</p>';
+                    } else {
+                        console.log('❌ updateTableStatus function NOT found');
+                        results.innerHTML += '<p>❌ updateTableStatus function is NOT available</p>';
+                    }
+                    
+                    if (typeof window.RestaurantDataOperations.generatePincode === 'function') {
+                        console.log('✅ generatePincode function found');
+                        results.innerHTML += '<p>✅ generatePincode function is available</p>';
+                    } else {
+                        console.log('❌ generatePincode function NOT found');
+                        results.innerHTML += '<p>❌ generatePincode function is NOT available</p>';
+                    }
+                    
+                } else {
+                    console.log('❌ RestaurantDataOperations NOT found');
+                    results.innerHTML += '<p>❌ RestaurantDataOperations is NOT available</p>';
+                }
+            }, 2000);
+        });
+    </script>
+
+    <!-- Load Firebase and restaurant management scripts -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-functions-compat.js"></script>
+    
+    <script src="restaurant-config.js"></script>
+    <script src="modules/translations.js"></script>
+    <script src="modules/data-operations.js"></script>
+    <script src="restaurant-management-console.js"></script>
+</body>
+</html>
+</content>
+</invoke>

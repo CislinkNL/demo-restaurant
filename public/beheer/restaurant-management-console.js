@@ -1,5 +1,6 @@
 // Restaurant Management Console - User-friendly interface for restaurant managers
 // Focuses on practical restaurant management tasks, hiding technical details
+// Version: 2024-10-04-v2 (updateTableStatus fix)
 
 // Note: React hooks will be destructured inside the component function
 // to ensure React is loaded first
@@ -605,6 +606,35 @@ const RestaurantDataOperations = {
             console.error('Error importing menu data:', error);
             throw error;
         }
+    },
+
+    // Update table status
+    async updateTableStatus(tableId, status, pincode = null) {
+        try {
+            const database = firebase.database();
+            const restaurantPath = getRestaurantPathConsole();
+            const updates = {};
+            
+            updates[`${restaurantPath}/tafel/${tableId}/Status`] = status;
+            
+            if (pincode !== null) {
+                updates[`${restaurantPath}/tafel/${tableId}/Pincode`] = pincode;
+            }
+            
+            await database.ref().update(updates);
+            console.log(`✅ 桌台 ${tableId} 状态已更新为: ${status}`);
+            return true;
+        } catch (error) {
+            console.error('Error updating table status:', error);
+            throw error;
+        }
+    },
+
+    // Generate pincode (3-4 digits)
+    generatePincode(length = 4) {
+        const min = Math.pow(10, length - 1);
+        const max = Math.pow(10, length) - 1;
+        return (Math.floor(Math.random() * (max - min + 1)) + min).toString();
     }
 };
 
