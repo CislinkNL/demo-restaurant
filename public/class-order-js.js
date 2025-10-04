@@ -291,10 +291,11 @@ class Order {
                             min-height: 400px;
                             text-align: center;
                             padding: 40px 20px;
-                            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                            background: linear-gradient(135deg, #3d1a1a 0%, #5c2e2e 50%, #4a2424 100%);
                             border-radius: 15px;
                             margin: 20px;
-                            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+                            box-shadow: 0 10px 30px rgba(61, 26, 26, 0.6), 0 0 20px rgba(255, 202, 75, 0.2);
+                            border: 2px solid rgba(255, 202, 75, 0.3);
                             position: relative;
                             overflow: hidden;
                         ">
@@ -342,21 +343,23 @@ class Order {
                             </p>
                             
                             <div style="
-                                background: rgba(255,255,255,0.15);
+                                background: rgba(92, 46, 46, 0.25);
                                 border-radius: 12px;
                                 padding: 20px;
                                 margin: 20px 0;
                                 backdrop-filter: blur(10px);
-                                border: 1px solid rgba(255,255,255,0.2);
+                                border: 2px solid rgba(255, 202, 75, 0.4);
+                                box-shadow: 0 4px 15px rgba(61, 26, 26, 0.5), 0 0 20px rgba(255, 202, 75, 0.15);
                                 max-width: 450px;
                                 width: 100%;
                             ">
                                 <h3 style="
-                                    color: #ffffff;
+                                    color: #ffca4b;
                                     font-size: 1.3rem;
                                     margin-bottom: 15px;
-                                    font-weight: 500;
-                                    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+                                    font-weight: 600;
+                                    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+                                    filter: drop-shadow(0 0 8px rgba(255, 202, 75, 0.4));
                                 ">
                                     📋 Bestel Informatie
                                 </h3>
@@ -384,13 +387,14 @@ class Order {
                                     </div>
                                     
                                     <div style="
-                                        background: rgba(255,255,255,0.1);
+                                        background: rgba(122, 63, 63, 0.3);
                                         border-radius: 8px;
                                         padding: 12px;
                                         margin-top: 15px;
-                                        border-left: 4px solid #ffd700;
+                                        border-left: 4px solid #ffca4b;
+                                        box-shadow: 0 2px 8px rgba(61, 26, 26, 0.4);
                                     ">
-                                        <strong>💡 Let op:</strong> Dranken zijn onbeperkt beschikbaar tijdens de hele sessie
+                                        <strong style="color: #ffca4b;">💡 Let op:</strong> Dranken zijn onbeperkt beschikbaar tijdens de hele sessie
                                     </div>
                                 </div>
                             </div>

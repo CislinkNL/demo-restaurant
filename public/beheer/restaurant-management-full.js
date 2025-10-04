@@ -1505,7 +1505,7 @@ function RestaurantManagementConsoleFull() {
                 Persons: 4,
                 Pincode: null,
                 URL: '',
-                orders: { menu: '', totaalPrijs: 0, history: {} },
+                orders: { menu: '', quantity: 0, totaalPrijs: 0, history: {} },
                 timer: { duration: 15 } // startTime和endTime将在addTable方法中自动设置
             });
             
@@ -2608,10 +2608,10 @@ function RestaurantManagementConsoleFull() {
                                 React.createElement('input', {
                                     type: 'number',
                                     min: '0',
-                                    value: formData.orders.menu,
+                                    value: formData.orders.quantity || 0,
                                     onChange: (e) => setFormData(prev => ({
                                         ...prev, 
-                                        orders: { ...prev.orders, menu: parseInt(e.target.value) || 0 }
+                                        orders: { ...prev.orders, quantity: parseInt(e.target.value) || 0 }
                                     })),
                                     style: {
                                         width: '100%',
@@ -4160,7 +4160,7 @@ function RestaurantManagementConsoleFull() {
                                             }
                                         },
                                             React.createElement('span', null, `${t('menuSet')}:`),
-                                            React.createElement('strong', null, table.orders?.menu || 0)
+                                            React.createElement('strong', null, table.orders?.quantity || 0)
                                         ),
                                         React.createElement('div', {
                                             style: {
@@ -5931,7 +5931,8 @@ function TableEditModal({ table, onSave, onClose }) {
                 URL: table.URL || '',
                 menuType: table.menuType || 'dinner',
                 orders: {
-                    menu: table.orders?.menu || 0,
+                    menu: table.orders?.menu || '',
+                    quantity: table.orders?.quantity || 0,
                     totaalPrijs: table.orders?.totaalPrijs || 0,
                     history: table.orders?.history || {}
                 },
