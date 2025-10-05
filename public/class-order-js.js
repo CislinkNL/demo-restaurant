@@ -370,8 +370,25 @@ class Order {
                                     line-height: 1.6;
                                     text-align: left;
                                 ">
-                                    <div style="margin-bottom: 10px;">
-                                        <strong>👥 Aantal personen:</strong> ${aantalPersonen}
+                                    <div style="
+                                        margin-bottom: 15px;
+                                        text-align: center;
+                                        padding: 12px;
+                                        background: rgba(255, 202, 75, 0.15);
+                                        border-radius: 8px;
+                                        border: 2px solid rgba(255, 202, 75, 0.4);
+                                    ">
+                                        <div style="color: #ffca4b; font-size: 0.9rem; margin-bottom: 5px;">
+                                            🪑 Uw tafel nummer
+                                        </div>
+                                        <div style="
+                                            color: #ffffff;
+                                            font-size: 1.5rem;
+                                            font-weight: 700;
+                                            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+                                        ">
+                                            ${tafelId}
+                                        </div>
                                     </div>
                                     
                                     <div style="margin-bottom: 10px;">
@@ -395,6 +412,42 @@ class Order {
                                         box-shadow: 0 2px 8px rgba(61, 26, 26, 0.4);
                                     ">
                                         <strong style="color: #ffca4b;">💡 Let op:</strong> Dranken zijn onbeperkt beschikbaar tijdens de hele sessie
+                                    </div>
+                                    
+                                    <div style="
+                                        background: rgba(122, 63, 63, 0.35);
+                                        border-radius: 8px;
+                                        padding: 15px;
+                                        margin-top: 15px;
+                                        border: 2px solid rgba(255, 202, 75, 0.5);
+                                        box-shadow: 0 3px 10px rgba(61, 26, 26, 0.5);
+                                    ">
+                                        <h4 style="
+                                            color: #ffca4b;
+                                            font-size: 1.1rem;
+                                            margin-bottom: 12px;
+                                            font-weight: 700;
+                                            text-transform: uppercase;
+                                            letter-spacing: 1px;
+                                            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+                                        ">
+                                            📜 DE SPELREGELS:
+                                        </h4>
+                                        <ul style="
+                                            color: #f0f0f0;
+                                            font-size: 0.95rem;
+                                            line-height: 1.7;
+                                            text-align: left;
+                                            margin: 0;
+                                            padding-left: 20px;
+                                            list-style: none;
+                                        ">
+                                            <li style="margin-bottom: 8px;">• U kunt 2,5 uur onbeperkt van onze kaart bestellen.</li>
+                                            <li style="margin-bottom: 8px;">• Per persoon kunt u max. 5 gerechten per persoon bestellen.</li>
+                                            <li style="margin-bottom: 8px;">• Verspilling wordt niet gewaardeerd, bestel niet meer dan u op kunt.</li>
+                                            <li style="margin-bottom: 8px;">• Restanten als gevolg van verspilling worden extra in rekening gebracht tegen €3,- per warm gerecht.</li>
+                                            <li style="margin-bottom: 0;">• Minimale afname is p.p. verplicht.</li>
+                                        </ul>
                                     </div>
                                 </div>
                             </div>
