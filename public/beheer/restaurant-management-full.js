@@ -1,3 +1,103 @@
+// 全局 Toast 管理器 - 直接操作DOM,完全独立于React,不触发任何重新渲染!
+window.globalToastManager = window.globalToastManager || {
+    container: null,
+    
+    // 初始化Toast容器
+    init() {
+        if (this.container) return;
+        
+        this.container = document.createElement('div');
+        this.container.id = 'global-toast-container';
+        this.container.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 999999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            pointer-events: none;
+        `;
+        document.body.appendChild(this.container);
+        console.log('✅ Toast容器已创建(纯DOM)');
+    },
+    
+    // 添加Toast - 直接创建DOM元素
+    addToast(message, type = 'info', duration = 3000) {
+        this.init();
+        
+        const id = Date.now() + Math.random();
+        const toast = document.createElement('div');
+        toast.id = `toast-${id}`;
+        toast.style.cssText = `
+            background: ${type === 'success' ? '#4caf50' : type === 'error' ? '#f44336' : type === 'warning' ? '#ff9800' : '#2196f3'};
+            color: white;
+            padding: 16px 24px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            font-size: 14px;
+            max-width: 350px;
+            word-wrap: break-word;
+            animation: slideInRight 0.3s ease-out;
+            pointer-events: auto;
+            cursor: pointer;
+        `;
+        toast.textContent = message;
+        
+        // 点击关闭
+        toast.onclick = () => this.removeToast(toast);
+        
+        this.container.appendChild(toast);
+        console.log('✅ Toast已添加(纯DOM,无渲染):', message);
+        
+        // 自动移除
+        if (duration > 0) {
+            setTimeout(() => this.removeToast(toast), duration);
+        }
+    },
+    
+    // 移除Toast
+    removeToast(toast) {
+        if (!toast || !toast.parentElement) return;
+        
+        toast.style.animation = 'slideOutRight 0.3s ease-out';
+        setTimeout(() => {
+            if (toast.parentElement) {
+                toast.parentElement.removeChild(toast);
+            }
+        }, 300);
+    }
+};
+
+// 添加CSS动画
+if (!document.getElementById('toast-animations')) {
+    const style = document.createElement('style');
+    style.id = 'toast-animations';
+    style.textContent = `
+        @keyframes slideInRight {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        @keyframes slideOutRight {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+        }
+    `;
+    document.head.appendChild(style);
+}
+
 // 完整餐厅管理组件 - 模块化版本
 function RestaurantManagementConsoleFull() {
     const useState = window.useState || React.useState;
@@ -46,6 +146,14 @@ function RestaurantManagementConsoleFull() {
     // 搜索状态 - 简化防抖处理
     const [searchQuery, setSearchQuery] = useState('');
     const [debouncedSearchQuery, setDebouncedSearchQuery] = useState('');
+    
+    // Toast 通知 - 完全不使用 React state,避免触发重新渲染
+    // 全局管理器会直接操作DOM渲染Toast
+    const showToast = React.useCallback((message, type = 'info', duration = 3000) => {
+        console.log('🔔 showToast 被调用(全局管理器):', { message, type, duration });
+        window.globalToastManager.addToast(message, type, duration);
+    }, []);
+    
     // 桌子管理状态
     const [tables, setTables] = useState({});
     const [editingTable, setEditingTable] = useState(null);
@@ -81,6 +189,16 @@ function RestaurantManagementConsoleFull() {
     // 菜单编辑状态
     const [editingItem, setEditingItem] = useState(null);
     const [showEditModal, setShowEditModal] = useState(false);
+    
+    // 使用 ref 保存 editingItem 的稳定引用,避免Toast触发重新渲染时丢失
+    const editingItemRef = useRef(null);
+    
+    // 关闭编辑Modal的回调 - 使用 useCallback 保持引用稳定
+    const handleCloseEditModal = React.useCallback(() => {
+        setShowEditModal(false);
+        setEditingItem(null);
+        editingItemRef.current = null;
+    }, []);
     
     // 内联编辑状态
     const [inlineEditingPrice, setInlineEditingPrice] = useState(null); // 正在编辑价格的商品ID
@@ -293,8 +411,12 @@ function RestaurantManagementConsoleFull() {
                     Pincode: data.Pincode || '',
                     URL: data.URL || '',
                     menuType: data.menuType || 'dinner',
-                    orders: data.orders || {
-                        menu: '',
+                    orders: data.orders ? {
+                        menu: data.orders.menu !== undefined && data.orders.menu !== null ? parseInt(data.orders.menu) || 0 : 0,
+                        totaalPrijs: data.orders.totaalPrijs || 0,
+                        history: data.orders.history || {}
+                    } : {
+                        menu: 0,
                         totaalPrijs: 0,
                         history: {}
                     },
@@ -411,7 +533,7 @@ function RestaurantManagementConsoleFull() {
                         const processedCategories = {
                             food: [],
                             drinks: [],
-                            serviceCat: { directTarget: 16, displayName: "Services" }
+                            serviceCat: categoriesData.serviceCat || { directTarget: 16, displayName: "Services" }
                         };
                         
                         console.log('📊 Firebase数据结构:', categoriesData);
@@ -551,9 +673,9 @@ function RestaurantManagementConsoleFull() {
                 
                 // 检查是否是特定错误
                 if (error.message && error.message.includes('Firebase')) {
-                    alert(t('firebaseConnectionFailed'));
+                    showToast(t('firebaseConnectionFailed'), 'error');
                 } else {
-                    alert(`${t('categoryDataLoadFailed')}: ${error.message || t('unknownError')}`);
+                    showToast(`${t('categoryDataLoadFailed')}: ${error.message || t('unknownError')}`, 'error');
                 }
             } finally {
                 setLoadingCategories(false);
@@ -629,8 +751,12 @@ function RestaurantManagementConsoleFull() {
                         Pincode: data.Pincode || '',
                         URL: data.URL || '',
                         menuType: data.menuType || 'dinner',
-                        orders: data.orders || {
-                            menu: '',
+                        orders: data.orders ? {
+                            menu: data.orders.menu !== undefined && data.orders.menu !== null ? parseInt(data.orders.menu) || 0 : 0,
+                            totaalPrijs: data.orders.totaalPrijs || 0,
+                            history: data.orders.history || {}
+                        } : {
+                            menu: 0,
                             totaalPrijs: 0,
                             history: {}
                         },
@@ -684,20 +810,21 @@ function RestaurantManagementConsoleFull() {
         }
     };
 
-    // 保存菜单项目
-    const handleSaveMenuItem = async (formData) => {
+    // 保存菜单项目 - 使用 useCallback 保持引用稳定
+    const handleSaveMenuItem = React.useCallback(async (formData) => {
         try {
-            if (editingItem) {
+            const currentEditingItem = editingItemRef.current || editingItem;
+            if (currentEditingItem) {
                 // 编辑现有项目
-                const savedItem = { ...editingItem, ...formData };
-                await window.RestaurantDataOperations.saveMenuItem(editingItem.id, savedItem);
+                const savedItem = { ...currentEditingItem, ...formData };
+                await window.RestaurantDataOperations.saveMenuItem(currentEditingItem.id, savedItem);
                 
                 // 更新本地数据
                 setData(prev => ({
                     ...prev,
                     menukaart: {
                         ...prev.menukaart,
-                        [editingItem.id]: savedItem
+                        [currentEditingItem.id]: savedItem
                     }
                 }));
             } else {
@@ -723,8 +850,18 @@ function RestaurantManagementConsoleFull() {
                 }
             }
             
+            // 先关闭Modal,清除状态
             setShowEditModal(false);
             setEditingItem(null);
+            editingItemRef.current = null;
+            
+            // 使用 setTimeout 延迟显示Toast,模拟alert的"阻塞"行为
+            // 确保Modal完全关闭和状态清理完成后再显示Toast
+            setTimeout(() => {
+                const itemName = formData.description || t('menuItem');
+                const hasImage = formData.image ? '(含图片)' : '';
+                showToast(`✅ ${itemName} ${hasImage}\n${t('saveSuccess') || '保存成功！'}`, 'success', 3000);
+            }, 100); // 100ms 足够让 React 完成状态更新和组件卸载
         } catch (error) {
             console.error('Error saving menu item:', error);
             
@@ -738,9 +875,12 @@ function RestaurantManagementConsoleFull() {
                 errorMessage = `${t('saveFailed')}: ${error.message}`;
             }
             
-            alert(errorMessage);
+            // 延迟显示错误Toast,避免触发重新渲染影响Modal
+            setTimeout(() => {
+                showToast(errorMessage, 'error');
+            }, 100);
         }
-    };
+    }, [editingItem, showToast, t]); // 依赖 editingItem, showToast, t
 
     // 内联编辑价格规则处理函数
     const handleStartEditPriceRule = (itemId, currentValue) => {
@@ -774,7 +914,7 @@ function RestaurantManagementConsoleFull() {
             setTempPriceRule('');
         } catch (error) {
             console.error('Error saving price rule:', error);
-            alert(`保存价格规则失败: ${error.message}`);
+            showToast(`保存价格规则失败: ${error.message}`, 'error');
             setInlineEditingPriceRule(null);
             setTempPriceRule('');
         }
@@ -795,10 +935,10 @@ function RestaurantManagementConsoleFull() {
             await window.RestaurantDataOperations.renumberAllMenuItems();
             // 重新加载数据以显示更新
             await loadData();
-            alert(t('renumberSuccess') || '菜单项目排序号码已成功重新排列！');
+            showToast(t('renumberSuccess') || '菜单项目排序号码已成功重新排列！', 'success');
         } catch (error) {
             console.error('Error renumbering menu items:', error);
-            alert(`${t('renumberFailed') || '重新排列失败'}: ${error.message}`);
+            showToast(`${t('renumberFailed') || '重新排列失败'}: ${error.message}`, 'error');
         }
     };
 
@@ -829,7 +969,7 @@ function RestaurantManagementConsoleFull() {
             }
         } catch (error) {
             console.error('Error deleting menu item:', error);
-            alert(`${t('deleteFailed')}: ${error.message}`);
+            showToast(`${t('deleteFailed')}: ${error.message}`, 'error');
         }
     };
 
@@ -947,10 +1087,10 @@ function RestaurantManagementConsoleFull() {
             
             setShowTableEditModal(false);
             setEditingTable(null);
-            alert(t('tableSaveSuccess'));
+            showToast(t('tableSaveSuccess'), 'success');
         } catch (error) {
             console.error('Error saving table:', error);
-            alert(`${t('saveTableFailed')}: ${error.message}`);
+            showToast(`${t('saveTableFailed')}: ${error.message}`, 'error');
         }
     };
 
@@ -996,10 +1136,10 @@ function RestaurantManagementConsoleFull() {
                 };
             });
             
-            alert(t('tableDeleteSuccess'));
+            showToast(t('tableDeleteSuccess'), 'success');
         } catch (error) {
             console.error('Error deleting table:', error);
-            alert(`${t('deleteTableFailed')}: ${error.message}`);
+            showToast(`${t('deleteTableFailed')}: ${error.message}`, 'error');
         }
     };
 
@@ -1041,7 +1181,7 @@ function RestaurantManagementConsoleFull() {
             console.log('Table status updated successfully');
         } catch (error) {
             console.error('Error updating table status:', error);
-            alert(`${t('updateTableStatusFailed')}: ${error.message}`);
+            showToast(`${t('updateTableStatusFailed')}: ${error.message}`, 'error');
         }
     };
 
@@ -1053,14 +1193,14 @@ function RestaurantManagementConsoleFull() {
             // 检查RestaurantDataOperations是否可用
             if (!window.RestaurantDataOperations) {
                 console.error('❌ RestaurantDataOperations not available');
-                alert('数据操作模块未加载，请刷新页面重试');
+                showToast('数据操作模块未加载，请刷新页面重试', 'error');
                 return;
             }
             
             // 检查updateTableStatus函数是否存在
             if (typeof window.RestaurantDataOperations.updateTableStatus !== 'function') {
                 console.error('❌ updateTableStatus function not available');
-                alert('桌台状态更新功能未加载，请刷新页面重试');
+                showToast('桌台状态更新功能未加载，请刷新页面重试', 'error');
                 return;
             }
             
@@ -1070,7 +1210,7 @@ function RestaurantManagementConsoleFull() {
                 // 检查generatePincode函数是否存在
                 if (typeof window.RestaurantDataOperations.generatePincode !== 'function') {
                     console.error('❌ generatePincode function not available');
-                    alert('密码生成功能未加载，请刷新页面重试');
+                    showToast('密码生成功能未加载，请刷新页面重试', 'error');
                     return;
                 }
                 // 生成新的PIN码用于点餐
@@ -1108,7 +1248,7 @@ function RestaurantManagementConsoleFull() {
             
         } catch (error) {
             console.error('Error in handleStatusChange:', error);
-            alert(`更新桌台状态失败: ${error.message}`);
+            showToast(`更新桌台状态失败: ${error.message}`, 'error');
         }
     };
 
@@ -1118,6 +1258,16 @@ function RestaurantManagementConsoleFull() {
     const handleSaveSettings = async (settingsData) => {
         try {
             setLoadingSettings(true);
+            
+            // 调试信息
+            console.log('🔧 handleSaveSettings 调用:');
+            console.log('- window.RestaurantDataOperations:', window.RestaurantDataOperations);
+            console.log('- saveConfig 方法:', typeof window.RestaurantDataOperations?.saveConfig);
+            
+            if (!window.RestaurantDataOperations || typeof window.RestaurantDataOperations.saveConfig !== 'function') {
+                throw new Error('RestaurantDataOperations.saveConfig 方法不可用');
+            }
+            
             await window.RestaurantDataOperations.saveConfig(settingsData);
             
             // 更新本地数据
@@ -1129,10 +1279,10 @@ function RestaurantManagementConsoleFull() {
                 config: { ...prev.config, ...settingsData }
             }));
             
-            alert(t('settingsSaved'));
+            showToast(t('settingsSaved'), 'success');
         } catch (error) {
             console.error('Error saving settings:', error);
-            alert(`${t('saveSettingsFailed')}: ${error.message}`);
+            showToast(`${t('saveSettingsFailed')}: ${error.message}`, 'error');
         } finally {
             setLoadingSettings(false);
         }
@@ -1199,10 +1349,10 @@ function RestaurantManagementConsoleFull() {
                 categorie: firebaseCategories
             }));
             
-            alert(t('categorySaveSuccess'));
+            showToast(t('categorySaveSuccess'), 'success');
         } catch (error) {
             console.error('Error saving categories:', error);
-            alert(`${t('saveCategoryFailed')}: ${error.message}`);
+            showToast(`${t('saveCategoryFailed')}: ${error.message}`, 'error');
         } finally {
             setLoadingCategories(false);
         }
@@ -1241,10 +1391,10 @@ function RestaurantManagementConsoleFull() {
                 }
             }));
             
-            alert(`${t('hiddenItemsSaveSuccess')} (${t('hiddenItemsCount2')}${Object.keys(hiddenItemsData).length}${t('hiddenItemsCount3')})`);
+            showToast(`${t('hiddenItemsSaveSuccess')} (${t('hiddenItemsCount2')}${Object.keys(hiddenItemsData).length}${t('hiddenItemsCount3')})`, 'success');
         } catch (error) {
             console.error('Error saving hidden items:', error);
-            alert(`${t('saveHiddenItemsFailed')}: ${error.message}`);
+            showToast(`${t('saveHiddenItemsFailed')}: ${error.message}`, 'error');
         } finally {
             setLoadingHiddenItems(false);
         }
@@ -1339,7 +1489,7 @@ function RestaurantManagementConsoleFull() {
             }
         } catch (error) {
             console.error('Error loading categories:', error);
-            alert(`${t('loadCategoryFailed')}: ${error.message}`);
+            showToast(`${t('loadCategoryFailed')}: ${error.message}`, 'error');
         } finally {
             setLoadingCategories(false);
         }
@@ -1492,7 +1642,7 @@ function RestaurantManagementConsoleFull() {
             }));
         } catch (error) {
             console.error('Failed to toggle table status:', error);
-            alert(t('updateTableStatusFailedShort'));
+            showToast(t('updateTableStatusFailedShort'), 'error');
         }
     };
     
@@ -1513,7 +1663,7 @@ function RestaurantManagementConsoleFull() {
             console.log('✅ 成功添加新桌台:', tableId);
         } catch (error) {
             console.error('Failed to add table:', error);
-            alert(t('addTableFailed'));
+            showToast(t('addTableFailed'), 'error');
         }
     };
     
@@ -1530,7 +1680,7 @@ function RestaurantManagementConsoleFull() {
             });
         } catch (error) {
             console.error('Failed to delete table:', error);
-            alert(t('deleteTableFailedShort'));
+            showToast(t('deleteTableFailedShort'), 'error');
         }
     };
     
@@ -1554,10 +1704,10 @@ function RestaurantManagementConsoleFull() {
             
             setShowTableEditModal(false);
             setEditingTable(null);
-            alert(t('tableSaveSuccess'));
+            showToast(t('tableSaveSuccess'), 'success');
         } catch (error) {
             console.error('Failed to save table:', error);
-            alert(t('saveTableFailedShort'));
+            showToast(t('saveTableFailedShort'), 'error');
         }
     };
     
@@ -1599,13 +1749,13 @@ function RestaurantManagementConsoleFull() {
                 console.log('从config获取的管理员密码:', expectedAdminPassword ? '已获取' : '为空');
             } catch (error) {
                 console.error('获取管理员密码失败:', error);
-                alert('无法验证管理员密码，请检查网络连接后重试');
+                showToast('无法验证管理员密码，请检查网络连接后重试', 'error');
                 setBatchPincodeLoading(false);
                 return;
             }
 
             if (!expectedAdminPassword) {
-                alert('系统中未设置管理员密码，请联系系统管理员配置');
+                showToast('系统中未设置管理员密码，请联系系统管理员配置', 'warning');
                 setBatchPincodeLoading(false);
                 return;
             }
@@ -1614,7 +1764,7 @@ function RestaurantManagementConsoleFull() {
             console.log('期望的密码长度:', expectedAdminPassword ? expectedAdminPassword.length : 0);
             
             if (options.adminPassword !== expectedAdminPassword) {
-                alert('管理员密码错误，请重新输入正确的密码');
+                showToast('管理员密码错误，请重新输入正确的密码', 'error');
                 setBatchPincodeLoading(false);
                 return;
             }
@@ -1645,11 +1795,11 @@ function RestaurantManagementConsoleFull() {
                 return updatedTables;
             });
 
-            alert(`成功更新所有桌台的PIN码为: ${pincodeToUse}`);
+            showToast(`成功更新所有桌台的PIN码为: ${pincodeToUse}`, 'success');
             setShowBatchPincodeModal(false);
         } catch (error) {
             console.error('批量更新PIN码失败:', error);
-            alert('批量更新PIN码失败，请重试');
+            showToast('批量更新PIN码失败，请重试', 'error');
         } finally {
             setBatchPincodeLoading(false);
         }
@@ -1713,7 +1863,7 @@ function RestaurantManagementConsoleFull() {
                 
             } catch (error) {
                 console.error('Failed to move item up:', error);
-                alert(t('moveUpFailed'));
+                showToast(t('moveUpFailed'), 'error');
             }
         }
     };
@@ -1739,7 +1889,7 @@ function RestaurantManagementConsoleFull() {
                 
             } catch (error) {
                 console.error('Failed to move item down:', error);
-                alert(t('moveDownFailed'));
+                showToast(t('moveDownFailed'), 'error');
             }
         }
     };
@@ -1934,31 +2084,52 @@ function RestaurantManagementConsoleFull() {
 
     // 菜单编辑弹窗组件
     const MenuEditModal = ({ item, onSave, onClose }) => {
-        const [formData, setFormData] = useState({
-            description: item?.description || '',
-            price: item?.price || 0,
-            sku: item?.sku || '',
-            status: item?.status || 'beschikbaar',
-            sortingNrm: item?.sortingNrm || 999,
-            group: item?.group || 'geen',
-            taxRate: item?.taxRate || 0,
-            allergy: item?.allergy || '',
-            image: item?.image || '',
-            menuType: item?.menuType || 'dinner',
-            priceAllinDranks: item?.priceAllinDranks || 'normal' // 新增套餐定价字段
+        console.log('🎨 MenuEditModal 渲染/重建,item.id:', item?.id);
+        
+        // 使用 useState 保存表单数据,只在首次渲染时从 item 初始化
+        const [formData, setFormData] = useState(() => {
+            console.log('🔧 formData 初始化,item:', item);
+            return {
+                description: item?.description || '',
+                price: item?.price || 0,
+                sku: item?.sku || '',
+                status: item?.status || 'beschikbaar',
+                sortingNrm: item?.sortingNrm || 999,
+                group: item?.group || 'geen',
+                taxRate: item?.taxRate || 0,
+                allergy: item?.allergy || '',
+                image: item?.image || '',
+                menuType: item?.menuType || 'dinner',
+                priceAllinDranks: item?.priceAllinDranks || 'normal'
+            };
         });
+        
+        // 监控 formData 变化
+        useEffect(() => {
+            console.log('📝 formData 更新:', formData.image);
+        }, [formData.image]);
         
         // 图片上传状态
         const [imageUploading, setImageUploading] = useState(false);
         const [imageUploadError, setImageUploadError] = useState(null);
+        
+        // 使用 useRef 保存上传的图片URL,避免触发重新渲染
+        const uploadedImageUrlRef = useRef(null);
 
         const handleSubmit = (e) => {
             e.preventDefault();
             if (!formData.description || !formData.sku) {
+                // 使用 alert 而非 Toast,避免触发重新渲染导致Modal状态丢失
                 alert(t('pleaseEnterItemNameAndSKU'));
                 return;
             }
-            onSave(formData);
+            
+            // 保存时才将上传的图片URL合并到formData
+            const finalData = {
+                ...formData,
+                image: uploadedImageUrlRef.current || formData.image
+            };
+            onSave(finalData);
         };
 
         const handleChange = (field, value) => {
@@ -1983,22 +2154,25 @@ function RestaurantManagementConsoleFull() {
                 const result = await window.imageUploadManager.upload(file);
 
                 if (result.success) {
-                    // 上传成功，更新图片字段
-                    handleChange('image', result.url);
+                    console.log('✅ 图片上传成功，URL:', result.url);
+                    console.log('📦 文件信息:', {
+                        filename: result.filename,
+                        dimensions: result.dimensions,
+                        size: result.size,
+                        storage: result.storage
+                    });
                     
-                    // 显示成功信息
-                    let successMessage = `图片上传成功！\n` +
-                                       `文件名: ${result.filename}\n` +
-                                       `尺寸: ${result.dimensions}\n` +
-                                       `大小: ${result.size}`;
+                    // 保存到 ref,不触发重新渲染!
+                    uploadedImageUrlRef.current = result.url;
                     
-                    if (result.storage === 'firebase') {
-                        successMessage += `\n存储: Firebase Storage`;
-                    } else if (result.storage === 'local-simulation') {
-                        successMessage += `\n注意: 这是本地预览，生产环境将使用云存储`;
+                    // 手动更新输入框显示 (不通过setState)
+                    const imageInput = document.getElementById('image-url-input');
+                    if (imageInput) {
+                        imageInput.value = result.url;
+                        console.log('✅ 图片URL已更新到输入框:', result.url);
                     }
                     
-                    alert(successMessage);
+                    console.log('✅ 图片URL已保存到ref,不触发重新渲染');
                 } else {
                     throw new Error(result.error || '图片上传失败');
                 }
@@ -2232,8 +2406,11 @@ function RestaurantManagementConsoleFull() {
                         // 当前图片路径输入框
                         React.createElement('input', {
                             type: 'text',
-                            value: formData.image,
-                            onChange: (e) => handleChange('image', e.target.value),
+                            defaultValue: formData.image, // 使用 defaultValue 而非 value,避免受控组件重新渲染
+                            onChange: (e) => {
+                                // 手动输入时保存到 ref
+                                uploadedImageUrlRef.current = e.target.value;
+                            },
                             placeholder: 'https://example.com/image.jpg 或 image-filename.webp',
                             style: {
                                 width: '100%',
@@ -2242,7 +2419,8 @@ function RestaurantManagementConsoleFull() {
                                 borderRadius: '6px',
                                 fontSize: '0.9rem',
                                 marginBottom: '0.5rem'
-                            }
+                            },
+                            id: 'image-url-input' // 添加ID方便查找
                         }),
                         
                         // 图片上传区域
@@ -2341,6 +2519,28 @@ function RestaurantManagementConsoleFull() {
             )
         );
     };
+    
+    // 使用 React.memo 包装 MenuEditModal,防止父组件重新渲染时不必要的更新
+    // 自定义比较函数:只有当 item.id 改变时才重新渲染
+    // 这样即使 menuItems 重新计算导致对象引用改变,只要 id 相同就不会重新渲染
+    const MemoizedMenuEditModal = React.memo(MenuEditModal, (prevProps, nextProps) => {
+        // 返回 true 表示不需要重新渲染(props相同)
+        // 返回 false 表示需要重新渲染(props改变)
+        const isSameItem = prevProps.item?.id === nextProps.item?.id;
+        const isSameOnSave = prevProps.onSave === nextProps.onSave;
+        const isSameOnClose = prevProps.onClose === nextProps.onClose;
+        
+        console.log('🔍 React.memo 比较:', {
+            prevItemId: prevProps.item?.id,
+            nextItemId: nextProps.item?.id,
+            isSameItem,
+            isSameOnSave,
+            isSameOnClose,
+            shouldSkipRender: isSameItem && isSameOnSave && isSameOnClose
+        });
+        
+        return isSameItem && isSameOnSave && isSameOnClose;
+    });
 
     // 桌台编辑模态框 - 更新为真实数据结构
     const TableEditModal = ({ table, onSave, onClose }) => {
@@ -2353,7 +2553,7 @@ function RestaurantManagementConsoleFull() {
             menuType: table?.menuType || 'dinner',
             TableOrder: table?.TableOrder || '', // 添加TableOrder字段
             orders: {
-                menu: table?.orders?.menu || 0,
+                menu: table?.orders?.menu !== undefined && table?.orders?.menu !== null ? parseInt(table.orders.menu) || 0 : 0,
                 totaalPrijs: table?.orders?.totaalPrijs || 0
             },
             timer: {
@@ -2364,13 +2564,13 @@ function RestaurantManagementConsoleFull() {
         const handleSubmit = (e) => {
             e.preventDefault();
             if (!formData.Persons || formData.Persons < 1) {
-                alert(t('pleaseEnterValidPersons'));
+                showToast(t('pleaseEnterValidPersons'), 'warning');
                 return;
             }
             
             // 新增桌台时，需要桌台号码
             if (!table && !formData.TableOrder) {
-                alert(t('pleaseEnterTableNumber'));
+                showToast(t('pleaseEnterTableNumber'), 'warning');
                 return;
             }
             
@@ -2429,7 +2629,7 @@ function RestaurantManagementConsoleFull() {
                 const newUrl = generateTableUrl(tableNumber);
                 setFormData(prev => ({...prev, URL: newUrl}));
             } else {
-                alert(t('pleaseSetTableNumberFirst'));
+                showToast(t('pleaseSetTableNumberFirst'), 'warning');
             }
         };
 
@@ -2600,7 +2800,7 @@ function RestaurantManagementConsoleFull() {
                         React.createElement('div', null,
                             React.createElement('h4', { style: { margin: '0 0 1rem', color: '#666' } }, t('orderSettings')),
                             
-                            // 套餐数量
+                            // 套餐数量 (映射到 orders.menu)
                             React.createElement('div', { style: { marginBottom: '1rem' } },
                                 React.createElement('label', {
                                     style: { display: 'block', marginBottom: '0.5rem', fontWeight: '500' }
@@ -2608,10 +2808,10 @@ function RestaurantManagementConsoleFull() {
                                 React.createElement('input', {
                                     type: 'number',
                                     min: '0',
-                                    value: formData.orders.quantity || 0,
+                                    value: formData.orders.menu || 0,
                                     onChange: (e) => setFormData(prev => ({
                                         ...prev, 
-                                        orders: { ...prev.orders, quantity: parseInt(e.target.value) || 0 }
+                                        orders: { ...prev.orders, menu: parseInt(e.target.value) || 0 }
                                     })),
                                     style: {
                                         width: '100%',
@@ -3065,6 +3265,8 @@ function RestaurantManagementConsoleFull() {
             background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)'
         }
     },
+        // Toast 通知容器已移除 - 由全局管理器直接渲染到DOM
+        
         // 头部
         React.createElement('div', {
             style: {
@@ -3183,7 +3385,7 @@ function RestaurantManagementConsoleFull() {
                         className: 'fas fa-rocket',
                         style: { fontSize: '0.8rem' }
                     }),
-                    React.createElement('span', { key: 'text' }, window.innerWidth <= 480 ? 'Updates' : 'Systeem Updates')
+                    React.createElement('span', { key: 'text' }, window.innerWidth <= 480 ? 'Updates' : 'Belangerijke informatie')
                 ]),
                 
                 // 用户信息和退出
@@ -3247,8 +3449,10 @@ function RestaurantManagementConsoleFull() {
         // 主要内容区域
         React.createElement('div', {
             style: { 
-                padding: window.innerWidth <= 768 ? '1rem' : '2rem',
-                paddingBottom: window.innerWidth <= 768 ? '2rem' : '2rem'
+                paddingTop: window.innerWidth <= 768 ? '1rem' : '2rem',
+                paddingRight: window.innerWidth <= 768 ? '1rem' : '2rem',
+                paddingBottom: window.innerWidth <= 768 ? '2rem' : '2rem',
+                paddingLeft: window.innerWidth <= 768 ? '1rem' : '2rem'
             }
         },
             activeTab === 'menu' && React.createElement('div', null,
@@ -3796,7 +4000,10 @@ function RestaurantManagementConsoleFull() {
                                     },
                                         React.createElement('button', {
                                             onClick: () => {
-                                                setEditingItem(item);
+                                                // 创建 item 的深拷贝并保存到 ref,确保引用稳定
+                                                const itemCopy = { ...item };
+                                                setEditingItem(itemCopy);
+                                                editingItemRef.current = itemCopy;
                                                 setShowEditModal(true);
                                             },
                                             style: {
@@ -3897,7 +4104,10 @@ function RestaurantManagementConsoleFull() {
                                     // 编辑按钮
                                     React.createElement('button', {
                                         onClick: () => {
-                                            setEditingItem(item);
+                                            // 创建 item 的深拷贝并保存到 ref
+                                            const itemCopy = { ...item };
+                                            setEditingItem(itemCopy);
+                                            editingItemRef.current = itemCopy;
                                             setShowEditModal(true);
                                         },
                                         style: {
@@ -3932,14 +4142,13 @@ function RestaurantManagementConsoleFull() {
                     }, searchQuery ? `${t('noMatchFound')} "${searchQuery}" ${t('menuItems')}` : t('noMenuItems'))
                 ),
                 
-                // 编辑弹窗
-                showEditModal && React.createElement(MenuEditModal, {
-                    item: editingItem,
+                // 编辑弹窗 - 使用 ref 保存的稳定引用,避免 Toast 触发重新渲染时 item 变 null
+                // key 基于 item.id,只有编辑不同的 item 时才会重新创建 Modal
+                showEditModal && React.createElement(MemoizedMenuEditModal, {
+                    key: editingItemRef.current?.id || 'new-item',
+                    item: editingItemRef.current || editingItem, // 优先使用 ref,降级使用 state
                     onSave: handleSaveMenuItem,
-                    onClose: () => {
-                        setShowEditModal(false);
-                        setEditingItem(null);
-                    }
+                    onClose: handleCloseEditModal
                 })
             ),
             
@@ -4140,16 +4349,19 @@ function RestaurantManagementConsoleFull() {
                                             style: {
                                                 display: 'flex',
                                                 justifyContent: 'space-between',
-                                                color: '#666'
+                                                alignItems: 'center'
                                             }
                                         },
-                                            React.createElement('span', null, 'PIN:'),
+                                            React.createElement('span', { style: { color: '#666', fontSize: '0.9em' } }, 'PIN:'),
                                             React.createElement('code', {
                                                 style: {
-                                                    background: '#f5f5f5',
-                                                    padding: '1px 4px',
-                                                    borderRadius: '3px',
-                                                    fontSize: '0.7em'
+                                                    background: '#2563eb',
+                                                    color: '#ffffff',
+                                                    padding: '4px 8px',
+                                                    borderRadius: '4px',
+                                                    fontSize: '1.1em',
+                                                    fontWeight: 'bold',
+                                                    letterSpacing: '1px'
                                                 }
                                             }, table.Pincode || 'N/A')
                                         ),
@@ -4160,7 +4372,7 @@ function RestaurantManagementConsoleFull() {
                                             }
                                         },
                                             React.createElement('span', null, `${t('menuSet')}:`),
-                                            React.createElement('strong', null, table.orders?.quantity || 0)
+                                            React.createElement('strong', null, table.orders?.menu || 0)
                                         ),
                                         React.createElement('div', {
                                             style: {
@@ -4607,7 +4819,7 @@ function RestaurantManagementConsoleFull() {
                                             try {
                                                 // Validation
                                                 if (!settings.cloudflareApiToken || !settings.cloudflareAccountId) {
-                                                    alert('Vul eerst je Cloudflare API Token en Account ID in.');
+                                                    showToast('Vul eerst je Cloudflare API Token en Account ID in.', 'warning');
                                                     return;
                                                 }
 
@@ -4616,7 +4828,7 @@ function RestaurantManagementConsoleFull() {
                                                     .filter(email => email && email.includes('@'));
                                                 
                                                 if (emails.length === 0) {
-                                                    alert('Voer minimaal één geldig email adres in.');
+                                                    showToast('Voer minimaal één geldig email adres in.', 'warning');
                                                     return;
                                                 }
 
@@ -4650,7 +4862,7 @@ function RestaurantManagementConsoleFull() {
 
                                                 if (response.ok) {
                                                     const result = await response.json();
-                                                    alert(`✅ ${emails.length} email adres(sen) succesvol bijgewerkt in Cloudflare Zero Trust policy!\\n\\nUpdated emails:\\n${emails.join('\\n')}`);
+                                                    showToast(`✅ ${emails.length} email adres(sen) succesvol bijgewerkt in Cloudflare Zero Trust policy!\n\nUpdated emails:\n${emails.join('\n')}`, 'success', 5000);
                                                     
                                                     // Save to Firebase as well (without sensitive data)
                                                     const settingsToSave = {...settings};
@@ -4665,7 +4877,7 @@ function RestaurantManagementConsoleFull() {
                                                 button.textContent = originalText;
                                             } catch (error) {
                                                 console.error('Cloudflare policy update failed:', error);
-                                                alert(`❌ Fout bij bijwerken Cloudflare beleid:\\n\\n${error.message}\\n\\nControleer je API token en Account ID.`);
+                                                showToast(`❌ Fout bij bijwerken Cloudflare beleid:\n\n${error.message}\n\nControleer je API token en Account ID.`, 'error', 5000);
                                                 event.target.disabled = false;
                                                 event.target.textContent = 'Bijwerk Cloudflare Beleid';
                                             }
@@ -4685,7 +4897,7 @@ function RestaurantManagementConsoleFull() {
                                         onClick: async (event) => {
                                             try {
                                                 if (!settings.cloudflareApiToken || !settings.cloudflareAccountId) {
-                                                    alert('Vul eerst je Cloudflare API Token en Account ID in.');
+                                                    showToast('Vul eerst je Cloudflare API Token en Account ID in.', 'warning');
                                                     return;
                                                 }
 
@@ -4707,12 +4919,27 @@ function RestaurantManagementConsoleFull() {
 
                                                 if (response.ok) {
                                                     const data = await response.json();
-                                                    const currentEmails = data.policy?.rules?.[0]?.include?.[0]?.email || [];
+                                                    console.log('🔍 Cloudflare policy response:', data);
                                                     
-                                                    if (currentEmails.length > 0) {
-                                                        alert(`📋 Huidige toegestane emails in Cloudflare Zero Trust:\\n\\n${currentEmails.join('\\n')}`);
+                                                    // 从 policy.include 数组中提取所有 email.email 值
+                                                    let currentEmails = [];
+                                                    
+                                                    if (data.policy?.include && Array.isArray(data.policy.include)) {
+                                                        currentEmails = data.policy.include
+                                                            .filter(item => item.email?.email)
+                                                            .map(item => item.email.email);
+                                                    }
+                                                    // 备用：从 currentEmails 字段直接读取
+                                                    else if (data.currentEmails && Array.isArray(data.currentEmails)) {
+                                                        currentEmails = data.currentEmails;
+                                                    }
+                                                    
+                                                    console.log('✅ Extracted emails:', currentEmails);
+                                                    
+                                                    if (currentEmails && currentEmails.length > 0) {
+                                                        showToast(`📋 Huidige toegestane emails in Cloudflare Zero Trust:\n\n${currentEmails.join('\n')}\n\n总共: ${currentEmails.length} 个邮箱`, 'info', 5000);
                                                     } else {
-                                                        alert('⚠️ Geen email adressen gevonden in het huidige beleid.');
+                                                        showToast('⚠️ Geen email adressen gevonden in het huidige beleid.', 'warning');
                                                     }
                                                 } else {
                                                     const errorData = await response.json().catch(() => ({}));
@@ -4723,7 +4950,7 @@ function RestaurantManagementConsoleFull() {
                                                 button.textContent = originalText;
                                             } catch (error) {
                                                 console.error('Failed to fetch Cloudflare policy:', error);
-                                                alert(`❌ Fout bij ophalen Cloudflare beleid:\\n\\n${error.message}\\n\\nControleer je API token en Account ID.`);
+                                                showToast(`❌ Fout bij ophalen Cloudflare beleid:\n\n${error.message}\n\nControleer je API token en Account ID.`, 'error', 5000);
                                                 event.target.disabled = false;
                                                 event.target.textContent = 'Bekijk Huidig Beleid';
                                             }
@@ -4766,7 +4993,7 @@ function RestaurantManagementConsoleFull() {
    • API tokens worden NIET opgeslagen in Firebase
    • Alleen lokaal gebruikt voor API calls
    • Account ID wordt wel opgeslagen (niet gevoelig)`;
-                                            alert(instructions);
+                                            showToast(instructions, 'info', 8000);
                                         },
                                         style: {
                                             padding: '8px 16px',
@@ -4843,10 +5070,10 @@ function RestaurantManagementConsoleFull() {
                                                 const testSnapshot = await database.ref(getRestaurantPath()).limitToFirst(1).once('value');
                                                 console.log('读取测试:', testSnapshot.val());
                                                 
-                                                alert('Firebase连接正常！检查控制台日志查看详细信息。');
+                                                showToast('Firebase连接正常！检查控制台日志查看详细信息。', 'success');
                                             } catch (error) {
                                                 console.error('Firebase测试失败:', error);
-                                                alert(`Firebase测试失败: ${error.message}`);
+                                                showToast(`Firebase测试失败: ${error.message}`, 'error');
                                             }
                                         },
                                         style: {
@@ -5292,10 +5519,10 @@ function RestaurantManagementConsoleFull() {
                                                 });
                                                 
                                                 setHiddenItems(hiddenItemsData);
-                                                alert(`${t('refreshSuccess')} ${Object.keys(hiddenItemsData).length} ${t('hiddenItemsCount')}`);
+                                                showToast(`${t('refreshSuccess')} ${Object.keys(hiddenItemsData).length} ${t('hiddenItemsCount')}`, 'success');
                                             } catch (error) {
                                                 console.error(t('refreshFailed') + ':', error);
-                                                alert(`${t('refreshFailed')}: ${error.message}`);
+                                                showToast(`${t('refreshFailed')}: ${error.message}`, 'error');
                                             } finally {
                                                 setLoadingHiddenItems(false);
                                             }
@@ -5931,7 +6158,7 @@ function TableEditModal({ table, onSave, onClose }) {
                 URL: table.URL || '',
                 menuType: table.menuType || 'dinner',
                 orders: {
-                    menu: table.orders?.menu || '',
+                    menu: table.orders?.menu !== undefined && table.orders?.menu !== null ? parseInt(table.orders.menu) || 0 : 0,
                     quantity: table.orders?.quantity || 0,
                     totaalPrijs: table.orders?.totaalPrijs || 0,
                     history: table.orders?.history || {}
@@ -6170,11 +6397,12 @@ function TableEditModal({ table, onSave, onClose }) {
                             style: { display: 'block', marginBottom: '0.5rem', fontWeight: '500' }
                         }, t('currentMenu')),
                         React.createElement('input', {
-                            type: 'text',
+                            type: 'number',
+                            min: '0',
                             value: formData.orders.menu,
                             onChange: (e) => setFormData(prev => ({
                                 ...prev,
-                                orders: { ...prev.orders, menu: e.target.value }
+                                orders: { ...prev.orders, menu: parseInt(e.target.value) || 0 }
                             })),
                             style: {
                                 width: '100%',
@@ -6260,6 +6488,92 @@ function TableEditModal({ table, onSave, onClose }) {
             )
         )
     );
+}
+
+// Toast 通知组件 - 使用 Portal 完全独立渲染,避免影响主组件
+function ToastContainer({ toasts, onClose }) {
+    console.log('🎨 ToastContainer 渲染, toasts:', toasts);
+    
+    if (!toasts || toasts.length === 0) {
+        console.log('🎨 没有 toast 需要显示');
+        return null;
+    }
+    
+    // 使用 Portal 将 Toast 渲染到 body 下的独立节点,完全脱离主组件树
+    const toastRoot = document.getElementById('toast-root') || (() => {
+        const div = document.createElement('div');
+        div.id = 'toast-root';
+        document.body.appendChild(div);
+        return div;
+    })();
+    
+    const toastContent = React.createElement('div', {
+        style: {
+            position: 'fixed',
+            top: '20px',
+            right: '20px',
+            zIndex: 99999, // 超高层级,确保在所有内容之上
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '10px',
+            maxWidth: '400px',
+            pointerEvents: 'none' // 不阻挡下方元素
+        }
+    },
+        toasts.map(toast => {
+            console.log('🎨 渲染 toast:', toast);
+            return React.createElement('div', {
+                key: toast.id,
+                style: {
+                    background: toast.type === 'success' ? '#10b981' : 
+                               toast.type === 'error' ? '#ef4444' : 
+                               toast.type === 'warning' ? '#f59e0b' : '#3b82f6',
+                    color: 'white',
+                    padding: '16px 20px',
+                    borderRadius: '8px',
+                    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06)',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'flex-start',
+                    gap: '12px',
+                    animation: 'slideInRight 0.3s ease-out',
+                    maxWidth: '100%',
+                    wordBreak: 'break-word',
+                    pointerEvents: 'auto' // Toast本身可以交互
+                }
+            },
+                React.createElement('div', {
+                    style: {
+                        flex: 1,
+                        fontSize: '14px',
+                        lineHeight: '1.5',
+                        whiteSpace: 'pre-line'
+                    }
+                }, toast.message),
+                React.createElement('button', {
+                    onClick: () => onClose(toast.id),
+                    style: {
+                        background: 'transparent',
+                        border: 'none',
+                        color: 'white',
+                        cursor: 'pointer',
+                        fontSize: '18px',
+                        padding: '0',
+                        lineHeight: '1',
+                        opacity: 0.8,
+                        transition: 'opacity 0.2s'
+                    },
+                    onMouseEnter: (e) => e.target.style.opacity = 1,
+                    onMouseLeave: (e) => e.target.style.opacity = 0.8
+                }, '×')
+            );
+        })
+    );
+    
+    // 使用 ReactDOM.createPortal 渲染到独立节点
+    return window.ReactDOM?.createPortal ? 
+        window.ReactDOM.createPortal(toastContent, toastRoot) : 
+        toastContent; // 降级方案:如果没有Portal,就正常渲染
 }
 
 // 模块化版本的主应用

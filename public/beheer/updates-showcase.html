@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Boss Restaurant - Systeemoverzicht</title>
+    <title>Wereld Wonder - Systeemoverzicht</title>
     <link rel="icon" href="/images/logo.png" type="image/x-icon">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <script src="./modules/qrcode.min.js"></script>
@@ -269,7 +269,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1><i class="fas fa-utensils"></i> Boss Restaurant Systeem</h1>
+            <h1><i class="fas fa-utensils"></i> Wereld Wonder Systeem</h1>
             <p>Overzicht van alle beschikbare functionaliteiten</p>
         </div>
 
@@ -291,7 +291,7 @@
                     <li>Real-time bestellingen plaatsen</li>
                     <li>Meerdere talen ondersteuning</li>
                 </ul>
-                <a href="../index.html?rest=BossRestaurant&tafel=1" class="access-link" target="_blank">
+                <a href="../index.html?rest=WereldWonder&tafel=1" class="access-link" target="_blank">
                     <i class="fas fa-external-link-alt"></i> Openen voorbeeld Tafel-1
                 </a>
             </div>
@@ -314,11 +314,21 @@
                     <li>All-in pakket beheer</li>
                     <li>Bestelling geschiedenis bekijken</li>
                 </ul>
-                <a href="https://boss-personeel.cislink.nl/personeel/?rest=BossRestaurant" class="access-link" target="_blank">
+                <div style="background: #e8f5e9; padding: 12px; border-radius: 6px; margin-top: 12px; font-size: 0.9rem;">
+                    <strong><i class="fas fa-lock"></i> Email Verificatie:</strong>
+                    <p style="margin: 8px 0 0 0; color: #2e7d32;">
+                        Medewerkers moeten inloggen met hun geregistreerde email. 
+                        Session blijft <strong>30 dagen geldig</strong>.
+                    </p>
+                </div>
+                <a href="https://ww-personeel.cislink.nl/personeel/?rest=WereldWonder" class="access-link" target="_blank">
                     <i class="fas fa-external-link-alt"></i> Openen Personeelspagina
                 </a>
                 <button class="qr-generator-btn" onclick="generateStaffQR()">
                     <i class="fas fa-qrcode"></i> Genereer QR Code
+                </button>
+                <button class="qr-generator-btn" onclick="showEmailInstructions()" style="background: #17a2b8; margin-left: 10px;">
+                    <i class="fas fa-info-circle"></i> Email Instructies
                 </button>
             </div>
 
@@ -340,7 +350,7 @@
                     <li>Systeem instellingen beheren</li>
                     <li>Data export en import functionaliteit</li>
                 </ul>
-                <a href="https://boss-personeel.cislink.nl/beheer/index.html" class="access-link" target="_blank">
+                <a href="https://ww-personeel.cislink.nl/beheer/index.html" class="access-link" target="_blank">
                     <i class="fas fa-external-link-alt"></i> Openen Beheerpagina
                 </a>
             </div>
@@ -367,12 +377,135 @@
             </p>
         </div>
     </div>
+
+    <!-- Email Instructions Modal -->
+    <div id="emailModal" class="qr-modal">
+        <div class="qr-modal-content" style="max-width: 650px; max-height: 85vh; overflow-y: auto;">
+            <span class="close-modal" onclick="closeEmailModal()">&times;</span>
+            <h3><i class="fas fa-envelope"></i> Personeel Email Verificatie</h3>
+            
+            <div style="text-align: left; padding: 20px 10px;">
+                <!-- Voor Medewerkers -->
+                <div style="background: #e8f5e9; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+                    <h4 style="color: #2e7d32; margin-bottom: 12px;">
+                        <i class="fas fa-users"></i> Voor Medewerkers
+                    </h4>
+                    
+                    <div style="margin-bottom: 15px;">
+                        <strong style="color: #1976d2;">📧 Eerste Keer Inloggen:</strong>
+                        <ol style="margin: 8px 0 0 20px; line-height: 1.8;">
+                            <li>Geef uw email adres door aan de manager</li>
+                            <li>Wacht tot de manager uw email heeft geactiveerd</li>
+                            <li>Open de Personeel App en voer uw email in</li>
+                            <li>Ontvang verificatiecode per email (geldig 10 min)</li>
+                            <li>Voer de code in → ✅ Ingelogd!</li>
+                        </ol>
+                    </div>
+                    
+                    <div style="background: white; padding: 12px; border-radius: 6px; margin-top: 12px;">
+                        <strong style="color: #f57c00;">⏰ Belangrijk:</strong>
+                        <ul style="margin: 8px 0 0 20px; line-height: 1.8;">
+                            <li>Uw login blijft <strong>30 dagen geldig</strong></li>
+                            <li>U hoeft niet elke dag opnieuw in te loggen</li>
+                            <li>Gebruik alleen uw geregistreerde email</li>
+                            <li>Deel uw toegang niet met anderen</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Voor Managers -->
+                <div style="background: #fff3e0; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+                    <h4 style="color: #e65100; margin-bottom: 12px;">
+                        <i class="fas fa-user-shield"></i> Voor Managers
+                    </h4>
+                    
+                    <div style="margin-bottom: 15px;">
+                        <strong style="color: #c62828;">🔧 Email Toevoegen via Cloudflare:</strong>
+                        <ol style="margin: 8px 0 0 20px; line-height: 1.8;">
+                            <li>Open Beheer Console → <strong>⚙️ Instellingen</strong></li>
+                            <li>Scroll naar <strong>"Cloudflare Zero Trust Configuratie"</strong></li>
+                            <li>Voer <strong>Cloudflare API Token</strong> in (van dash.cloudflare.com)</li>
+                            <li>Voer <strong>Account ID</strong> in</li>
+                            <li>Lijst medewerker emails op (één per regel):
+                                <pre style="background: #f5f5f5; padding: 8px; border-radius: 4px; margin: 8px 0; font-size: 0.85rem;">medewerker1@restaurant.nl
+medewerker2@restaurant.nl
+manager@restaurant.nl</pre>
+                            </li>
+                            <li>Klik <strong>"Bijwerk Cloudflare Beleid"</strong></li>
+                            <li>✅ Controleer met <strong>"Bekijk Huidig Beleid"</strong></li>
+                        </ol>
+                    </div>
+                </div>
+
+                <!-- Problemen Oplossen -->
+                <div style="background: #ffebee; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+                    <h4 style="color: #c62828; margin-bottom: 12px;">
+                        <i class="fas fa-tools"></i> Problemen Oplossen
+                    </h4>
+                    
+                    <div style="line-height: 1.8;">
+                        <strong>❌ Geen toegang?</strong>
+                        <ul style="margin: 5px 0 10px 20px;">
+                            <li>Controleer of email geregistreerd is bij manager</li>
+                            <li>Kijk in spam folder voor verificatiecode</li>
+                            <li>Probeer opnieuw na 5 minuten</li>
+                        </ul>
+                        
+                        <strong>📧 Code niet ontvangen?</strong>
+                        <ul style="margin: 5px 0 10px 20px;">
+                            <li>Wacht 2-3 minuten (email kan vertraagd zijn)</li>
+                            <li>Check spam/junk folder</li>
+                            <li>Vraag manager om email opnieuw toe te voegen</li>
+                        </ul>
+                        
+                        <strong>⏱️ Sessie verlopen?</strong>
+                        <ul style="margin: 5px 0 10px 20px;">
+                            <li>Na 30 dagen moet u opnieuw inloggen</li>
+                            <li>Volg dezelfde stappen als bij eerste login</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Wat Kunt U Doen -->
+                <div style="background: #e3f2fd; padding: 20px; border-radius: 8px;">
+                    <h4 style="color: #1565c0; margin-bottom: 12px;">
+                        <i class="fas fa-check-circle"></i> Wat Kunt U Doen?
+                    </h4>
+                    <ul style="margin: 8px 0 0 20px; line-height: 1.8;">
+                        <li>✅ Bestellingen plaatsen voor gasten</li>
+                        <li>✅ Menu bekijken en items selecteren</li>
+                        <li>✅ Tafel PIN codes verifiëren</li>
+                        <li>✅ Bestel geschiedenis bekijken</li>
+                        <li>✅ Tafel status beheren</li>
+                    </ul>
+                </div>
+
+                <!-- Contact Info -->
+                <div style="text-align: center; margin-top: 20px; padding: 15px; background: #f5f5f5; border-radius: 6px;">
+                    <p style="margin: 0; color: #666;">
+                        <i class="fas fa-question-circle"></i> 
+                        <strong>Hulp nodig?</strong><br>
+                        Neem contact op met uw manager of support@cislink.nl
+                    </p>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 15px;">
+                <button onclick="printInstructions()" style="padding: 10px 20px; background: #2196F3; color: white; border: none; border-radius: 6px; cursor: pointer; margin-right: 10px;">
+                    <i class="fas fa-print"></i> Print Instructies
+                </button>
+                <button onclick="copyInstructions()" style="padding: 10px 20px; background: #4CAF50; color: white; border: none; border-radius: 6px; cursor: pointer;">
+                    <i class="fas fa-copy"></i> Kopieer Tekst
+                </button>
+            </div>
+        </div>
+    </div>
 </body>
 
 <script>
     // QR Code Generation Functions
     function generateStaffQR() {
-        const staffUrl = 'https://boss-personeel.cislink.nl/personeel/?rest=BossRestaurant';
+        const staffUrl = 'https://ww-personeel.cislink.nl/personeel/?rest=WereldWonder';
         const modal = document.getElementById('qrModal');
         const qrContainer = document.getElementById('qrCodeContainer');
         const urlInfo = document.getElementById('qrUrlInfo');
@@ -399,7 +532,7 @@
             
         } catch (error) {
             console.error('QR Code generation error:', error);
-            alert('Er is een fout opgetreden bij het genereren van de QR code.');
+            toast('Er is een fout opgetreden bij het genereren van de QR code.', 'error');
         }
     }
     
@@ -420,6 +553,110 @@
     document.addEventListener('keydown', function(event) {
         if (event.key === 'Escape') {
             closeQRModal();
+            closeEmailModal();
+        }
+    });
+    
+    // Email Instructions Modal Functions
+    function showEmailInstructions() {
+        const modal = document.getElementById('emailModal');
+        modal.style.display = 'block';
+    }
+    
+    function closeEmailModal() {
+        const modal = document.getElementById('emailModal');
+        modal.style.display = 'none';
+    }
+    
+    function printInstructions() {
+        window.print();
+    }
+    
+    function copyInstructions() {
+        const instructionsText = `
+📱 PERSONEEL APP - EMAIL VERIFICATIE
+
+═══════════════════════════════════════
+
+📧 VOOR MEDEWERKERS:
+
+EERSTE KEER INLOGGEN:
+1. Geef uw email door aan de manager
+2. Wacht tot email geactiveerd is
+3. Open Personeel App en voer email in
+4. Ontvang verificatiecode per email (geldig 10 min)
+5. Voer code in → Ingelogd! ✅
+
+BELANGRIJK:
+• Login blijft 30 DAGEN geldig
+• Geen dagelijkse login nodig
+• Gebruik alleen geregistreerde email
+• Deel toegang niet met anderen
+
+═══════════════════════════════════════
+
+🔧 VOOR MANAGERS:
+
+EMAIL TOEVOEGEN:
+1. Beheer Console → Instellingen
+2. Cloudflare Zero Trust Configuratie
+3. Voer API Token en Account ID in
+4. Lijst medewerker emails (één per regel)
+5. Klik "Bijwerk Cloudflare Beleid"
+6. Controleer met "Bekijk Huidig Beleid"
+
+═══════════════════════════════════════
+
+❌ PROBLEMEN OPLOSSEN:
+
+Geen toegang?
+- Check of email geregistreerd is
+- Kijk in spam folder
+- Probeer opnieuw na 5 min
+
+Code niet ontvangen?
+- Wacht 2-3 minuten
+- Check spam/junk folder
+- Vraag manager om email opnieuw toe te voegen
+
+Sessie verlopen?
+- Login opnieuw (zelfde proces)
+- Blijft weer 30 dagen geldig
+
+═══════════════════════════════════════
+
+✅ FUNCTIONALITEIT:
+• Bestellingen plaatsen voor gasten
+• Menu bekijken en selecteren
+• Tafel PIN codes verifiëren
+• Bestel geschiedenis bekijken
+• Tafel status beheren
+
+═══════════════════════════════════════
+
+📞 CONTACT: support@cislink.nl
+        `;
+        
+        // Copy to clipboard
+        navigator.clipboard.writeText(instructionsText).then(() => {
+            alert('✅ Instructies gekopieerd naar klembord!\n\nU kunt deze nu plakken in WhatsApp, email of een document.');
+        }).catch(err => {
+            console.error('Kopiëren mislukt:', err);
+            // Fallback: show text in alert
+            alert('Kopieer deze tekst handmatig:\n\n' + instructionsText);
+        });
+    }
+    
+    // Close email modal when clicking outside
+    window.addEventListener('click', function(event) {
+        const qrModal = document.getElementById('qrModal');
+        const emailModal = document.getElementById('emailModal');
+        
+        if (event.target === qrModal) {
+            qrModal.style.display = 'none';
+        }
+        if (event.target === emailModal) {
+            emailModal.style.display = 'none';
         }
     });
 </script>

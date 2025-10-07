@@ -23,7 +23,14 @@ window.RestaurantDataOperations = {
                 const collectionData = snapshot.val();
 
                 if (collectionData) {
-                    data[collectionName] = collectionData;
+                    // 对于 menukaart，排除 exceptions 键
+                    if (collectionName === 'menukaart' && collectionData.exceptions) {
+                        console.log('⚠️ 从 menukaart 数据中排除 exceptions');
+                        const { exceptions, ...menukaartWithoutExceptions } = collectionData;
+                        data[collectionName] = menukaartWithoutExceptions;
+                    } else {
+                        data[collectionName] = collectionData;
+                    }
                 } else {
                     data[collectionName] = {};
                 }
@@ -42,7 +49,45 @@ window.RestaurantDataOperations = {
         try {
             const database = firebase.database();
             const restaurantPath = window.getRestaurantPath ? window.getRestaurantPath() : 'AsianBoulevard';
+            
+            // 检查sortingNrm是否与其他项重复
+            let hasDuplicateSortingNrm = false;
+            if (itemData.sortingNrm !== undefined) {
+                const allItems = await database.ref(`${restaurantPath}/menukaart`).once('value');
+                const menuData = allItems.val();
+                
+                if (menuData) {
+                    // 检查是否有其他菜单项使用相同的sortingNrm(排除当前项)
+                    hasDuplicateSortingNrm = Object.entries(menuData).some(([key, item]) => {
+                        return key !== itemId &&                    // 排除当前编辑的项
+                               key !== 'exceptions' && 
+                               typeof item === 'object' && 
+                               item !== null &&
+                               item.sortingNrm === itemData.sortingNrm;
+                    });
+                    
+                    if (hasDuplicateSortingNrm) {
+                        console.log(`⚠️ 检测到重复的sortingNrm: ${itemData.sortingNrm}, 保存后将自动重新排序`);
+                    }
+                }
+            }
+            
+            // 保存菜单项
             await database.ref(`${restaurantPath}/menukaart/${itemId}`).update(itemData);
+            console.log(`✅ 菜单项已保存: SKU=${itemId}, sortingNrm=${itemData.sortingNrm}`);
+            
+            // 如果检测到重复的sortingNrm,自动运行重新排序
+            if (hasDuplicateSortingNrm) {
+                console.log('🔄 开始自动重新排序以解决重复序号...');
+                try {
+                    await this.renumberAllMenuItems();
+                    console.log('✅ 自动重新排序完成');
+                } catch (renumberError) {
+                    console.warn('⚠️ 自动重新排序失败:', renumberError);
+                    // 不抛出错误,因为菜单项已成功保存
+                }
+            }
+            
             return itemId;
         } catch (error) {
             console.error('Error saving menu item:', error);
@@ -69,12 +114,48 @@ window.RestaurantDataOperations = {
                 throw new Error(`SKU "${itemId}" already exists`);
             }
             
+            // 检查sortingNrm是否与现有项重复
+            let hasDuplicateSortingNrm = false;
+            if (itemData.sortingNrm) {
+                const allItems = await database.ref(`${restaurantPath}/menukaart`).once('value');
+                const menuData = allItems.val();
+                
+                if (menuData) {
+                    // 检查是否有其他菜单项使用相同的sortingNrm
+                    hasDuplicateSortingNrm = Object.entries(menuData).some(([key, item]) => {
+                        return key !== 'exceptions' && 
+                               typeof item === 'object' && 
+                               item !== null &&
+                               item.sortingNrm === itemData.sortingNrm;
+                    });
+                    
+                    if (hasDuplicateSortingNrm) {
+                        console.log(`⚠️ 检测到重复的sortingNrm: ${itemData.sortingNrm}, 添加后将自动重新排序`);
+                    }
+                }
+            }
+            
+            // 添加菜单项
             await database.ref(`${restaurantPath}/menukaart/${itemId}`).set({
                 ...itemData,
                 itemId: itemId, // itemId字段也设置为SKU
                 createdAt: firebase.database.ServerValue.TIMESTAMP,
                 updatedAt: firebase.database.ServerValue.TIMESTAMP
             });
+            
+            console.log(`✅ 菜单项已添加: SKU=${itemId}, sortingNrm=${itemData.sortingNrm}`);
+            
+            // 如果检测到重复的sortingNrm,自动运行重新排序
+            if (hasDuplicateSortingNrm) {
+                console.log('🔄 开始自动重新排序以解决重复序号...');
+                try {
+                    await this.renumberAllMenuItems();
+                    console.log('✅ 自动重新排序完成');
+                } catch (renumberError) {
+                    console.warn('⚠️ 自动重新排序失败:', renumberError);
+                    // 不抛出错误,因为菜单项已成功添加
+                }
+            }
             
             return itemId;
         } catch (error) {
@@ -138,6 +219,12 @@ window.RestaurantDataOperations = {
     // Save/Update table
     async saveTable(tableId, tableData) {
         try {
+            console.log('🔧 [data-operations] saveTable 被调用:');
+            console.log('  - tableId:', tableId);
+            console.log('  - tableData:', tableData);
+            console.log('  - tableData.orders:', tableData.orders);
+            console.log('  - tableData.orders.menu:', tableData.orders?.menu);
+            
             const database = firebase.database();
             const restaurantPath = window.getRestaurantPath ? window.getRestaurantPath() : 'AsianBoulevard';
             
@@ -158,9 +245,20 @@ window.RestaurantDataOperations = {
             if (tableData.menuType !== undefined) {
                 updates[`${restaurantPath}/tafel/${tableId}/menuType`] = tableData.menuType;
             }
+            if (tableData.orders !== undefined) {
+                console.log('  ✅ orders 字段存在，添加到 updates');
+                updates[`${restaurantPath}/tafel/${tableId}/orders`] = tableData.orders;
+            } else {
+                console.log('  ⚠️ orders 字段不存在于 tableData');
+            }
+            
+            console.log('🔧 [data-operations] 准备更新的数据:', updates);
             
             if (Object.keys(updates).length > 0) {
                 await database.ref().update(updates);
+                console.log('✅ [data-operations] 数据库更新完成');
+            } else {
+                console.log('⚠️ [data-operations] 没有需要更新的数据');
             }
             
             return tableId;
@@ -334,12 +432,13 @@ window.RestaurantDataOperations = {
     },
 
     // Automatically renumber all menu items to ensure sequential order
+    // 重要原则: sortingNrm永远是SKU节点下的子项,不能作为独立key!
     async renumberAllMenuItems() {
         try {
             const database = firebase.database();
             const restaurantPath = window.getRestaurantPath ? window.getRestaurantPath() : 'AsianBoulevard';
             
-            // First, get all menu items
+            // 获取所有菜单数据
             const snapshot = await database.ref(`${restaurantPath}/menukaart`).once('value');
             const menuData = snapshot.val();
             
@@ -348,29 +447,76 @@ window.RestaurantDataOperations = {
                 return false;
             }
             
-            // Convert to array and sort by current sortingNrm
-            const menuItems = Object.entries(menuData)
-                .map(([id, item]) => ({ id, ...item }))
-                .filter(item => item.id !== 'exceptions') // Exclude exceptions node
-                .sort((a, b) => (a.sortingNrm || 999) - (b.sortingNrm || 999));
+            console.log('📋 开始重新排序,menukaart中的所有键:', Object.keys(menuData));
             
-            // Create batch updates for sequential numbering
+            // 筛选有效菜单项
+            // 原则: 只有包含description字段的对象才是真实菜单项
+            const validMenuItems = Object.entries(menuData)
+                .filter(([sku, item]) => {
+                    // 排除系统配置节点
+                    if (sku === 'exceptions') {
+                        console.log('⏭️ 跳过系统配置: exceptions');
+                        return false;
+                    }
+                    
+                    // 只接受对象类型且有description的项
+                    if (typeof item !== 'object' || item === null) {
+                        console.log(`❌ 跳过非对象节点: ${sku} (type: ${typeof item})`);
+                        return false;
+                    }
+                    
+                    if (!item.description) {
+                        console.log(`❌ 跳过无description的节点: ${sku}`);
+                        return false;
+                    }
+                    
+                    return true;
+                })
+                .map(([sku, item]) => ({
+                    sku: sku,  // SKU作为唯一标识
+                    description: item.description,
+                    currentSortingNrm: item.sortingNrm || 999
+                }))
+                .sort((a, b) => a.currentSortingNrm - b.currentSortingNrm);
+            
+            const totalItems = validMenuItems.length;
+            console.log(`✅ 找到 ${totalItems} 个有效菜单项`);
+            
+            // 生成更新对象
+            // 关键: 更新路径必须是 menukaart/{SKU}/sortingNrm
             const updates = {};
-            menuItems.forEach((item, index) => {
-                const newSortingNrm = index + 1; // Start from 1
-                updates[`${restaurantPath}/menukaart/${item.id}/sortingNrm`] = newSortingNrm;
+            
+            validMenuItems.forEach((item, index) => {
+                const newSortingNrm = index + 1; // 从1开始的连续序号
+                const updatePath = `${restaurantPath}/menukaart/${item.sku}/sortingNrm`;
+                updates[updatePath] = newSortingNrm;
+                
+                console.log(`📝 ${index + 1}/${totalItems}: SKU=${item.sku}, ${item.currentSortingNrm} → ${newSortingNrm}`);
             });
             
-            // Apply all updates at once
+            // 清理可能存在的无效独立键
+            // 如果menukaart下有sortingNrm, config等独立键(非对象),删除它们
+            ['sortingNrm', 'config', 'settings'].forEach(key => {
+                if (menuData.hasOwnProperty(key) && typeof menuData[key] !== 'object') {
+                    updates[`${restaurantPath}/menukaart/${key}`] = null;
+                    console.log(`🧹 删除无效独立键: ${key}`);
+                }
+            });
+            
+            // 执行批量更新
+            console.log('� 开始更新数据库...');
             await database.ref().update(updates);
             
-            console.log(`✅ Successfully renumbered ${menuItems.length} menu items`);
+            console.log(`✅ 重新排序完成! 共更新 ${totalItems} 个菜单项, 序号范围: 1-${totalItems}`);
             return true;
+            
         } catch (error) {
-            console.error('Error renumbering menu items:', error);
+            console.error('❌ 重新排序失败:', error);
             throw error;
         }
     }
 };
 
 console.log('✅ RestaurantDataOperations 模块加载完成 - 包含桌台管理功能');
+console.log('📋 可用方法:', Object.keys(window.RestaurantDataOperations));
+console.log('🔍 saveConfig 方法类型:', typeof window.RestaurantDataOperations.saveConfig);

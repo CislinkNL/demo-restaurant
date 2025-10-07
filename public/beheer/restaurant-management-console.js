@@ -1681,12 +1681,13 @@ function RestaurantManagementApp() {
 // Export for use in index.html
 window.RestaurantManagementConsole = RestaurantManagementApp;
 
-// Export RestaurantDataOperations for use by other modules
-window.RestaurantDataOperations = RestaurantDataOperations;
+// ⚠️ 注释掉这行，避免覆盖 modules/data-operations.js 中完整的 RestaurantDataOperations
+// window.RestaurantDataOperations = RestaurantDataOperations;
 
 // For debug purposes, also export the individual components
 window.RestaurantManagementComponents = {
     RestaurantManagementConsole,
     RestaurantManagementApp,
-    RestaurantDataOperations
+    // RestaurantDataOperations 应该使用 modules/data-operations.js 中的版本
+    RestaurantDataOperations: window.RestaurantDataOperations
 };
