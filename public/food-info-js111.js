@@ -396,226 +396,42 @@ addToOrderBtn.addEventListener('click', () => {
         const searchResults = document.getElementById('searchResults');
         searchResults.innerHTML = ''; // Clear previous results
 
-        if (!query || query.trim().length === 0) {
-            showSearchHistory();
-            return;
-        }
+        // Filter items based on the query, checking both ID and description
+        const filteredItems = order._menu.filter(item =>
+            item.description.toLowerCase().includes(query.toLowerCase()) ||
+            item.id.toString().includes(query)
+        );
 
-        const searchQuery = query.toLowerCase().trim();
-        
-        // Enhanced multi-keyword search with fuzzy matching
-        const searchKeywords = searchQuery.split(/\s+/).filter(keyword => keyword.length > 0);
-        
-        const filteredItems = order._menu.filter(item => {
-            if (!item || !item.description) return false;
-            
-            const searchableText = `${item.description} ${item.id} ${item.group || ''} ${item.price || ''}`.toLowerCase();
-            
-            // Multi-keyword search: all keywords must match
-            if (searchKeywords.length > 1) {
-                return searchKeywords.every(keyword => searchableText.includes(keyword));
-            }
-            
-            // Single keyword search with fuzzy matching
-            const keyword = searchKeywords[0];
-            if (searchableText.includes(keyword)) return true;
-            
-            // Fuzzy matching for typos (simple implementation)
-            const words = searchableText.split(/\s+/);
-            return words.some(word => {
-                if (word.length < 3 || keyword.length < 3) return false;
-                
-                // Check if keyword is substring of word or vice versa
-                if (word.includes(keyword) || keyword.includes(word)) return true;
-                
-                // Simple fuzzy matching: allow 1 character difference for words > 4 chars
-                if (word.length > 4 && keyword.length > 4) {
-                    const maxDistance = 1;
-                    return levenshteinDistance(word, keyword) <= maxDistance;
-                }
-                
-                return false;
-            });
-        });
-
-        // Show search statistics
-        const statsDiv = document.createElement('div');
-        statsDiv.className = 'search-stats';
-        statsDiv.textContent = `Found ${filteredItems.length} items for "${query}"`;
-        searchResults.appendChild(statsDiv);
-
-        if (filteredItems.length === 0) {
-            const noResults = document.createElement('div');
-            noResults.className = 'no-search-results';
-            noResults.textContent = 'No items found. Try different keywords or check spelling.';
-            searchResults.appendChild(noResults);
-            return;
-        }
-
-        // Group results by category/group for better organization
-        const groupedResults = {};
+        // Display matching items in the searchResults div
+        // Assuming you have a function to display filtered items like this
         filteredItems.forEach(item => {
-            const group = item.group || 'Other';
-            if (!groupedResults[group]) {
-                groupedResults[group] = [];
-            }
-            groupedResults[group].push(item);
-        });
+            const resultItem = document.createElement('div');
+            resultItem.textContent = `${item.id} - ${item.description}`; // Display both ID and description
+            resultItem.addEventListener('click', function (e) {
+                e.preventDefault(); // Prevent the default link behavior
 
-        // Display grouped results
-        Object.entries(groupedResults).forEach(([group, items]) => {
-            // Group header
-            const groupHeader = document.createElement('div');
-            groupHeader.className = 'search-group-header';
-            groupHeader.textContent = `${group} (${items.length})`;
-            searchResults.appendChild(groupHeader);
+                // Adjust based on your data attribute
+                const element = document.getElementById(item.id);
+                if (element) {
+                    setTimeout(() => { // Delay to ensure that any CSS transitions don't interfere
+                        element.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
-            items.forEach(item => {
-                const resultItem = document.createElement('div');
-                resultItem.className = 'search-result-item';
-                
-                const priceDisplay = item.price ? `€${parseFloat(item.price).toFixed(2)}` : 'Price not set';
-                const statusIndicator = item.status === 'available' ? '✅' : '❌';
-                
-                resultItem.innerHTML = `
-                    <div class="search-item-main">
-                        <span class="search-item-id">${item.id}</span>
-                        <span class="search-item-name">${item.description}</span>
-                        <span class="search-item-status">${statusIndicator}</span>
-                    </div>
-                    <div class="search-item-details">
-                        <span class="search-item-price">${priceDisplay}</span>
-                        <span class="search-item-group">${item.group || ''}</span>
-                    </div>
-                `;
+                        // Clear and hide search results
+                        document.getElementById('searchResults').innerHTML = '';
+                        document.getElementById('searchBar').value = '';
+                        document.getElementById('searchContainer').classList.add('hidden');
+                        document.getElementById('searchIcon').classList.remove('hidden');
 
-                resultItem.addEventListener('click', function (e) {
-                    e.preventDefault();
-
-                    // Save search history
-                    saveSearchHistory(query);
-
-                    // Use data-sku attribute to find the menu item element
-                    const element = document.querySelector(`[data-sku="${item.sku}"]`) || document.getElementById(item.id);
-                    if (element) {
-                        setTimeout(() => {
-                            element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-
-                            // Clear and hide search results
-                            document.getElementById('searchResults').innerHTML = '';
-                            document.getElementById('searchBar').value = '';
-                            document.getElementById('searchContainer').classList.add('hidden');
-                            document.getElementById('searchIcon').classList.remove('hidden');
-
-                            // Enhanced highlight animation
-                            element.style.transition = 'all 0.3s ease';
-                            element.style.setProperty('background-color', '#ffeb3b', 'important');
-                            element.style.setProperty('box-shadow', '0 0 20px #ffeb3b', 'important');
-                            element.style.setProperty('transform', 'scale(1.02)', 'important');
-                            
-                            setTimeout(() => {
-                                element.style.removeProperty('background-color');
-                                element.style.removeProperty('box-shadow');
-                                element.style.removeProperty('transform');
-                            }, 2000);
-
-                            // Header restoration
-                            setTimeout(() => {
-                                const header = document.querySelector('header');
-                                if (header) {
-                                    header.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                                }
-                            }, 1000);
-
-                            showSearchSuccessToast(item.description);
-                        }, 150);
-                    } else {
-                        console.warn('Element not found for item:', item);
-                    }
-                });
-
-                searchResults.appendChild(resultItem);
+                        // If you have an animation or visual cue to show, trigger it here
+                        animateHighlight(element); // Adjust based on your implementation
+                    }, 150); // Slightly longer delay to account for mobile browser behavior
+                }
             });
+
+
+            searchResults.appendChild(resultItem);
         });
-    }
 
-    // Simple Levenshtein distance calculation for fuzzy matching
-    function levenshteinDistance(str1, str2) {
-        const matrix = Array(str2.length + 1).fill(null).map(() => Array(str1.length + 1).fill(null));
-        
-        for (let i = 0; i <= str1.length; i++) matrix[0][i] = i;
-        for (let j = 0; j <= str2.length; j++) matrix[j][0] = j;
-        
-        for (let j = 1; j <= str2.length; j++) {
-            for (let i = 1; i <= str1.length; i++) {
-                const indicator = str1[i - 1] === str2[j - 1] ? 0 : 1;
-                matrix[j][i] = Math.min(
-                    matrix[j][i - 1] + 1,
-                    matrix[j - 1][i] + 1,
-                    matrix[j - 1][i - 1] + indicator
-                );
-            }
-        }
-        
-        return matrix[str2.length][str1.length];
-    }
-
-    // Search history management
-    function saveSearchHistory(query) {
-        const history = JSON.parse(localStorage.getItem('customerSearchHistory') || '[]');
-        if (!history.includes(query)) {
-            history.unshift(query);
-            localStorage.setItem('customerSearchHistory', JSON.stringify(history.slice(0, 10))); // Keep last 10
-        }
-    }
-
-    function showSearchHistory() {
-        const history = JSON.parse(localStorage.getItem('customerSearchHistory') || '[]');
-        const searchResults = document.getElementById('searchResults');
-        
-        if (history.length === 0) return;
-
-        const historyHeader = document.createElement('div');
-        historyHeader.className = 'search-history-header';
-        historyHeader.textContent = 'Recent searches:';
-        searchResults.appendChild(historyHeader);
-
-        history.forEach(query => {
-            const historyItem = document.createElement('div');
-            historyItem.className = 'search-history-item';
-            historyItem.textContent = query;
-            historyItem.addEventListener('click', () => {
-                document.getElementById('searchBar').value = query;
-                searchItems(query);
-            });
-            searchResults.appendChild(historyItem);
-        });
-    }
-
-    function showSearchSuccessToast(itemName) {
-        const toast = document.createElement('div');
-        toast.className = 'search-success-toast';
-        toast.textContent = `Found: ${itemName}`;
-        toast.style.cssText = `
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: darkgoldenrod;
-            color: #222;
-            padding: 12px 20px;
-            border-radius: 6px;
-            font-weight: bold;
-            z-index: 1000000;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        `;
-        
-        document.body.appendChild(toast);
-        setTimeout(() => toast.style.opacity = '1', 10);
-        setTimeout(() => {
-            toast.style.opacity = '0';
-            setTimeout(() => document.body.removeChild(toast), 300);
-        }, 2000);
     }
 
     // Event listener for the search bar for dynamic searching
@@ -624,9 +440,7 @@ addToOrderBtn.addEventListener('click', () => {
         if (query.length > 0) {
             searchItems(query);
         } else {
-            // Show search history when input is empty
-            document.getElementById('searchResults').innerHTML = '';
-            showSearchHistory();
+            document.getElementById('searchResults').innerHTML = ''; // Clear results if query is empty
         }
     });
 
@@ -651,18 +465,14 @@ addToOrderBtn.addEventListener('click', () => {
 
 
     function animateHighlight(element) {
-        // Enhanced highlight animation with shadow and scale effect
-        element.style.transition = 'all 0.3s ease';
-        element.style.setProperty('background-color', '#ffeb3b', 'important'); // Highlight color
-        element.style.setProperty('box-shadow', '0 0 20px #ffeb3b', 'important'); // Glowing effect
-        element.style.setProperty('transform', 'scale(1.02)', 'important'); // Slight scale up
+        // Temporarily change the background color of the target element
+        element.style.transition = 'background-color 0.5s ease';
+        element.style.backgroundColor = '#ffeb3b'; // Highlight color
 
-        // Revert to original styles after a delay
+        // Revert to original color after a delay
         setTimeout(() => {
-            element.style.removeProperty('background-color');
-            element.style.removeProperty('box-shadow');
-            element.style.removeProperty('transform');
-        }, 2000);
+            element.style.backgroundColor = ''; // Reset background color
+        }, 1500);
     }
 
     // 🔥 Removed legacy handleAddToOrder duplicate (incorrect parameters caused NaN)

@@ -45,7 +45,6 @@ class Ui {
 
             let node = document.createElement("div");
             node.className = "menu-item";
-            node.id = item.id || item.sku; // Add id attribute for search functionality
             node.setAttribute("data-sku", item.sku);
             node.setAttribute("data-description", item.displayName || item.description);
             node.setAttribute("data-group", item.group);

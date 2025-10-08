@@ -3444,7 +3444,7 @@ select {
   transform: translateX(-50%);
   /* Adjust horizontal centering */
   text-align: center;
-  z-index: 98;
+  z-index: 999999;
   /* Ensure it's above other content */
   width: 80%;
   /* Make it larger horizontally */
@@ -3499,7 +3499,7 @@ select {
   transform: translateX(-50%);
   top: 100%;
   /* Make the search results pop below the search bar */
-  z-index: 101;
+  z-index: 999999;
 }
 
 #searchIcon {
@@ -3511,7 +3511,7 @@ select {
   font-size: 32px;
   /* Larger icon size */
   cursor: pointer;
-  z-index: 100;
+  z-index: 999998;
   color: darkgoldenrod;
 }
 
@@ -4213,4 +4213,130 @@ textarea {
 #drinks-only-confirm-btn:focus,
 #drinks-only-confirm-btn:active {
   color: #ffffff !important;
+}
+
+/* Enhanced Search Styles for Customer Interface */
+.search-stats {
+  padding: 8px 16px;
+  background: rgba(218, 165, 32, 0.1);
+  color: darkgoldenrod;
+  font-size: 14px;
+  border-bottom: 1px solid rgba(218, 165, 32, 0.3);
+  text-align: center;
+}
+
+.search-group-header {
+  padding: 12px 16px;
+  background: rgba(218, 165, 32, 0.2);
+  color: darkgoldenrod;
+  font-weight: bold;
+  font-size: 16px;
+  border-bottom: 1px solid rgba(218, 165, 32, 0.3);
+}
+
+.search-result-item {
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(218, 165, 32, 0.2);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.search-result-item:hover {
+  background: rgba(218, 165, 32, 0.1);
+  transform: translateX(4px);
+}
+
+.search-item-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.search-item-id {
+  background: darkgoldenrod;
+  color: #222;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: bold;
+  min-width: 40px;
+  text-align: center;
+}
+
+.search-item-name {
+  flex: 1;
+  margin: 0 12px;
+  font-weight: 500;
+}
+
+.search-item-status {
+  font-size: 16px;
+}
+
+.search-item-details {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+.search-item-price {
+  color: darkgoldenrod;
+  font-weight: bold;
+}
+
+.search-history-header {
+  padding: 12px 16px;
+  background: rgba(218, 165, 32, 0.15);
+  color: darkgoldenrod;
+  font-weight: bold;
+  border-bottom: 1px solid rgba(218, 165, 32, 0.3);
+}
+
+.search-history-item {
+  padding: 8px 16px;
+  cursor: pointer;
+  border-bottom: 1px solid rgba(218, 165, 32, 0.1);
+  color: rgba(218, 165, 32, 0.8);
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.search-history-item:hover {
+  background: rgba(218, 165, 32, 0.1);
+  color: darkgoldenrod;
+}
+
+.no-search-results {
+  padding: 20px 16px;
+  text-align: center;
+  color: rgba(218, 165, 32, 0.7);
+  font-style: italic;
+}
+
+.search-success-toast {
+  animation: slideInRight 0.3s ease, slideOutRight 0.3s ease 2s;
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOutRight {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
 }
