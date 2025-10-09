@@ -114,6 +114,19 @@ $('#order-verzend').click(async function () {
     return;
   }
 
+  // 🛒 显示订单确认弹窗
+  try {
+    console.log("🛒 FAB-send点击，准备显示确认弹窗...");
+    const confirmed = await showOrderConfirmationBeforePayment();
+    if (!confirmed) {
+      console.log("🛒 用户取消了订单确认");
+      return;
+    }
+    console.log("🛒 用户确认订单，继续支付流程");
+  } catch (error) {
+    console.error("🛒 订单确认弹窗错误:", error);
+  }
+
   // 只有当config.timeLimit为true时才启用timer限制
   if (window.AppConfig && AppConfig.timeLimit) {
     if (timerText !== 'U kunt nu bestellen') {
@@ -691,6 +704,302 @@ function getMenuItemImageByName(productName) {
 
 // 确保函数全局可用
 window.getMenuItemImageByName = getMenuItemImageByName;
+
+// 🛒 支付前订单确认弹窗函数
+async function showOrderConfirmationBeforePayment() {
+    return new Promise(async (resolve) => {
+        try {
+            // 获取当前订单数据
+            const tafelNr = document.getElementById('tafelNummer')?.innerText?.trim() || 'Unknown';
+            const orderData = await fetchCurrentOrderData();
+            
+            if (!orderData || orderData.length === 0) {
+                showMessage('没有找到订单数据');
+                resolve(false);
+                return;
+            }
+
+            // 移除已存在的确认弹窗
+            const existing = document.getElementById('order-confirmation-modal-payment');
+            if (existing) existing.remove();
+
+            // 创建遮罩和弹窗容器
+            const modal = document.createElement('div');
+            modal.id = 'order-confirmation-modal-payment';
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                background: rgba(0,0,0,0.6);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 10000;
+                font-family: Arial, sans-serif;
+            `;
+
+            // 创建弹窗内容
+            const content = document.createElement('div');
+            content.style.cssText = `
+                background: white;
+                border-radius: 12px;
+                width: 90%;
+                max-width: 600px;
+                max-height: 80vh;
+                overflow-y: auto;
+                box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+                animation: modalSlideIn 0.3s ease-out;
+            `;
+
+            // 汇总订单数据
+            const consolidatedOrder = consolidateOrderDataFromFirebase(orderData);
+            
+            // 计算总价
+            const totalPrice = consolidatedOrder.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+            content.innerHTML = `
+                <style>
+                    @keyframes modalSlideIn {
+                        from { transform: scale(0.9); opacity: 0; }
+                        to { transform: scale(1); opacity: 1; }
+                    }
+                    .modal-header {
+                        background: linear-gradient(135deg, #922833, #B8313E);
+                        color: white;
+                        padding: 20px;
+                        border-radius: 12px 12px 0 0;
+                        text-align: center;
+                    }
+                    .modal-body {
+                        padding: 20px;
+                        color: #333; /* 深色文字 */
+                    }
+                    .order-summary-table {
+                        width: 100%;
+                        border-collapse: collapse;
+                        margin: 15px 0;
+                    }
+                    .order-summary-table th,
+                    .order-summary-table td {
+                        border: 1px solid #ddd;
+                        padding: 10px 8px;
+                        text-align: left;
+                        color: #333; /* 深色文字 */
+                    }
+                    .order-summary-table th {
+                        background: #f8f9fa;
+                        font-weight: bold;
+                        color: #222; /* 更深的表头文字 */
+                    }
+                    .order-summary-table tr:nth-child(even) {
+                        background: #f9f9f9;
+                    }
+                    .quantity-cell {
+                        display: flex;
+                        align-items: center;
+                        gap: 5px;
+                        color: #333; /* 深色文字 */
+                    }
+                    .item-image {
+                        width: 24px;
+                        height: 24px;
+                        object-fit: cover;
+                        border-radius: 4px;
+                        flex-shrink: 0;
+                    }
+                    .total-row {
+                        background: #e8f5e8 !important;
+                        font-weight: bold;
+                        border-top: 2px solid #922833;
+                        color: #222 !important; /* 总计行深色文字 */
+                    }
+                    .button-container {
+                        display: flex;
+                        gap: 15px;
+                        justify-content: center;
+                        margin-top: 20px;
+                        padding: 0 20px 20px;
+                    }
+                    .confirm-btn, .cancel-btn {
+                        padding: 12px 30px;
+                        border: none;
+                        border-radius: 8px;
+                        font-size: 16px;
+                        font-weight: bold;
+                        cursor: pointer;
+                        min-width: 120px;
+                        transition: all 0.3s ease;
+                    }
+                    .confirm-btn {
+                        background: linear-gradient(135deg, #28a745, #20c997);
+                        color: white;
+                    }
+                    .confirm-btn:hover {
+                        background: linear-gradient(135deg, #218838, #1ea081);
+                        transform: translateY(-2px);
+                    }
+                    .cancel-btn {
+                        background: linear-gradient(135deg, #dc3545, #fd7e14);
+                        color: white;
+                    }
+                    .cancel-btn:hover {
+                        background: linear-gradient(135deg, #c82333, #e8680e);
+                        transform: translateY(-2px);
+                    }
+                    .table-info {
+                        text-align: center;
+                        margin-bottom: 15px;
+                        color: #555; /* 深色信息文字 */
+                        font-size: 14px;
+                    }
+                </style>
+                
+                <div class="modal-header">
+                    <h2>🍽️ Bestelling Bevestigen</h2>
+                    <p style="margin: 5px 0 0 0; opacity: 0.9;">Controleer uw bestelling voor bestellen</p>
+                </div>
+                
+                <div class="modal-body">
+                    <div class="table-info">
+                        <strong>Tafel ${tafelNr}</strong> • ${consolidatedOrder.length} verschillende items
+                    </div>
+                    
+                    <table class="order-summary-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 100px;">Aantal</th>
+                                <th>Product</th>
+                                <th style="width: 80px; text-align: right;">Prijs</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${consolidatedOrder.map(item => {
+                                const imageUrl = window.getMenuItemImageByName ? window.getMenuItemImageByName(item.productName) : null;
+                                const imageHtml = imageUrl ? 
+                                    `<img src="${imageUrl}" alt="${item.productName}" class="item-image" onerror="this.style.display='none'">` : 
+                                    '';
+                                
+                                return `
+                                    <tr>
+                                        <td>
+                                            <div class="quantity-cell">
+                                                <span>${item.quantity}x</span>
+                                                ${imageHtml}
+                                            </div>
+                                        </td>
+                                        <td style="color: #333;">${item.productName}</td>
+                                        <td style="text-align: right; color: #333;">€${(item.price * item.quantity).toFixed(2)}</td>
+                                    </tr>
+                                `;
+                            }).join('')}
+                            <tr class="total-row">
+                                <td colspan="2"><strong>Totaal</strong></td>
+                                <td style="text-align: right;"><strong>€${totalPrice.toFixed(2)}</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="button-container">
+                    <button class="cancel-btn" id="cancel-order-btn-payment">
+                        ❌ Annuleren
+                    </button>
+                    <button class="confirm-btn" id="confirm-order-btn-payment">
+                        ✅ Doorgaan naar Bestellen
+                    </button>
+                </div>
+            `;
+
+            modal.appendChild(content);
+            document.body.appendChild(modal);
+
+            // 绑定按钮事件
+            document.getElementById('confirm-order-btn-payment').addEventListener('click', () => {
+                modal.remove();
+                resolve(true);
+            });
+
+            document.getElementById('cancel-order-btn-payment').addEventListener('click', () => {
+                modal.remove();
+                resolve(false);
+            });
+
+            // 点击遮罩区域关闭（可选）
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.remove();
+                    resolve(false);
+                }
+            });
+
+        } catch (error) {
+            console.error("🛒 确认弹窗创建错误:", error);
+            resolve(false);
+        }
+    });
+}
+
+// 🔄 从Firebase获取当前订单数据
+async function fetchCurrentOrderData() {
+    try {
+        const tafelNr = document.getElementById('tafelNummer')?.innerText?.trim();
+        if (!tafelNr) return [];
+
+        const restName = window.AppConfig?.restName || 'asianboulevard';
+        const tafelId = `Tafel-${tafelNr}`;
+        
+        const dbRef = firebase.database().ref(`${restName}/tafel/${tafelId}/orders/orderlist`);
+        const snapshot = await dbRef.once('value');
+        const data = snapshot.val() || {};
+        
+        // 转换为数组格式
+        const orderArray = [];
+        Object.entries(data).forEach(([sku, item]) => {
+            if (item.quantity > 0) {
+                orderArray.push([
+                    item.time || Date.now(),
+                    sku,
+                    item.quantity,
+                    item.price,
+                    item.taxRate || 0.09,
+                    item.description || item.name || 'Unknown Product'
+                ]);
+            }
+        });
+        
+        return orderArray;
+    } catch (error) {
+        console.error("🛒 获取订单数据错误:", error);
+        return [];
+    }
+}
+
+// 🔄 汇总Firebase订单数据函数
+function consolidateOrderDataFromFirebase(orderData) {
+    const consolidated = {};
+    
+    orderData.forEach(item => {
+        const sku = item[1]; // SKU
+        const quantity = parseInt(item[2]) || 0;
+        const price = parseFloat(item[3]) || 0;
+        const productName = item[5] || 'Unknown Product';
+        
+        if (consolidated[sku]) {
+            consolidated[sku].quantity += quantity;
+        } else {
+            consolidated[sku] = {
+                sku: sku,
+                quantity: quantity,
+                price: price,
+                productName: productName
+            };
+        }
+    });
+    
+    return Object.values(consolidated).filter(item => item.quantity > 0);
+}
 
 // 🖼️ 创建历史订单图片元素
 function createHistoryOrderImage(imageUrl, altText) {
