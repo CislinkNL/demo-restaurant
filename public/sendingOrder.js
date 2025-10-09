@@ -17,7 +17,7 @@ async function sendDirect(timerText, tafelNr, orderLineCount, newInvoiceNumber, 
     tableNameString: tafelNr,
     allInOrderKeerPlus: 1,
     cashierID: 1,
-    workerID: 4,
+    workerID: 3,
     articleCount: 0,
   };
 

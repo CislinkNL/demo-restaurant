@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wereld Wonder - Systeemoverzicht</title>
+    <title>Boss Restaurant - Systeemoverzicht</title>
     <link rel="icon" href="/images/logo.png" type="image/x-icon">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <script src="./modules/qrcode.min.js"></script>
@@ -269,7 +269,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1><i class="fas fa-utensils"></i> Wereld Wonder Systeem</h1>
+            <h1><i class="fas fa-utensils"></i> Bosss Restaurant Systeem</h1>
             <p>Overzicht van alle beschikbare functionaliteiten</p>
         </div>
 
@@ -291,7 +291,7 @@
                     <li>Real-time bestellingen plaatsen</li>
                     <li>Meerdere talen ondersteuning</li>
                 </ul>
-                <a href="../index.html?rest=WereldWonder&tafel=1" class="access-link" target="_blank">
+                <a href="../index.html?rest=BossRestaurant&tafel=1" class="access-link" target="_blank">
                     <i class="fas fa-external-link-alt"></i> Openen voorbeeld Tafel-1
                 </a>
             </div>
@@ -321,7 +321,7 @@
                         Session blijft <strong>30 dagen geldig</strong>.
                     </p>
                 </div>
-                <a href="https://ww-personeel.cislink.nl/personeel/?rest=WereldWonder" class="access-link" target="_blank">
+                <a href="https://boss-personeel.cislink.nl/personeel/?rest=BossRestaurant" class="access-link" target="_blank">
                     <i class="fas fa-external-link-alt"></i> Openen Personeelspagina
                 </a>
                 <button class="qr-generator-btn" onclick="generateStaffQR()">
@@ -505,7 +505,7 @@ manager@restaurant.nl</pre>
 <script>
     // QR Code Generation Functions
     function generateStaffQR() {
-        const staffUrl = 'https://ww-personeel.cislink.nl/personeel/?rest=WereldWonder';
+        const staffUrl = 'https://boss-personeel.cislink.nl/personeel/?rest=BossRestaurant';
         const modal = document.getElementById('qrModal');
         const qrContainer = document.getElementById('qrCodeContainer');
         const urlInfo = document.getElementById('qrUrlInfo');
