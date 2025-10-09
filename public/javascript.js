@@ -699,8 +699,9 @@ function createHistoryOrderImage(imageUrl, altText) {
         <div style="display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border: 1px solid rgba(200,168,130,0.4); border-radius: 6px; overflow: hidden; background: transparent;">
             <img src="${imageUrl}" 
                  alt="${altText || 'Menu Item'}" 
-                 style="width: 100%; height: 100%; object-fit: cover; border-radius: 4px;"
-                 onerror="this.parentElement.innerHTML='<div style=\\'display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; background: rgba(200,168,130,0.1); border-radius: 4px; font-size: 16px; color: #C8A882;\\'>📷</div>'"
+                 style="width: 100%; height: 100%; object-fit: cover; border-radius: 4px; opacity: 0; transition: opacity 0.3s ease;"
+                 onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\\'display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; background: rgba(200,168,130,0.1); border-radius: 4px; font-size: 16px; color: #C8A882;\\'>📷</div>'"
+                 onload="this.style.opacity='1'"
                  loading="lazy">
         </div>
     `;

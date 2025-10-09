@@ -5937,6 +5937,7 @@ textarea {
   justify-content: center;
   background: transparent; /* 透明背景，适应白色订单列表 */
   flex-shrink: 0;
+  position: relative; /* 添加相对定位 */
 }
 
 .order-item-image {
@@ -5944,8 +5945,9 @@ textarea {
   height: 100%;
   object-fit: cover;
   border-radius: 4px;
-  transition: transform 0.2s ease;
   background: transparent; /* 图片背景也设为透明 */
+  display: block; /* 防止图片底部空隙 */
+  opacity: 1; /* 确保图片完全不透明 */
 }
 
 .order-item-image:hover {

@@ -118,13 +118,16 @@ class Ui {
             return '<div class="order-item-image-placeholder">📷</div>';
         }
         
+        // 添加图片预加载和稳定性优化
         return `
             <div class="order-item-image-container">
                 <img src="${imageUrl}" 
                      alt="${altText || 'Menu Item'}" 
                      class="order-item-image"
-                     onerror="this.parentElement.innerHTML='<div class=\\'order-item-image-placeholder\\'>📷</div>'"
-                     loading="lazy">
+                     onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\\'order-item-image-placeholder\\'>📷</div>'"
+                     onload="this.style.opacity='1'"
+                     loading="lazy"
+                     style="opacity: 0; transition: opacity 0.3s ease;">
             </div>
         `;
     }
