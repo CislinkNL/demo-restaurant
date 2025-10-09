@@ -773,16 +773,13 @@ function renderOrderDetails(orderKey, orderDetails) {
     // Table header
     const thead = document.createElement("thead");
     const headerRow = document.createElement("tr");
-    ["Foto", "Aantal", "Naam", "Btw", "Prijs"].forEach(headerText => {
+    ["Aantal", "Naam", "Btw", "Prijs"].forEach(headerText => {
         const th = document.createElement("th");
         th.style.border = "1px solid #ddd";
         th.style.padding = "8px";
         th.style.backgroundColor = "#f2f2f2";
         th.style.color = "#333";
-        th.style.textAlign = headerText === "Foto" ? "center" : "left";
-        if (headerText === "Foto") {
-            th.style.width = "60px";
-        }
+        th.style.textAlign = "left";
         th.innerText = headerText;
         headerRow.appendChild(th);
     });
@@ -807,22 +804,23 @@ function renderOrderDetails(orderKey, orderDetails) {
         const itemTotal = price * quantity;
         total += itemTotal;
 
-        // 🖼️ 获取菜品图片
+        // 🖼️ 获取菜品图片，创建小图片元素
         const imageUrl = getMenuItemImageByName(productName);
-        const imageElement = createHistoryOrderImage(imageUrl, productName);
+        const smallImage = imageUrl ? 
+            `<img src="${imageUrl}" alt="${productName}" style="width: 20px; height: 20px; object-fit: cover; border-radius: 3px; margin-left: 5px; vertical-align: middle;" onerror="this.style.display='none'">` : 
+            '';
 
-        // Create image cell first
-        const imageCell = document.createElement("td");
-        imageCell.style.border = "1px solid #ddd";
-        imageCell.style.padding = "4px";
-        imageCell.style.textAlign = "center";
-        imageCell.style.verticalAlign = "middle";
-        imageCell.innerHTML = imageElement;
-        row.appendChild(imageCell);
+        // Create quantity cell with image
+        const quantityCell = document.createElement("td");
+        quantityCell.style.border = "1px solid #ddd";
+        quantityCell.style.padding = "8px";
+        quantityCell.style.color = "#000";
+        quantityCell.style.textAlign = "left";
+        quantityCell.innerHTML = `${quantity}x ${smallImage}`;
+        row.appendChild(quantityCell);
 
         // Append other data to the row
         [
-            quantity,
             productName,
             `€${taxAmount.toFixed(2)}`,
             `€${itemTotal.toFixed(2)}`
