@@ -773,7 +773,7 @@ function renderOrderDetails(orderKey, orderDetails) {
     // Table header
     const thead = document.createElement("thead");
     const headerRow = document.createElement("tr");
-    ["Aantal", "Naam", "Btw", "Prijs"].forEach(headerText => {
+    ["数量", "Naam", "Btw", "Prijs"].forEach(headerText => {
         const th = document.createElement("th");
         th.style.border = "1px solid #ddd";
         th.style.padding = "8px";
