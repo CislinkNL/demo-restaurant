@@ -1746,12 +1746,15 @@ class Order {
                 document.getElementById("overlay").style.display = 'none';
                 
                 // 🖼️ 显示订单确认界面，包含汇总列表
+                console.log("🛒 准备显示订单确认弹窗...", Bestelling);
                 const confirmed = await showOrderConfirmationModal(Bestelling, tafelNr, orderLineCount, newInvoiceNumber);
                 if (!confirmed) {
                     // 用户取消发送，恢复界面
+                    console.log("🛒 用户取消了订单发送");
                     return;
                 }
                 
+                console.log("🛒 用户确认发送订单");
                 showNotification(`Uw bestelling is succesvol verzonden!`, "success", 2500);
 
                 try {
@@ -2461,7 +2464,11 @@ async function showOrderConfirmationModal(orderData, tafelNr, orderLineCount, in
                     </thead>
                     <tbody>
                         ${consolidatedOrder.map(item => {
-                            const imageUrl = getMenuItemImageByName(item.productName);
+                            // 简化图片获取逻辑
+                            let imageUrl = null;
+                            if (window.getMenuItemImageByName && typeof window.getMenuItemImageByName === 'function') {
+                                imageUrl = window.getMenuItemImageByName(item.productName);
+                            }
                             const imageHtml = imageUrl ? 
                                 `<img src="${imageUrl}" alt="${item.productName}" class="item-image" onerror="this.style.display='none'">` : 
                                 '';

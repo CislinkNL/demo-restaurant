@@ -689,6 +689,9 @@ function getMenuItemImageByName(productName) {
     return menuItem ? menuItem.image : null;
 }
 
+// 确保函数全局可用
+window.getMenuItemImageByName = getMenuItemImageByName;
+
 // 🖼️ 创建历史订单图片元素
 function createHistoryOrderImage(imageUrl, altText) {
     if (!imageUrl) {
