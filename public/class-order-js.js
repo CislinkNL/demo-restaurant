@@ -1744,6 +1744,14 @@ class Order {
                 // Server is online, proceed to send the order
                 document.getElementById("mainBody").style.display = 'none';
                 document.getElementById("overlay").style.display = 'none';
+                
+                // 🖼️ 显示订单确认界面，包含汇总列表
+                const confirmed = await showOrderConfirmationModal(Bestelling, tafelNr, orderLineCount, newInvoiceNumber);
+                if (!confirmed) {
+                    // 用户取消发送，恢复界面
+                    return;
+                }
+                
                 showNotification(`Uw bestelling is succesvol verzonden!`, "success", 2500);
 
                 try {
@@ -2295,4 +2303,245 @@ class Utilities {
     get deviceId() {
         return this._deviceId;
     }
+}
+
+// 🖼️ 订单确认弹窗函数 - 显示汇总订单列表
+async function showOrderConfirmationModal(orderData, tafelNr, orderLineCount, invoiceNumber) {
+    return new Promise((resolve) => {
+        // 移除已存在的确认弹窗
+        const existing = document.getElementById('order-confirmation-modal');
+        if (existing) existing.remove();
+
+        // 创建遮罩和弹窗容器
+        const modal = document.createElement('div');
+        modal.id = 'order-confirmation-modal';
+        modal.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0,0,0,0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            font-family: Arial, sans-serif;
+        `;
+
+        // 创建弹窗内容
+        const content = document.createElement('div');
+        content.style.cssText = `
+            background: white;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            animation: modalSlideIn 0.3s ease-out;
+        `;
+
+        // 汇总订单数据
+        const consolidatedOrder = consolidateOrderData(orderData);
+        
+        // 计算总价
+        const totalPrice = consolidatedOrder.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+        content.innerHTML = `
+            <style>
+                @keyframes modalSlideIn {
+                    from { transform: scale(0.9); opacity: 0; }
+                    to { transform: scale(1); opacity: 1; }
+                }
+                .modal-header {
+                    background: linear-gradient(135deg, #922833, #B8313E);
+                    color: white;
+                    padding: 20px;
+                    border-radius: 12px 12px 0 0;
+                    text-align: center;
+                }
+                .modal-body {
+                    padding: 20px;
+                }
+                .order-summary-table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    margin: 15px 0;
+                }
+                .order-summary-table th,
+                .order-summary-table td {
+                    border: 1px solid #ddd;
+                    padding: 10px 8px;
+                    text-align: left;
+                }
+                .order-summary-table th {
+                    background: #f8f9fa;
+                    font-weight: bold;
+                    color: #333;
+                }
+                .order-summary-table tr:nth-child(even) {
+                    background: #f9f9f9;
+                }
+                .quantity-cell {
+                    display: flex;
+                    align-items: center;
+                    gap: 5px;
+                }
+                .item-image {
+                    width: 24px;
+                    height: 24px;
+                    object-fit: cover;
+                    border-radius: 4px;
+                    flex-shrink: 0;
+                }
+                .total-row {
+                    background: #e8f5e8 !important;
+                    font-weight: bold;
+                    border-top: 2px solid #922833;
+                }
+                .button-container {
+                    display: flex;
+                    gap: 15px;
+                    justify-content: center;
+                    margin-top: 20px;
+                    padding: 0 20px 20px;
+                }
+                .confirm-btn, .cancel-btn {
+                    padding: 12px 30px;
+                    border: none;
+                    border-radius: 8px;
+                    font-size: 16px;
+                    font-weight: bold;
+                    cursor: pointer;
+                    min-width: 120px;
+                    transition: all 0.3s ease;
+                }
+                .confirm-btn {
+                    background: linear-gradient(135deg, #28a745, #20c997);
+                    color: white;
+                }
+                .confirm-btn:hover {
+                    background: linear-gradient(135deg, #218838, #1ea081);
+                    transform: translateY(-2px);
+                }
+                .cancel-btn {
+                    background: linear-gradient(135deg, #dc3545, #fd7e14);
+                    color: white;
+                }
+                .cancel-btn:hover {
+                    background: linear-gradient(135deg, #c82333, #e8680e);
+                    transform: translateY(-2px);
+                }
+                .table-info {
+                    text-align: center;
+                    margin-bottom: 15px;
+                    color: #666;
+                    font-size: 14px;
+                }
+            </style>
+            
+            <div class="modal-header">
+                <h2>🍽️ Bestelling Bevestigen</h2>
+                <p style="margin: 5px 0 0 0; opacity: 0.9;">Controleer uw bestelling voor verzending</p>
+            </div>
+            
+            <div class="modal-body">
+                <div class="table-info">
+                    <strong>Tafel ${tafelNr}</strong> • Bestelling #${invoiceNumber} • ${orderLineCount} items
+                </div>
+                
+                <table class="order-summary-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 100px;">Aantal</th>
+                            <th>Product</th>
+                            <th style="width: 80px; text-align: right;">Prijs</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${consolidatedOrder.map(item => {
+                            const imageUrl = getMenuItemImageByName(item.productName);
+                            const imageHtml = imageUrl ? 
+                                `<img src="${imageUrl}" alt="${item.productName}" class="item-image" onerror="this.style.display='none'">` : 
+                                '';
+                            
+                            return `
+                                <tr>
+                                    <td>
+                                        <div class="quantity-cell">
+                                            <span>${item.quantity}x</span>
+                                            ${imageHtml}
+                                        </div>
+                                    </td>
+                                    <td>${item.productName}</td>
+                                    <td style="text-align: right;">€${(item.price * item.quantity).toFixed(2)}</td>
+                                </tr>
+                            `;
+                        }).join('')}
+                        <tr class="total-row">
+                            <td colspan="2"><strong>Totaal</strong></td>
+                            <td style="text-align: right;"><strong>€${totalPrice.toFixed(2)}</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="button-container">
+                <button class="cancel-btn" id="cancel-order-btn">
+                    ❌ Annuleren
+                </button>
+                <button class="confirm-btn" id="confirm-order-btn">
+                    ✅ Bevestigen & Verzenden
+                </button>
+            </div>
+        `;
+
+        modal.appendChild(content);
+        document.body.appendChild(modal);
+
+        // 绑定按钮事件
+        document.getElementById('confirm-order-btn').addEventListener('click', () => {
+            modal.remove();
+            resolve(true);
+        });
+
+        document.getElementById('cancel-order-btn').addEventListener('click', () => {
+            modal.remove();
+            resolve(false);
+        });
+
+        // 点击遮罩区域关闭（可选）
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.remove();
+                resolve(false);
+            }
+        });
+    });
+}
+
+// 🔄 汇总订单数据函数 - 合并相同商品的数量
+function consolidateOrderData(orderData) {
+    const consolidated = {};
+    
+    orderData.forEach(item => {
+        const sku = item[1]; // SKU
+        const quantity = parseInt(item[2]) || 0;
+        const price = parseFloat(item[3]) || 0;
+        const productName = item[5] || 'Unknown Product';
+        
+        if (consolidated[sku]) {
+            consolidated[sku].quantity += quantity;
+        } else {
+            consolidated[sku] = {
+                sku: sku,
+                quantity: quantity,
+                price: price,
+                productName: productName
+            };
+        }
+    });
+    
+    return Object.values(consolidated).filter(item => item.quantity > 0);
 }
