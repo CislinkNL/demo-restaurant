@@ -102,6 +102,32 @@ class Ui {
 
     }
 
+    // 🖼️ 根据SKU获取菜单项的图片URL
+    static getMenuItemImage(orderInstance, sku) {
+        if (!orderInstance || !orderInstance.menu || !sku) {
+            return null;
+        }
+        
+        const menuItem = orderInstance.menu.find(item => item.sku === sku);
+        return menuItem ? menuItem.image : null;
+    }
+
+    // 🖼️ 创建小尺寸订单图片元素
+    static createOrderItemImage(imageUrl, altText, sku) {
+        if (!imageUrl) {
+            return '<div class="order-item-image-placeholder">📷</div>';
+        }
+        
+        return `
+            <div class="order-item-image-container">
+                <img src="${imageUrl}" 
+                     alt="${altText || 'Menu Item'}" 
+                     class="order-item-image"
+                     onerror="this.parentElement.innerHTML='<div class=\\'order-item-image-placeholder\\'>📷</div>'"
+                     loading="lazy">
+            </div>
+        `;
+    }
 
 
 
@@ -188,20 +214,24 @@ class Ui {
             const myGroupHeader = document.createElement('tr');
             myGroupHeader.className = 'group-header my-group-header';
             myGroupHeader.innerHTML = `
-                <td colspan="5" class="group-title">
+                <td colspan="6" class="group-title">
                     <strong>👤 Mijn bestellingen</strong>
                 </td>
             `;
             frag.appendChild(myGroupHeader);
         }
 
-        // 🔵 渲染我的订单
+        // 🔵 渲染我的订单（带图片）
         myOrders.forEach((orderLine) => {
             const row = document.createElement('tr');
             row.setAttribute('data-sku', orderLine.sku);
             row.setAttribute('data-index', orderLine.originalIndex);
             if (orderLine.lineKey) row.setAttribute('data-lineKey', orderLine.lineKey);
             row.className = 'my-order-item';
+            
+            // 🖼️ 获取菜品图片
+            const imageUrl = Ui.getMenuItemImage(orderInstance, orderLine.sku);
+            const imageElement = Ui.createOrderItemImage(imageUrl, orderLine.description, orderLine.sku);
             
             const modifyButtons = `
                 <td class="modify-quantity">
@@ -210,6 +240,7 @@ class Ui {
                 </td>`;
             
             row.innerHTML = `
+                <td class="order-image">${imageElement}</td>
                 <td class="sku">${orderLine.sku}</td>
                 <td class="description">${orderLine.description}</td>
                 <td class="quantity">${orderLine.quantity}</td>
@@ -224,14 +255,14 @@ class Ui {
             const othersGroupHeader = document.createElement('tr');
             othersGroupHeader.className = 'group-header others-group-header';
             othersGroupHeader.innerHTML = `
-                <td colspan="5" class="group-title">
-                    <strong>👥 Bestellingen van anderen</strong>
+                <td colspan="6" class="group-title">
+                    <strong>🪑 Bestellingen van anderen</strong>
                 </td>
             `;
             frag.appendChild(othersGroupHeader);
         }
 
-        // ⚪ 渲染其他设备的订单
+        // ⚪ 渲染其他设备的订单（带图片）
         otherOrders.forEach((orderLine) => {
             const row = document.createElement('tr');
             row.setAttribute('data-sku', orderLine.sku);
@@ -239,12 +270,17 @@ class Ui {
             if (orderLine.lineKey) row.setAttribute('data-lineKey', orderLine.lineKey);
             row.className = 'others-order-item';
             
+            // 🖼️ 获取菜品图片
+            const imageUrl = Ui.getMenuItemImage(orderInstance, orderLine.sku);
+            const imageElement = Ui.createOrderItemImage(imageUrl, orderLine.description, orderLine.sku);
+            
             const modifyButtons = `
                 <td class="modify-quantity">
                   <span class="no-modify">ander apparaat</span>
                 </td>`;
             
             row.innerHTML = `
+                <td class="order-image">${imageElement}</td>
                 <td class="sku">${orderLine.sku}</td>
                 <td class="description">${orderLine.description}</td>
                 <td class="quantity">${orderLine.quantity}</td>

@@ -1176,17 +1176,25 @@ main {
   min-width: 100%;
 }
 
-/* 表格列宽度优化 */
+/* 表格列宽度优化 - 包含图片列 */
+#mainBody .details-table th.order-image,
+#mainBody .details-table td.order-image {
+  width: 8%;
+  min-width: 50px;
+  text-align: center;
+  padding: 4px !important;
+}
+
 #mainBody .details-table th.sku,
 #mainBody .details-table td.sku {
-  width: 10%;
+  width: 8%;
   min-width: 40px;
   text-align: center;
 }
 
 #mainBody .details-table th.description,
 #mainBody .details-table td.description {
-  width: 40%;
+  width: 35%;
   min-width: 100px;
   text-align: left;
   word-wrap: break-word;
@@ -1194,7 +1202,7 @@ main {
 
 #mainBody .details-table th.quantity,
 #mainBody .details-table td.quantity {
-  width: 10%;
+  width: 9%;
   min-width: 50px;
   text-align: center;
 }
@@ -5914,5 +5922,80 @@ textarea {
   to {
     transform: translateX(100%);
     opacity: 0;
+  }
+}
+
+/* 🖼️ 订单项目图片样式 */
+.order-item-image-container {
+  width: 40px;
+  height: 40px;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid rgba(200,168,130,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--boss-dark, #0F0506);
+  flex-shrink: 0;
+}
+
+.order-item-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 4px;
+  transition: transform 0.2s ease;
+}
+
+.order-item-image:hover {
+  transform: scale(1.1);
+}
+
+.order-item-image-placeholder {
+  font-size: 16px;
+  color: var(--boss-gold, #C8A882);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background: rgba(200,168,130,0.1);
+  border-radius: 4px;
+}
+
+/* 订单表格图片列样式 */
+.order-image {
+  width: 50px !important;
+  padding: 4px !important;
+  text-align: center;
+  vertical-align: middle;
+}
+
+/* Boss主题下的订单图片样式 */
+.theme-boss .order-item-image-container {
+  border-color: var(--boss-border-light, rgba(200,168,130,0.3));
+  background: var(--boss-surface, #2A1219);
+  box-shadow: 0 2px 4px rgba(146, 40, 51, 0.1);
+}
+
+.theme-boss .order-item-image-placeholder {
+  color: var(--boss-gold, #C8A882);
+  background: rgba(200,168,130,0.15);
+}
+
+/* 响应式调整 */
+@media screen and (max-width: 768px) {
+  .order-item-image-container {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .order-image {
+    width: 40px !important;
+    padding: 2px !important;
+  }
+  
+  .order-item-image-placeholder {
+    font-size: 14px;
   }
 }
