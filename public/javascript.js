@@ -673,6 +673,38 @@ document.getElementById("show-bevestig-btn").addEventListener("click", async fun
     }
 });
 
+// 🖼️ 根据产品名称获取菜单项图片的辅助函数
+function getMenuItemImageByName(productName) {
+    if (!window.__orderInstance || !window.__orderInstance.menu) {
+        return null;
+    }
+    
+    const menuItem = window.__orderInstance.menu.find(item => 
+        item.description === productName || 
+        item.displayName === productName ||
+        item.description.includes(productName) ||
+        productName.includes(item.description)
+    );
+    
+    return menuItem ? menuItem.image : null;
+}
+
+// 🖼️ 创建历史订单图片元素
+function createHistoryOrderImage(imageUrl, altText) {
+    if (!imageUrl) {
+        return '<div style="display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: rgba(200,168,130,0.1); border-radius: 6px; font-size: 16px; color: #C8A882;">📷</div>';
+    }
+    
+    return `
+        <div style="display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border: 1px solid rgba(200,168,130,0.4); border-radius: 6px; overflow: hidden; background: transparent;">
+            <img src="${imageUrl}" 
+                 alt="${altText || 'Menu Item'}" 
+                 style="width: 100%; height: 100%; object-fit: cover; border-radius: 4px;"
+                 onerror="this.parentElement.innerHTML='<div style=\\'display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; background: rgba(200,168,130,0.1); border-radius: 4px; font-size: 16px; color: #C8A882;\\'>📷</div>'"
+                 loading="lazy">
+        </div>
+    `;
+}
 
 function renderOrderDetails(orderKey, orderDetails) {
     // Check if the container already exists and remove it
@@ -740,13 +772,16 @@ function renderOrderDetails(orderKey, orderDetails) {
     // Table header
     const thead = document.createElement("thead");
     const headerRow = document.createElement("tr");
-    ["Aantal", "Naam", "Btw", "Prijs"].forEach(headerText => {
+    ["Foto", "Aantal", "Naam", "Btw", "Prijs"].forEach(headerText => {
         const th = document.createElement("th");
         th.style.border = "1px solid #ddd";
         th.style.padding = "8px";
         th.style.backgroundColor = "#f2f2f2";
         th.style.color = "#333";
-        th.style.textAlign = "left";
+        th.style.textAlign = headerText === "Foto" ? "center" : "left";
+        if (headerText === "Foto") {
+            th.style.width = "60px";
+        }
         th.innerText = headerText;
         headerRow.appendChild(th);
     });
@@ -771,7 +806,20 @@ function renderOrderDetails(orderKey, orderDetails) {
         const itemTotal = price * quantity;
         total += itemTotal;
 
-        // Append data to the row
+        // 🖼️ 获取菜品图片
+        const imageUrl = getMenuItemImageByName(productName);
+        const imageElement = createHistoryOrderImage(imageUrl, productName);
+
+        // Create image cell first
+        const imageCell = document.createElement("td");
+        imageCell.style.border = "1px solid #ddd";
+        imageCell.style.padding = "4px";
+        imageCell.style.textAlign = "center";
+        imageCell.style.verticalAlign = "middle";
+        imageCell.innerHTML = imageElement;
+        row.appendChild(imageCell);
+
+        // Append other data to the row
         [
             quantity,
             productName,
