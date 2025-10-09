@@ -244,7 +244,6 @@ class Ui {
             
             row.innerHTML = `
                 <td class="order-image">${imageElement}</td>
-                <td class="sku">${orderLine.sku}</td>
                 <td class="description">${orderLine.description}</td>
                 <td class="quantity">${orderLine.quantity}</td>
                 <td class="price">${Utilities.convertFloatToString((orderLine.price || 0) * (orderLine.quantity || 0))}</td>
@@ -284,7 +283,6 @@ class Ui {
             
             row.innerHTML = `
                 <td class="order-image">${imageElement}</td>
-                <td class="sku">${orderLine.sku}</td>
                 <td class="description">${orderLine.description}</td>
                 <td class="quantity">${orderLine.quantity}</td>
                 <td class="price">${Utilities.convertFloatToString((orderLine.price || 0) * (orderLine.quantity || 0))}</td>

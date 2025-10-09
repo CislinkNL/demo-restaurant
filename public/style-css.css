@@ -940,9 +940,9 @@ main {
   left: 50%;
   transform: translateX(-50%) translateY(-100%);
   
-  /* 弹窗样式 - 大幅增加宽度以显示完整数据 */
+  /* 弹窗样式 - 增加宽度以显示完整数据 */
   width: 98%;
-  max-width: 800px;
+  max-width: 1200px; /* 增加最大宽度 */
   min-width: 380px;
   height: auto;
   max-height: 85vh;
@@ -1102,7 +1102,7 @@ main {
 
 /* 弹窗内的receipt样式优化 */
 #mainBody .receipt {
-  padding: 15px;
+  padding: 8px; /* 减少内边距，为表格腾出更多空间 */
   margin: 0;
   background: transparent;
   box-shadow: none;
@@ -1179,10 +1179,11 @@ main {
 /* 表格列宽度优化 - 包含图片列 */
 #mainBody .details-table th.order-image,
 #mainBody .details-table td.order-image {
-  width: 8%;
-  min-width: 50px;
+  width: 45px !important;
+  max-width: 45px !important;
+  min-width: 45px !important;
   text-align: center;
-  padding: 4px !important;
+  padding: 2px !important;
 }
 
 #mainBody .details-table th.sku,
@@ -1194,8 +1195,8 @@ main {
 
 #mainBody .details-table th.description,
 #mainBody .details-table td.description {
-  width: 35%;
-  min-width: 100px;
+  width: auto;
+  min-width: 120px;
   text-align: left;
   word-wrap: break-word;
 }
@@ -1691,7 +1692,7 @@ th.subtotal {
     margin-top: 10px;
     flex-grow: 1;
     color: darkgoldenrod !important;
-    width: 95vw;
+    width: 98vw; /* 增加手机端宽度 */
   }
 
   /* Boss 主题 details-table 移动端样式 */
@@ -5927,8 +5928,8 @@ textarea {
 
 /* 🖼️ 订单项目图片样式 */
 .order-item-image-container {
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   border-radius: 6px;
   overflow: hidden;
   border: 1px solid rgba(200,168,130,0.3);
@@ -5969,6 +5970,8 @@ textarea {
 /* 订单表格图片列样式 */
 .order-image {
   width: 50px !important;
+  max-width: 50px !important;
+  min-width: 50px !important;
   padding: 4px !important;
   text-align: center;
   vertical-align: middle;
@@ -5995,6 +5998,8 @@ textarea {
   
   .order-image {
     width: 40px !important;
+    max-width: 40px !important;
+    min-width: 40px !important;
     padding: 2px !important;
   }
   
