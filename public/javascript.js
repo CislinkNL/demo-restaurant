@@ -964,18 +964,31 @@ function renderOrderHistory(orderHistory) {
 
             totalAmount += price; // Add to the total amount
 
+            // 🖼️ 获取菜品图片，创建小图片元素
+            const imageUrl = getMenuItemImageByName(productName);
+            const smallImage = imageUrl ? 
+                `<img src="${imageUrl}" alt="${productName}" style="width: 20px; height: 20px; object-fit: cover; border-radius: 3px; margin-left: 5px; vertical-align: middle;" onerror="this.style.display='none'">` : 
+                '';
+
             // Append data to the row
             const row = document.createElement("tr");
             row.style.backgroundColor = isEven ? "#ffffff" : "#f9f9f9"; // Alternate background colors
             row.style.transition = "background-color 0.3s ease"; // Smooth transition
 
-            [invoiceNumber, formattedTime, quantity, productName, `€${price.toFixed(2)}`].forEach(cellData => {
+            // Create cells with quantity+image combined
+            [invoiceNumber, formattedTime, `${quantity}x ${smallImage}`, productName, `€${price.toFixed(2)}`].forEach((cellData, index) => {
                 const td = document.createElement("td");
                 td.style.border = "1px solid #ddd";
                 td.style.padding = "8px";
                 td.style.color = "#000"; // Ensure font color is black
                 td.style.textAlign = "left";
-                td.innerText = cellData;
+                
+                // For quantity column (index 2), use innerHTML to show image
+                if (index === 2) {
+                    td.innerHTML = cellData;
+                } else {
+                    td.innerText = cellData;
+                }
                 row.appendChild(td);
             });
 
