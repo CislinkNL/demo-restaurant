@@ -5935,7 +5935,7 @@ textarea {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--boss-dark, #0F0506);
+  background: transparent; /* 透明背景，适应白色订单列表 */
   flex-shrink: 0;
 }
 
@@ -5945,6 +5945,7 @@ textarea {
   object-fit: cover;
   border-radius: 4px;
   transition: transform 0.2s ease;
+  background: transparent; /* 图片背景也设为透明 */
 }
 
 .order-item-image:hover {
@@ -5973,8 +5974,8 @@ textarea {
 
 /* Boss主题下的订单图片样式 */
 .theme-boss .order-item-image-container {
-  border-color: var(--boss-border-light, rgba(200,168,130,0.3));
-  background: var(--boss-surface, #2A1219);
+  border-color: var(--boss-border-light, rgba(200,168,130,0.4));
+  background: transparent; /* Boss主题下也使用透明背景 */
   box-shadow: 0 2px 4px rgba(146, 40, 51, 0.1);
 }
 
