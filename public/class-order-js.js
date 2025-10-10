@@ -1741,73 +1741,28 @@ class Order {
             const serverStatus = await this.getServerStatus(); // Call the JavaScript function to get server status
 
             if (serverStatus === "online") {
-                // Server is online, proceed to send the order
+                // Server is online, proceed to show confirmation dialog
                 document.getElementById("mainBody").style.display = 'none';
                 document.getElementById("overlay").style.display = 'none';
                 
-                // 🖼️ 显示订单确认界面，包含汇总列表
-                console.log("🛒 准备显示订单确认弹窗...", Bestelling);
-                const confirmed = await showOrderConfirmationModal(Bestelling, tafelNr, orderLineCount, newInvoiceNumber);
-                if (!confirmed) {
-                    // 用户取消发送，恢复界面
-                    console.log("🛒 用户取消了订单发送");
-                    return;
-                }
+                // 🖼️ 显示订单确认界面，确认后由按钮处理实际发送
+                console.log("🛒 服务器在线，准备显示订单确认弹窗...", Bestelling);
                 
-                console.log("🛒 用户确认发送订单");
-                showNotification(`Uw bestelling is succesvol verzonden!`, "success", 2500);
-
-                try {
-                    // Send the order data to the server
-                    const response = await sendDirect(
-                        timerText,
-                        tafelNr,
-                        orderLineCount,
-                        newInvoiceNumber,
-                        Bestelling
-                    );
-
-                    console.log("sendDirect executed successfully:", response);
-                    // Save order history to Firebase
-                    await this.saveOrderHistoryToFirebase(
-                        tafelId,
-                        newInvoiceNumber,
-                        date,
-                        orderData,
-                        paymentData,
-                        orderLineCount
-                    );
-
-                    // Successfully sent the order
-                    this.clearOrderList(tafelId);
-                    generateNewOrderNumber(tafelId);
-                    this.orderSent = true;
-
-                    // Clear order and payment data
-                    this.clearPayment();
-                    this.clearOrder();
-                    this.resetQuantityLabels();
-                    Ui.summary(this);
-
-                    // **Skip resetTimerAfterOrder() if all items are drinks (groep 'geen')**
-                    // Only reset timer if there are any non-drink (food) items in the order
-                    if (hasNonDrinkItems) {
-                        console.log("Order contains food. Resetting timer...");
-                        await this.resetTimerAfterOrder();
-                    } else {
-                        console.log("Order contains only drinks. Skipping timer reset.");
+                // 调用 javascript.js 中的确认模态框
+                if (typeof window.showOrderConfirmationBeforePayment === 'function') {
+                    const confirmed = await window.showOrderConfirmationBeforePayment();
+                    if (!confirmed) {
+                        console.log("🛒 用户取消了订单发送");
+                        // 恢复界面
+                        document.getElementById("mainBody").style.display = 'block';
+                        return;
                     }
-
-
-
-                    console.log("Export data successfully sent to the server.");
-                } catch (error) {
-                    console.error("Error executing sendDirect:", error.message || error);
-                    showNotification(
-                        "发送订单遇到技术问题： " + (error.message || "服务器可能被意外关闭"),
-                        "error",
-                        5500
-                    );
+                    // 订单发送由确认按钮处理，这里只需返回
+                    console.log("🛒 订单确认完成，发送流程由确认按钮处理");
+                    return;
+                } else {
+                    console.error("showOrderConfirmationBeforePayment 函数未找到");
+                    return;
                 }
             } else {
                 // Server is offline

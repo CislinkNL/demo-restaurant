@@ -107,14 +107,12 @@ function checkTimerRunning() {
 }
 
 $('#order-verzend').click(async function () {
-  const timerText = $('#timer').text().trim(); // Get the current timer text
-
   if (!areItemsAdded()) {
     showMessage('U heeft nog niets toegevoegd!');
     return;
   }
 
-  // 🛒 显示订单确认弹窗
+  // 🛒 显示订单确认弹窗，所有逻辑都在确认按钮中处理
   try {
     console.log("🛒 FAB-send点击，准备显示确认弹窗...");
     const confirmed = await showOrderConfirmationBeforePayment();
@@ -122,31 +120,11 @@ $('#order-verzend').click(async function () {
       console.log("🛒 用户取消了订单确认");
       return;
     }
-    console.log("🛒 用户确认订单，继续支付流程");
+    console.log("🛒 订单处理完成");
   } catch (error) {
     console.error("🛒 订单确认弹窗错误:", error);
   }
-
-  // 只有当config.timeLimit为true时才启用timer限制
-  if (window.AppConfig && AppConfig.timeLimit) {
-    if (timerText !== 'U kunt nu bestellen') {
-      // 检查订单内容
-      const tafelNr = document.getElementById('tafelNummer').innerText.trim();
-      const orderData = await fetchOrderGroupsFromFirebase(tafelNr);
-      if (!orderData || orderData.length === 0) {
-        showMessage('Er is geen bestelling gevonden.');
-        return;
-      }
-      const groepGeenItems = orderData.filter(item => item.group === "geen");
-      const groepOtherItems = orderData.filter(item => item.group !== "geen");
-      if (groepGeenItems.length > 0 && groepOtherItems.length > 0) {
-        // 混合订单，弹窗让用户确认只发送饮料
-        await showDrinksOnlyModal(async (confirmed) => {
-          if (confirmed) {
-            await sendOnlyDrinksOrder(groepGeenItems);
-            await removeSentDrinksFromOrder(groepGeenItems);
-          }
-        });
+});
 // 动态生成荷兰语饮料下单提示弹窗
 function showDrinksOnlyModal(callback) {
   // 移除已存在的弹窗
@@ -252,30 +230,9 @@ function showDrinksOnlyModal(callback) {
   document.body.style.overflow = 'hidden';
   overlay.addEventListener('remove', () => {
     document.body.style.overflow = '';
-    });
-  }
-      return;
-      } else if (groepGeenItems.length > 0 && groepOtherItems.length === 0) {
-      // 只有饮料，允许下单
-      proceedToSendOrder();
-      return;
-      } else {
-      // 没有饮料，只有菜品，阻止下单
-      showNotification('U kunt pas bestellen als de wachttijd voorbij is.', 'error', 2500);
-      return;
-      }
-    }
-    }
+  });
+}
 
-    // 其余条件判断
-    const { conditionMet, message } = await isConditionMet();
-    if (!conditionMet) {
-    showNotification(message, 'error', 2500);
-    return;
-    }
-
-  // ✅ If all conditions are met, proceed to send the order
-  proceedToSendOrder();
 // 只发送饮料订单
 async function sendOnlyDrinksOrder(drinkItems) {
   // 只发送非 groep1/groep3/groep4 的项目（即饮料和允许的其他组）
@@ -318,7 +275,6 @@ async function removeSentDrinksFromOrder(drinkItems) {
   // 刷新UI
   if (window.updateQuantityLabelsFromFirebase) window.updateQuantityLabelsFromFirebase();
 }
-});
 
 async function isConditionMet() {
     try {
@@ -736,7 +692,7 @@ async function showOrderConfirmationBeforePayment() {
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                z-index: 10000;
+                z-index: 10000010; /* 确保高于所有其他元素包括放大镜 */
                 font-family: Arial, sans-serif;
             `;
 
@@ -916,8 +872,139 @@ async function showOrderConfirmationBeforePayment() {
             document.body.appendChild(modal);
 
             // 绑定按钮事件
-            document.getElementById('confirm-order-btn-payment').addEventListener('click', () => {
+            document.getElementById('confirm-order-btn-payment').addEventListener('click', async () => {
                 modal.remove();
+                
+                // 🚨 重要：检查倒计时状态
+                const timerText = $('#timer').text().trim();
+                
+                // 如果启用了时间限制，检查倒计时状态
+                if (window.AppConfig && AppConfig.timeLimit) {
+                    if (timerText !== 'U kunt nu bestellen') {
+                        // 倒计时还在运行，检查订单内容
+                        const tafelNr = AppConfig.tafelRaw;
+                        const orderData = await fetchOrderGroupsFromFirebase(tafelNr);
+                        if (!orderData || orderData.length === 0) {
+                            showMessage('Er is geen bestelling gevonden.');
+                            resolve(false);
+                            return;
+                        }
+                        
+                        const groepGeenItems = orderData.filter(item => item.group === "geen");
+                        const groepOtherItems = orderData.filter(item => item.group !== "geen");
+                        
+                        if (groepGeenItems.length > 0 && groepOtherItems.length > 0) {
+                            // 混合订单，弹窗让用户确认只发送饮料
+                            modal.remove(); // 先关闭确认模态框
+                            
+                            showDrinksOnlyModal(async (confirmed) => {
+                                if (confirmed) {
+                                    await sendOnlyDrinksOrder(groepGeenItems);
+                                    await removeSentDrinksFromOrder(groepGeenItems);
+                                    resolve(true);
+                                } else {
+                                    resolve(false);
+                                }
+                            });
+                            return;
+                        } else if (groepOtherItems.length > 0) {
+                            // 有食物但倒计时还在运行
+                            showNotification("U kunt pas bestellen als de wachttijd voorbij is.", "error", 4000);
+                            resolve(false);
+                            return;
+                        }
+                        // 只有饮料的情况下继续正常流程
+                    }
+                }
+                
+                // 🔍 执行其他条件检查（原有的 isConditionMet 逻辑）
+                const { conditionMet, message } = await isConditionMet();
+                if (!conditionMet) {
+                    showNotification(message, 'error', 2500);
+                    resolve(false);
+                    return;
+                }
+                
+                // 继续正常的订单发送流程
+                const invoiceNumText = $('#lastInvoiceNum').text().trim();
+                let InvoiceNumber = parseInt(invoiceNumText, 10);
+                if (isNaN(InvoiceNumber)) InvoiceNumber = 0;
+
+                console.log("🛒 用户确认发送订单，开始发送流程...");
+                showNotification(`Uw bestelling is succesvol verzonden!`, "success", 2500);
+
+                try {
+                    // 获取当前订单实例和数据
+                    const orderInstance = window.__orderInstance || order;
+                    if (!orderInstance) {
+                        console.error("订单实例未找到");
+                        resolve(false);
+                        return;
+                    }
+
+                    // 准备订单数据
+                    const date = new Date();
+                    const tafelNr = AppConfig.tafelRaw;
+                    const tafelId = `Tafel-${tafelNr}`;
+                    const availableOrderItems = orderInstance._order;
+                    
+                    const orderData = await orderInstance.exportOrder(date, availableOrderItems);
+                    const paymentData = orderInstance.exportPayment(date);
+                    const orderLineCount = orderData.length;
+                    const Bestelling = JSON.stringify(orderData);
+
+                    // 发送订单到服务器
+                    const response = await sendDirect(
+                        timerText,
+                        tafelNr,
+                        orderLineCount,
+                        InvoiceNumber,
+                        Bestelling
+                    );
+
+                    console.log("sendDirect executed successfully:", response);
+                    
+                    // 保存订单历史到Firebase
+                    await orderInstance.saveOrderHistoryToFirebase(
+                        tafelId,
+                        InvoiceNumber,
+                        date,
+                        orderData,
+                        paymentData,
+                        orderLineCount
+                    );
+
+                    // 清理订单数据
+                    orderInstance.clearOrderList(tafelId);
+                    generateNewOrderNumber(tafelId);
+                    orderInstance.orderSent = true;
+                    orderInstance.clearPayment();
+                    orderInstance.clearOrder();
+                    orderInstance.resetQuantityLabels();
+                    
+                    // 检查是否需要重置定时器（只有食物时才重置）
+                    const hasNonDrinkItems = availableOrderItems.some(item => item.group !== "geen");
+                    if (hasNonDrinkItems) {
+                        console.log("Order contains food. Resetting timer...");
+                        await orderInstance.resetTimerAfterOrder();
+                    } else {
+                        console.log("Order contains only drinks. Skipping timer reset.");
+                    }
+                    
+                    // 更新UI
+                    if (typeof Ui !== 'undefined' && Ui.summary) {
+                        Ui.summary(orderInstance);
+                    }
+
+                    // 隐藏支付界面
+                    $('#paypad').hide();
+                    $('#paypad-overlay').hide();
+                    
+                } catch (error) {
+                    console.error("订单发送失败:", error);
+                    showNotification("Het verzenden van de bestelling is mislukt, probeer het opnieuw", "error", 3000);
+                }
+                
                 resolve(true);
             });
 
@@ -940,6 +1027,9 @@ async function showOrderConfirmationBeforePayment() {
         }
     });
 }
+
+// 确保函数全局可用
+window.showOrderConfirmationBeforePayment = showOrderConfirmationBeforePayment;
 
 // 🔄 从Firebase获取当前订单数据
 async function fetchCurrentOrderData() {
