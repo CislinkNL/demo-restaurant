@@ -1,6 +1,6 @@
 {
   "app": {
-    "name": "Boss Restaurant Management",
+    "name": "Demo Restaurant Management",
     "version": "2.0.0",
     "environment": "production"
   },
@@ -18,12 +18,12 @@
     "region": "europe-west1"
   },
   "firebase": {
-    "databasePath": "BossRestaurant",
+    "databasePath": "Develop",
     "configPath": "config",
     "menuPath": "menu"
   },
   "restaurant": {
-    "defaultName": "Boss Restaurant",
+    "defaultName": "Demo Restaurant",
     "defaultLogo": "https://cislink.nl/bluedragon/menufoto/blue-dragon-amsterdam-logo.webp",
     "currency": "EUR",
     "locale": "nl-NL",

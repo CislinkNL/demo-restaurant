@@ -16,17 +16,17 @@
 
 // 多餐厅配置定义 - Multiple Restaurant Configurations
 const RESTAURANT_CONFIGS = {
-    // Asian Boulevard 现有配置
-    'BossRestaurant': {
+    // Demo Restaurant 现有配置
+    'Develop': {
         // 基础信息 - Basic Information
-        restaurantId: 'BossRestaurant',
-        restaurantPath: 'BossRestaurant', // Firebase数据库路径
-        displayName: 'Boss Restaurant',
-        systemTitle: 'Boss Restaurant Management',
+        restaurantId: 'Develop',
+        restaurantPath: 'Develop', // Firebase数据库路径
+        displayName: 'Demo Restaurant',
+        systemTitle: 'Demo Restaurant Management',
         
         // 网站配置 - Website Configuration
-        baseUrl: 'https://bossrestaurant.web.app',
-        domain: 'bossrestaurant.web.app',
+        baseUrl: 'https://democislink.web.app',
+        domain: 'democislink.web.app',
 
         // 货币设置 - Currency Settings
         currency: '€',
@@ -96,7 +96,7 @@ const RESTAURANT_CONFIGS = {
 
 // 当前餐厅配置 - Current Restaurant Configuration
 // 🔧 部署时修改此行以切换餐厅 - Change this line when deploying for different restaurants
-const CURRENT_RESTAURANT = 'BossRestaurant'; // 例如 'AsianBoulevard' 或 'NewRestaurant'
+const CURRENT_RESTAURANT = 'Develop'; // 例如 'Develop' 或 'NewRestaurant'
 
 // 获取当前餐厅配置 - Get Current Restaurant Configuration
 const RESTAURANT_CONFIG = RESTAURANT_CONFIGS[CURRENT_RESTAURANT];

@@ -10,7 +10,7 @@
     "rules": "storage.rules"
   },
   "hosting": {
-    "site": "bossrestaurant",
+    "site": "democislink",
     "public": "public",
     "ignore": [
       "firebase.json",
