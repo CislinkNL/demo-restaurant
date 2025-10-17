@@ -3,6 +3,50 @@
 async function sendDirect(timerText, tafelNr, orderLineCount, newInvoiceNumber, Bestelling) {
   console.log("sendDirect called with:", { Bestelling, newInvoiceNumber });
 
+  // 🔒 第三层防护：最终Pincode验证（发送订单前）
+  try {
+    const rest = window.AppConfig?.restName || 'asianboulevard';
+    const tafelId = `Tafel-${tafelNr}`;
+    const savedPin = window.AppConfig?.pincode;
+
+    if (!rest || !tafelId || !savedPin) {
+      console.error("❌ 第三层防护：AppConfig不完整");
+      return "Fout: Configuratie ontbreekt. Ververs de pagina.";
+    }
+
+    const db = firebase.database();
+    const tableRef = db.ref(`${rest}/tafel/${tafelId}`);
+    const snapshot = await tableRef.once('value');
+    const tableData = snapshot.val();
+
+    if (!tableData) {
+      console.error("❌ 第三层防护：Tafelgegevens niet gevonden");
+      return "Fout: Tafelgegevens niet gevonden.";
+    }
+
+    const tafelPin = tableData.Pincode || "";
+    const status = tableData.Status || "gesloten";
+
+    console.log(`🔐 第三层防护 - 最终PIN验证 — URL: ${savedPin}, Firebase: ${tafelPin}, 状态: ${status}`);
+
+    if (String(savedPin) !== String(tafelPin)) {
+      console.error("❌ 第三层防护：Pincode不匹配！");
+      showNotification(`⚠️ Pincode is gewijzigd! Bestelling kan niet worden verzonden.`, "error", 5000);
+      return "Fout: Pincode is niet geldig. Ververs de pagina met de nieuwe pincode.";
+    }
+
+    if (status !== 'open') {
+      console.error("❌ 第三层防护：Tafel is gesloten");
+      showNotification(`Tafel is gesloten. Bestelling kan niet worden verzonden.`, "error", 4000);
+      return "Fout: Tafel is gesloten.";
+    }
+
+    console.log("✅ 第三层防护：Pincode验证通过，继续发送订单");
+  } catch (error) {
+    console.error("❌ 第三层防护验证失败:", error);
+    return `Fout bij pincode verificatie: ${error.message || String(error)}`;
+  }
+
   const WebHookEl = document.getElementById('webhook');
   const WebHook = WebHookEl?.innerText?.trim?.();
   if (!WebHook) {

@@ -5,6 +5,104 @@ const orderInstance = new Order();
 
 //////////////////////////////////////////////////////////////
 
+// 🔒 全局辅助函数：禁用所有订单相关按钮（会话失效时）
+window.disableOrderingDueToInvalidSession = function() {
+    console.warn('🔒 禁用订单功能：会话已失效');
+    
+    // 禁用所有"添加到订单"按钮（弹窗中的按钮）
+    document.querySelectorAll('.add-to-order').forEach(btn => {
+        btn.disabled = true;
+        btn.style.opacity = '0.4';
+        btn.style.cursor = 'not-allowed';
+        btn.title = 'Pincode is gewijzigd. Ververs de pagina met de nieuwe pincode.';
+    });
+    
+    // 🔒 禁用所有菜单项按钮（主要的添加按钮）
+    document.querySelectorAll('.menu-item').forEach(btn => {
+        btn.style.opacity = '0.4';
+        btn.style.cursor = 'not-allowed';
+        btn.style.pointerEvents = 'none'; // 完全禁用点击
+        btn.title = 'Pincode is gewijzigd. Ververs de pagina met de nieuwe pincode.';
+        // 添加视觉标记
+        btn.classList.add('session-invalid');
+    });
+    
+    // 禁用发送订单按钮
+    const verzendBtn = document.getElementById('order-verzend');
+    if (verzendBtn) {
+        verzendBtn.disabled = true;
+        verzendBtn.style.opacity = '0.4';
+        verzendBtn.style.cursor = 'not-allowed';
+    }
+    
+    // 显示持久性警告横幅
+    let banner = document.getElementById('session-invalid-banner');
+    if (!banner) {
+        banner = document.createElement('div');
+        banner.id = 'session-invalid-banner';
+        banner.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(135deg, #dc3545, #c82333);
+            color: white;
+            padding: 15px 20px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 16px;
+            z-index: 99999;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            animation: slideDown 0.3s ease-out;
+        `;
+        banner.innerHTML = `
+            ⚠️ Pincode is gewijzigd! 
+            <button onclick="window.location.reload()" style="
+                margin-left: 15px;
+                padding: 8px 20px;
+                background: white;
+                color: #dc3545;
+                border: none;
+                border-radius: 5px;
+                font-weight: bold;
+                cursor: pointer;
+            ">Ververs Pagina</button>
+        `;
+        document.body.prepend(banner);
+        
+        // 添加动画和禁用菜单项的CSS
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideDown {
+                from { transform: translateY(-100%); }
+                to { transform: translateY(0); }
+            }
+            .menu-item.session-invalid {
+                filter: grayscale(50%);
+                position: relative;
+            }
+            .menu-item.session-invalid::after {
+                content: '🔒';
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                font-size: 24px;
+                opacity: 0.7;
+            }
+        `;
+        document.head.appendChild(style);
+    }
+};
+
+// 🔒 页面加载时检查会话状态
+document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(() => {
+        if (window.AppConfig?.sessionInvalid) {
+            console.warn('🔒 检测到会话已失效');
+            window.disableOrderingDueToInvalidSession();
+        }
+    }, 1000); // 延迟1秒确保所有元素已加载
+});
 
 /////////////////////////////////////////////////////////////
 // Function to format timestamp to HH:MM format
@@ -875,7 +973,56 @@ async function showOrderConfirmationBeforePayment() {
             document.getElementById('confirm-order-btn-payment').addEventListener('click', async () => {
                 modal.remove();
                 
-                // 🚨 重要：检查倒计时状态
+                // � 第二层防护：验证Pincode是否仍然有效
+                try {
+                    await waitForAppConfig();
+                    
+                    const rest = AppConfig.restName || 'asianboulevard';
+                    const tafelId = AppConfig.tafelId;
+                    const savedPin = AppConfig.pincode;
+
+                    if (!rest || !tafelId || !savedPin) {
+                        console.error("❌ AppConfig incomplete: rest, tafelId or pincode missing.");
+                        showNotification('Configuratiefout. Ververs de pagina en probeer opnieuw.', 'error', 4000);
+                        resolve(false);
+                        return;
+                    }
+
+                    const db = firebase.database();
+                    const tableRef = db.ref(`${rest}/tafel/${tafelId}`);
+                    const snapshot = await tableRef.once('value');
+                    const tableData = snapshot.val();
+
+                    if (!tableData) {
+                        showNotification('Tafelgegevens niet gevonden.', 'error', 4000);
+                        resolve(false);
+                        return;
+                    }
+
+                    const tafelPin = tableData.Pincode || "";
+                    const status = tableData.Status || "gesloten";
+
+                    console.log(`🔐 第二层防护 - PIN验证 — URL: ${savedPin}, Firebase: ${tafelPin}, 状态: ${status}`);
+
+                    if (String(savedPin) !== String(tafelPin)) {
+                        showNotification(`⚠️ Pincode is niet meer geldig! Ververs de pagina met de nieuwe pincode.`, "error", 5000);
+                        resolve(false);
+                        return;
+                    }
+
+                    if (status !== 'open') {
+                        showNotification(`Sorry, de tafel is gesloten en bestellingen kunnen niet worden ontvangen!`, "error", 4000);
+                        resolve(false);
+                        return;
+                    }
+                } catch (error) {
+                    console.error('🚨 Pincode验证错误:', error);
+                    showNotification('Er is een fout opgetreden bij het controleren van de pincode.', 'error', 4000);
+                    resolve(false);
+                    return;
+                }
+                
+                // �🚨 重要：检查倒计时状态
                 const timerText = $('#timer').text().trim();
                 
                 // 如果启用了时间限制，检查倒计时状态

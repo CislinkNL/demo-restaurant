@@ -801,7 +801,54 @@ class Order {
                     showNotification(`Uw pincode is - ${data}`, "info", 5000);
                     console.log(`Input 'pincode' updated to: ${data}`);
                 } else {
-                    showNotification(`Tafel pincode is gewijzigd`, "info", 15000);
+                    // 🔒 检查URL中的Pincode是否与新Pincode匹配
+                    const urlPincode = new URLSearchParams(window.location.search).get("pincode");
+                    if (String(urlPincode) !== String(data)) {
+                        console.warn(`🔒 Pincode不匹配！URL: ${urlPincode}, Firebase: ${data}`);
+                        
+                        // 设置会话失效标记
+                        if (window.AppConfig) {
+                            window.AppConfig.sessionInvalid = true;
+                            window.AppConfig.newPincode = data;
+                        }
+                        
+                        // 🔒 调用全局函数禁用所有订单功能
+                        if (typeof window.disableOrderingDueToInvalidSession === 'function') {
+                            window.disableOrderingDueToInvalidSession();
+                        } else {
+                            // 如果全局函数未加载，手动禁用
+                            document.querySelectorAll('.add-to-order').forEach(btn => {
+                                btn.disabled = true;
+                                btn.style.opacity = '0.4';
+                                btn.style.cursor = 'not-allowed';
+                                btn.title = 'Pincode is gewijzigd. Ververs de pagina met de nieuwe pincode.';
+                            });
+                            
+                            // 禁用菜单项
+                            document.querySelectorAll('.menu-item').forEach(btn => {
+                                btn.style.opacity = '0.4';
+                                btn.style.cursor = 'not-allowed';
+                                btn.style.pointerEvents = 'none';
+                                btn.title = 'Pincode is gewijzigd. Ververs de pagina met de nieuwe pincode.';
+                            });
+                            
+                            const verzendBtn = document.getElementById('order-verzend');
+                            if (verzendBtn) {
+                                verzendBtn.disabled = true;
+                                verzendBtn.style.opacity = '0.4';
+                                verzendBtn.style.cursor = 'not-allowed';
+                            }
+                        }
+                        
+                        // 显示醒目的警告通知
+                        showNotification(
+                            `⚠️ Pincode is gewijzigd! Ververs de pagina met de nieuwe pincode om verder te kunnen bestellen.`,
+                            "error",
+                            20000
+                        );
+                    } else {
+                        showNotification(`Tafel pincode is gewijzigd`, "info", 15000);
+                    }
                 }
             }
 

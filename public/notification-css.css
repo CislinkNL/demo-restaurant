@@ -4,14 +4,14 @@
 /* Notification container styling */
 #notificationContainer {
   position: fixed;
-  top: 55px; /* Adjust vertical positioning */
+  top: 120px; /* Moved down to avoid blocking session-invalid-banner and refresh button */
   left: 50%; /* Adjust horizontal positioning */
-  z-index: 99999;
+  z-index: 9999; /* Lower than session-invalid-banner (99999) */
   display: flex;
   flex-direction: column;
   gap: 12px;
   width:80%;
-  transform:translate(-50%,-50%);
+  transform:translate(-50%, 0); /* Remove vertical centering to use top positioning */
 }
 
 /* Default notification styling */
