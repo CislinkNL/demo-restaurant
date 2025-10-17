@@ -67,17 +67,25 @@
 }
 ```
 
-## 📝 菜单数据（如果还没有）
+## 📝 菜单数据说明
 
-### 路径：`/Develop/menu`
+### ⚠️ 重要：实际路径是 `/Develop/menukaart/`
+
+**说明**：
+- `/Develop/menukaart/` 应该已经包含现有的所有产品数据
+- **无需创建新菜单**，从现有产品中挑选 6-8 个适合 Demo 的即可
+- 前端代码读取路径：`${restName}/menukaart`
+
+**如果需要参考菜单结构**，以下是示例格式：
+
+### 参考路径：`/Develop/menukaart`
 
 ```json
 {
-  "voorgerechten": {
+  "item_001": {
     "name": "开胃菜",
     "name_nl": "Voorgerechten",
     "name_en": "Appetizers",
-    "items": {
       "item_001": {
         "name": "春卷",
         "name_nl": "Loempia",
@@ -188,7 +196,8 @@
 2. **Status 设置为 open**：确保桌台可用
 3. **示例订单**：包含不同状态（preparing, completed），展示订单流程
 4. **多语言支持**：所有文本都包含中文、荷兰语、英语三个版本
-5. **图片 URL**：使用 cislink.nl 的示例图片，或者替换为实际图片 URL
+5. **⚠️ 菜单数据路径**：实际是 `/Develop/menukaart/`（不是 `/Develop/menu/`）
+6. **图片处理**：如果图片 URL 失效，前端会自动显示占位图
 
 ## 🚀 快速导入（可选）
 

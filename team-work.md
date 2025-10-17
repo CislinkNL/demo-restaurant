@@ -2372,35 +2372,38 @@ firebase deploy --only hosting:democislink
   - 选项 3：使用 Firebase Storage URL
 
 **Q3: `/Develop/menu` 是否已有菜单数据？**
-- ❌ **目前没有**
-- 数据库路径已改为 `/Develop/`，但菜单数据需要你创建
-- `DEMO_DATA_SETUP.md` 中有完整的菜单结构供参考
+- ⚠️ **更正：实际路径是 `/Develop/menukaart/`**
+- 前端代码读取的是：`${restName}/menukaart`
+- `/Develop/menukaart/` 里应该已经有很多产品数据了
+- **你只需要从现有产品中挑选 6-8 个适合 Demo 的菜品即可**
 
 ---
 
 ### 🎯 **关于图片的建议**
 
-**方案 1（推荐-最简单）**：
-```json
-"image": ""  // 空字符串，前端自动用占位图
-```
+**实际情况**：
+- 数据库中的产品应该已经有 `image` 字段
+- 图片 URL 可能是：
+  - `https://cislink.nl/menufoto/xxx.jpg`
+  - 或 Firebase Storage URL
+  - 或其他 CDN URL
+- **你只需要检查现有产品的图片是否可用**
 
-**方案 2（真实演示）**：
-- 从网上找 6 张菜品图（春卷、虾饺、宫保鸡丁等）
-- 上传到 `cislink.nl/menufoto/`
-- 或使用公开图片 URL（如 Unsplash）
-
-**方案 3（专业方案）**：
-- 使用 Firebase Storage
-- URL 格式：`https://firebasestorage.googleapis.com/...`
+**如果图片失效**：
+- 前端会自动显示占位图 `/images/placeholder.webp`
+- Demo 功能不受影响
 
 ---
 
 ### 📦 **你需要创建的数据**
 
-1. `/Develop/tafel/Tafel-DEMO` - 桌号基础信息
-2. `/Develop/menu` - 完整菜单（3 个分类，6 个菜品）
-3. 可选：示例订单数据
+1. ✅ **菜单数据已存在** - `/Develop/menukaart/` 
+   - 从现有产品中挑选 6-8 个
+   - 确保包含不同分类（前菜、主菜、甜点）
+   
+2. ⚠️ **需要创建**：
+   - `/Develop/tafel/Tafel-DEMO` - 桌号基础信息（Pincode: "0000"）
+   - 可选：示例订单数据（展示不同状态）
 
 **现在你可以开始了！** 💪
 
