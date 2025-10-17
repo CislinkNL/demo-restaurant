@@ -1,0 +1,48 @@
+# Firebase
+.firebase/
+firebase-debug.log
+firebase-debug.*.log
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Node.js
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+ehthumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Environment variables
+.env
+.env.local
+.env.production
+
+# Sensitive deployment files
+deploy bonserver env/
+*-firebase.json
+*.exe
+
+# Temporary files
+*.tmp
+*.temp
