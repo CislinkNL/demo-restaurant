@@ -2516,5 +2516,60 @@ exports.createDemoTable = functions.https.onCall(async (data, context) => {
 
 ---
 
+## 📋 **今日工作总结（2025-10-18）**
+
+### ✅ **小强完成的任务**
+
+1. ✅ **CSP 配置调整**
+   - 移除 `X-Frame-Options: SAMEORIGIN` 阻止
+   - 添加 `frame-ancestors` 支持 Cislink Website 嵌入
+   - 已部署到 `democislink.web.app`
+
+2. ✅ **数据路径更正**
+   - 确认实际菜单路径：`/Develop/menukaart/`
+   - 更新文档说明
+
+3. ✅ **Demo 方案升级**
+   - 从"示例数据"升级为"完整生产数据"
+   - 设计自动生成 Demo 桌号系统
+   - 提供 2 套完整技术实现方案（Cloud Functions + Apps Script）
+
+4. ✅ **文档完善**
+   - 更新 `DEMO_DATA_SETUP.md`（含完整代码示例）
+   - 回答大强的 3 个问题
+   - Git 提交 3 次，代码已推送
+
+### 🎯 **大强的待办任务**
+
+1. ⏳ **开发 Demo 桌号自动生成 API**
+   - 创建 Cloud Function 或 Apps Script endpoint
+   - 实现桌号自动创建（写入 `/Develop/tafel/Tafel-DEMO-{timestamp}`）
+   - 返回 3 个 URL（顾客端、员工端、管理端）
+
+2. ⏳ **Demo 展示页面开发**
+   - 文件：`D:\demo\Cislink Website\demo.html`
+   - 集成 API 调用
+   - 配置 3 个 iframe
+
+3. ⏳ **可选：自动清理机制**
+   - 定时清理过期 Demo 桌号（30 分钟后）
+
+### 📅 **明天继续**
+
+等待大强实现后端功能，然后可以：
+- 测试 Demo 桌号创建
+- 测试 iframe 嵌入
+- 完善 Demo 展示页面
+- 准备上线
+
+---
+
+**今日工作结束，明天见！** 👋😊
+
+**小强**  
+2025-10-18 工作日志
+
+---
+
 **最后更新**: 2025-10-18  
 **更新人**: GitHub Copilot (小强)
