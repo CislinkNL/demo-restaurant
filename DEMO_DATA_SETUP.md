@@ -1,9 +1,26 @@
-# DEMO 桌号数据准备说明
+# DEMO 系统开发说明
 
-## 📋 需要在 Firebase Database 中创建的数据
+## 🎯 核心需求
 
-### 路径：`/Develop/tafel/Tafel-DEMO`
+**使用完整生产数据 + 自动生成 Demo 桌号**
 
+### 方案概述
+
+- ✅ 使用 `/Develop/` 下的**所有真实数据**（menukaart、config 等）
+- 🔥 **后端自动生成新桌号**（每次 Demo 访问时创建真实桌号）
+- 📊 完全真实的餐厅系统体验，不是模拟演示
+
+---
+
+## 🔧 需要开发的功能
+
+### 1. Demo 桌号自动生成 API
+
+**功能**：创建真实的 Demo 桌号并写入数据库
+
+**建议路径**：`/Develop/tafel/Tafel-DEMO-{timestamp}`
+
+**数据结构示例**：
 ```json
 {
   "Pincode": "0000",
@@ -12,15 +29,222 @@
   "BestellingVoedselLimit": 5,
   "BestellingNagerechtenLimit": 2,
   "Gasten": 2,
-  "TafelNaam": "DEMO",
+  "TafelNaam": "DEMO-{timestamp}",
   "CreatedAt": 1706000000000,
-  "LastUpdated": 1706000000000
+  "DemoMode": true
 }
 ```
 
-## 🎨 可选：添加示例订单数据
+**关键点**：
+- 桌号必须是**唯一的**（建议使用时间戳）
+- 必须**实际写入数据库** `/Develop/tafel/` 下
+- 返回完整的访问 URL：`https://democislink.web.app/?tafel=DEMO-{timestamp}`
 
-### 路径：`/Develop/tafel/Tafel-DEMO/orders`
+---
+
+### 2. Demo 展示页面集成
+
+**Demo 页面需要**：
+1. 调用后端 API 创建新桌号
+2. 获取返回的桌号和 URL
+3. 在 3 个 iframe 中加载：
+   - 顾客端：`https://democislink.web.app/?tafel=DEMO-XXX`
+   - 员工端：`https://democislink.web.app/personeel/?tafel=DEMO-XXX`
+   - 管理端：`https://democislink.web.app/beheer/`
+
+**实时数据同步**：
+- 因为使用真实数据库，3 个界面会自动实时同步
+- 用户在顾客端点餐 → 员工端立即看到 → 管理端可以管理
+
+---
+
+### 3. 可选：Demo 数据清理机制
+
+**建议功能**：
+- 定期清理过期的 Demo 桌号（例如：创建后 30 分钟）
+- 或保留用于展示历史订单
+- Cloud Function 定时任务：`cleanupDemoTables()`
+
+---
+
+## 💻 技术实现方案
+
+### 方案 A：Cloud Function（推荐）
+
+**优点**：
+- 官方推荐，性能好
+- 易于扩展和维护
+- 支持身份验证
+
+**实现示例**：
+```javascript
+// functions/index.js
+const functions = require('firebase-functions');
+const admin = require('firebase-admin');
+admin.initializeApp();
+
+exports.createDemoTable = functions.https.onCall(async (data, context) => {
+  try {
+    // 1. 生成唯一桌号
+    const timestamp = Date.now();
+    const tableNumber = `DEMO-${timestamp}`;
+    const tableKey = `Tafel-${tableNumber}`;
+    
+    // 2. 准备数据
+    const tableData = {
+      Pincode: "0000",
+      Status: "open",
+      TafelNaam: tableNumber,
+      MaxTijdMinuten: 120,
+      BestellingVoedselLimit: 5,
+      BestellingNagerechtenLimit: 2,
+      Gasten: 2,
+      CreatedAt: timestamp,
+      DemoMode: true,
+      ExpiresAt: timestamp + (30 * 60 * 1000) // 30分钟后过期
+    };
+    
+    // 3. 写入数据库
+    await admin.database()
+      .ref(`Develop/tafel/${tableKey}`)
+      .set(tableData);
+    
+    // 4. 返回结果
+    return {
+      success: true,
+      tableKey,
+      tableNumber,
+      urls: {
+        customer: `https://democislink.web.app/?tafel=${tableNumber}`,
+        staff: `https://democislink.web.app/personeel/?tafel=${tableNumber}`,
+        admin: `https://democislink.web.app/beheer/`
+      }
+    };
+  } catch (error) {
+    console.error('Error creating demo table:', error);
+    throw new functions.https.HttpsError('internal', error.message);
+  }
+});
+
+// 清理过期 Demo 桌号
+exports.cleanupDemoTables = functions.pubsub
+  .schedule('every 10 minutes')
+  .onRun(async (context) => {
+    const now = Date.now();
+    const tablesRef = admin.database().ref('Develop/tafel');
+    const snapshot = await tablesRef.once('value');
+    
+    const promises = [];
+    snapshot.forEach(child => {
+      const data = child.val();
+      if (data.DemoMode && data.ExpiresAt && data.ExpiresAt < now) {
+        console.log(`Cleaning up expired demo table: ${child.key}`);
+        promises.push(child.ref.remove());
+      }
+    });
+    
+    await Promise.all(promises);
+    console.log(`Cleaned up ${promises.length} demo tables`);
+  });
+```
+
+---
+
+### 方案 B：Google Apps Script
+
+**优点**：
+- 你已经在使用 Apps Script
+- 可以复用现有代码
+- 不需要额外部署
+
+**实现示例**：
+```javascript
+// Google Apps Script - Code.gs
+function doPost(e) {
+  try {
+    const params = JSON.parse(e.postData.contents);
+    
+    if (params.action === 'createDemoTable') {
+      return createDemoTable();
+    }
+    
+    return ContentService.createTextOutput(
+      JSON.stringify({ error: 'Unknown action' })
+    ).setMimeType(ContentService.MimeType.JSON);
+    
+  } catch (error) {
+    return ContentService.createTextOutput(
+      JSON.stringify({ error: error.toString() })
+    ).setMimeType(ContentService.MimeType.JSON);
+  }
+}
+
+function createDemoTable() {
+  const timestamp = new Date().getTime();
+  const tableNumber = `DEMO-${timestamp}`;
+  const tableKey = `Tafel-${tableNumber}`;
+  
+  const tableData = {
+    Pincode: "0000",
+    Status: "open",
+    TafelNaam: tableNumber,
+    MaxTijdMinuten: 120,
+    BestellingVoedselLimit: 5,
+    BestellingNagerechtenLimit: 2,
+    Gasten: 2,
+    CreatedAt: timestamp,
+    DemoMode: true
+  };
+  
+  // 写入 Firebase（使用你现有的 Firebase 连接代码）
+  const firebaseUrl = 'https://cislink-default-rtdb.europe-west1.firebasedatabase.app';
+  const path = `/Develop/tafel/${tableKey}.json`;
+  
+  const options = {
+    method: 'put',
+    contentType: 'application/json',
+    payload: JSON.stringify(tableData)
+  };
+  
+  UrlFetchApp.fetch(firebaseUrl + path, options);
+  
+  return ContentService.createTextOutput(
+    JSON.stringify({
+      success: true,
+      tableKey,
+      tableNumber,
+      urls: {
+        customer: `https://democislink.web.app/?tafel=${tableNumber}`,
+        staff: `https://democislink.web.app/personeel/?tafel=${tableNumber}`,
+        admin: `https://democislink.web.app/beheer/`
+      }
+    })
+  ).setMimeType(ContentService.MimeType.JSON);
+}
+```
+
+---
+
+## � Demo 工作流程
+
+1. **用户访问 Demo 页面**（在 Cislink Website 上）
+2. **点击"开始 Demo"按钮**
+3. **前端调用后端 API** 创建新桌号
+4. **后端返回 3 个 URL**
+5. **Demo 页面加载 3 个 iframe**
+6. **用户体验完整系统**：
+   - 在顾客端点餐（真实操作）
+   - 在员工端查看订单（实时同步）
+   - 在管理端查看数据（真实数据）
+7. **可选：30 分钟后自动清理**
+
+---
+
+## 🎨 旧方案：手动示例订单数据（已弃用）
+
+如果需要预设示例订单，可以参考以下结构：
+
+### 路径：`/Develop/tafel/Tafel-DEMO-XXX/orders`
 
 ```json
 {
